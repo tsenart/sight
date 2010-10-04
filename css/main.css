@@ -1,0 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Inconsolata&subset=latin);
+
+pre.sh_sourceCode {
+  font-family: 'Inconsolata';
+}
