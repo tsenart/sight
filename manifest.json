@@ -7,7 +7,7 @@
   "content_scripts": [{
       "matches": ["*://*/*"],
       "js": ["js/sh_main.js", "js/sh_lang.min.js", "js/inject.js"],
-      "css": ["css/sh_ide-codewarrior.min.css", "css/main.css"],
+      "css": ["css/main.css"],
       "run_at": "document_end"
   }],
   "icons": { "16": "icon16.png",
