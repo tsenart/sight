@@ -1,36 +1,48 @@
-if (window.ActiveXObject) var request = new ActiveXObject("Msxml2.XMLHTTP");
-else if (window.XMLHttpRequest) request = new XMLHttpRequest;
-request.open("HEAD", document.location.pathname, false);
-request.onreadystatechange = function() {
-    if (request.readyState == 4) {
-        var a = request.getResponseHeader("content-disposition");
-        if (! (a == null || a == "" || !a.match(/^inline/))) {
-            var b = a.match(/filename="(.*)"/);
-            if (b != null && b.length == 2) {
-                b = b[1].toLowerCase();
-                var c = b.split(".").pop()
-            }
+var filename = document.location.pathname.split("/").pop().toLowerCase();
+var extension = filename.split(".").pop()
+var pres = document.getElementsByTagName("pre");
+if(filename && pres.length > 0 && document.body.firstChild == pres[0]) { 
+    var table = [
+      "bison", ["ypp", "y++", "y"],
+      "c", ["c"],
+      "cpp", ["cpp", "c++"],
+      "csharp", ["cs"],
+      "changelog", ["changelog", "changelog.txt", "changes", "history"],
+      "css", ["css"],
+      "desktop", ["desktop"],
+      "diff", ["diff", "patch"],
+      "html", ["htm", "html", "xhtml"],
+      "java", ["java"],
+      "javascript", ["js"],
+      "perl", ["pl", "pm"],
+      "php", ["php", "phtml"],
+      "python", ["py"],
+      "ruby", ["rakefile", "gemfile", "rb"],
+      "xml", ["xml"]
+    ];
+    
+    for (var e = table.length - 1; e >= 0; e -= 2) {
+        if (table[e].some(function(g) { return g == filename || g == extension })) {
+            var lang = table[e - 1];
+            break
         }
-        if(!b) {
-            var b = document.location.pathname.split("/").pop().toLowerCase();
-            var c = b.split(".").pop()
-        }
-        if(b) {
-                a = ["bison", ["ypp", "y++", "y"], "c", ["c"], "cpp", ["cpp", "c++"], "csharp", ["cs"], "changelog", ["changelog", "changelog.txt", "changes", "history"], "css", ["css"], "desktop", ["desktop"],"diff",["diff", "patch"], "html", ["htm", "html", "xhtml"], "java", ["java"], "javascript",["js"], "perl", ["pl", "pm"], "php", ["php", "phtml"], "python", ["py"], "ruby", ["rakefile", "gemfile", "rb"], "xml", ["xml"]];
-                for (var e =
-                a.length - 1; e >= 0; e -= 2) if (a[e].some(function(g) {
-                    return g == b || g == c
-                })) {
-                    var d = a[e - 1];
-                    break
-                }
-                a = document.getElementsByTagName("pre");
-                if(a.length == 1) {
-                    a[0].className = "sh_" + d;
-                    sh_highlightDocument();
-                    document.body.style.setProperty("background-color", window.getComputedStyle(a[0]).getPropertyValue("background-color"))
-                }
-            }
     }
-};
-request.send(null);
+    document.body.className = 'sh_sourceCode';
+    document.body.firstChild.className = "sh_" + lang;
+    
+    var styles = document.getElementsByTagName('link');
+    for (var i = styles.length - 1; i >= 0; i--){
+        styles[i].parent.removeChild(styles[i]);
+    }
+    
+    chrome.extension.sendRequest({key: "theme"}, function(msg) {
+        var theme = msg.value;
+        if(theme && theme != '') {
+            var el = document.createElement('link');
+            el.href = chrome.extension.getURL( 'css/sh_' + theme + '.min.css');
+            el.type = "text/stylesheet"; el.rel = "stylesheet"; el.async = false;
+            document.getElementsByTagName("head")[0].appendChild(el);
+        }       
+    });
+    sh_highlightDocument();
+}

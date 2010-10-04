@@ -1,7 +1,8 @@
 Sight is the syntax highlighter chrome extension for those cases when the content of a source code file is displayed inline (on the browser) instead of downloaded.
+You can choose the theme on the options page
 Based on SHJS lib.
 
-It is actually not on the Google Chrome Extensions Gallery because I can't pay the developer fee at the moment.
+It is actually not on the Google Chrome Extensions Gallery because I can't pay the developer fee at the moment. 
 
 Just double click the sight.crx to install.
 

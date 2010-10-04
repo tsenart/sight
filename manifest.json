@@ -2,10 +2,12 @@
   "name": "Sight",
   "version": "0.1",
   "description": "The Syntax Highlighter for the rest of us.",
+  "background_page": "background.html",
+  "options_page": "options.html",
   "content_scripts": [{
       "matches": ["*://*/*"],
-      "js": ["js/sh_main.min.js", "js/sh_lang.min.js", "js/inject.js"],
-      "css": ["css/sh_ide-codewarrior.css", "css/main.css"],
+      "js": ["js/sh_main.js", "js/sh_lang.min.js", "js/inject.js"],
+      "css": ["css/sh_ide-codewarrior.min.css", "css/main.css"],
       "run_at": "document_end"
   }],
   "icons": { "16": "icon16.png",
