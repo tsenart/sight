@@ -16,7 +16,7 @@ request.onreadystatechange = function() {
             var c = b.split(".").pop()
         }
         if(b) {
-                a = ["bison", ["ypp", "y++", "y"], "c", ["c"], "cpp", ["cpp", "c++"], "csharp", ["cs"], "changelog", ["changelog", "changelog.txt", "changes", "history"], "css", ["css"], "desktop", ["desktop"],"diff",["diff", "patch"], "html", ["htm", "html", "xhtml"], "java", ["java"], "javascript",["js"], "perl", ["pl", "pm"], "php", ["php", "phtml"], "python", ["py"], "ruby", ["gemfile", "rb"], "xml", ["xml"]];
+                a = ["bison", ["ypp", "y++", "y"], "c", ["c"], "cpp", ["cpp", "c++"], "csharp", ["cs"], "changelog", ["changelog", "changelog.txt", "changes", "history"], "css", ["css"], "desktop", ["desktop"],"diff",["diff", "patch"], "html", ["htm", "html", "xhtml"], "java", ["java"], "javascript",["js"], "perl", ["pl", "pm"], "php", ["php", "phtml"], "python", ["py"], "ruby", ["rakefile", "gemfile", "rb"], "xml", ["xml"]];
                 for (var e =
                 a.length - 1; e >= 0; e -= 2) if (a[e].some(function(g) {
                     return g == b || g == c
