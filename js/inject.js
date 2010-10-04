@@ -30,11 +30,6 @@ if(filename && pres.length > 0 && document.body.firstChild == pres[0]) {
     document.body.className = 'sh_sourceCode';
     document.body.firstChild.className = "sh_" + lang;
     
-    var styles = document.getElementsByTagName('link');
-    for (var i = styles.length - 1; i >= 0; i--){
-        styles[i].parent.removeChild(styles[i]);
-    }
-    
     chrome.extension.sendRequest({key: "theme"}, function(msg) {
         var theme = msg.value;
         if(theme && theme != '') {
