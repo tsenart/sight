@@ -1,6 +1,6 @@
 {
   "name": "Sight",
-  "version": "0.1",
+  "version": "0.5",
   "description": "The Syntax Highlighter for the rest of us.",
   "background_page": "background.html",
   "options_page": "options.html",
