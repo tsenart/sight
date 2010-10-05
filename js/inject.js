@@ -12,7 +12,7 @@ if(filename && pres.length > 0 && document.body.firstChild == pres[0]) {
       "desktop", ["desktop"],
       "diff", ["diff", "patch"],
       "html", ["htm", "html", "xhtml"],
-      "java", ["java"],
+      "java", ["java", "class"],
       "javascript", ["js"],
       "perl", ["pl", "pm"],
       "php", ["php", "phtml"],
