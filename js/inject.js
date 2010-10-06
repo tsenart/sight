@@ -4,8 +4,8 @@ var pres = document.getElementsByTagName("pre");
 if(filename && pres.length > 0 && document.body.firstChild == pres[0]) { 
     var table = [
       "bison", ["ypp", "y++", "y"],
-      "c", ["c"],
-      "cpp", ["cpp", "c++"],
+      "c", ["c", "h"],
+      "cpp", ["cpp", "c++", "hpp", "h++"],
       "csharp", ["cs"],
       "changelog", ["changelog", "changelog.txt", "changes", "history"],
       "css", ["css"],
@@ -13,7 +13,7 @@ if(filename && pres.length > 0 && document.body.firstChild == pres[0]) {
       "diff", ["diff", "patch"],
       "html", ["htm", "html", "xhtml"],
       "java", ["java", "class"],
-      "javascript", ["js"],
+      "javascript_dom", ["js"],
       "perl", ["pl", "pm"],
       "php", ["php", "phtml"],
       "python", ["py"],
