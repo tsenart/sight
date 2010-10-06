@@ -17,12 +17,16 @@ I want it! But how?
 ===================
 You can either use the packed version *sight.crx* or use the unpacked version if you want.
 
-    $ git clone git://github.com/tsenart/sight.git
+###Easy way
+Download the package sight.crx from the Downloads section.
+Now just double click *sight.crx*.
+If you don't have the extension .crx associated with Google Chrome just open it with these arguments from the terminal:
 
-Now just open the sight directory with your file manager and double click *sight.crx*.
-If you don't the extension .crx associated with Google Chrome just open it with these arguments from the terminal:
+    --load-extension=sight.crx
+    
+###Hacker way
+    $ git clone git://github.com/tsenart/sight.git # and add this dir as an unpacked extension on Chrome.
 
-    --load-extension=sight/
 
 The extension is actually not on the Google Chrome Extensions Gallery because I can't pay the developer fee at the moment. 
 
