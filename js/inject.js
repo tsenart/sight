@@ -18,7 +18,7 @@ if(filename && pres.length > 0 && document.body.firstChild == pres[0]) {
       "php", ["php", "phtml"],
       "python", ["py"],
       "ruby", ["rakefile", "gemfile", "rb"],
-      "xml", ["xml"]
+      "xml", ["xml", "atom", "rss"]
     ];
     
     for (var e = table.length - 1; e >= 0; e -= 2) {
