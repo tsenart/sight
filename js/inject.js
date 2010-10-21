@@ -32,16 +32,14 @@ if(filename && pres.length > 0 && document.body.firstChild == pres[0]) {
     
     chrome.extension.sendRequest({key: "theme"}, function(msg) {
         var theme = msg.value;
-        if(theme && theme != '') {
-            var el = document.createElement('link');
-            el.href = chrome.extension.getURL( 'css/sh_' + theme + '.min.css');
-            el.type = "text/stylesheet"; el.rel = "stylesheet"; el.async = false;
-            if(!document.getElementsByTagName("head")[0]) {				
-		head = document.createElement('head');
-		document.getElementsByTagName('html')[0].insertBefore(head, document.getElementsByTagName('html')[0].getElementsByTagName('*')[0]);
-	 }
-	document.getElementsByTagName("head")[0].appendChild(el);
-        }       
+        var el = document.createElement('link');
+        el.href = chrome.extension.getURL( 'css/sh_' + theme + '.min.css');
+        el.type = "text/stylesheet"; el.rel = "stylesheet"; el.async = false;
+        if(!document.getElementsByTagName("head")[0]) {				
+	        var head = document.createElement('head');
+	        document.getElementsByTagName('html')[0].insertBefore(head, document.getElementsByTagName('html')[0].getElementsByTagName('*')[0]);
+        }
+        document.getElementsByTagName("head")[0].appendChild(el);
     });
     sh_highlightDocument();
 }

@@ -36,6 +36,8 @@ function saveOptions() {
 
 function bodyLoad() {
     var select = document.getElementById('theme');
+    if(!localStorage['theme'] || localStorage['theme'] == '')
+        localStorage['theme'] = 'pablo';
     for (var i = select.options.length - 1; i >= 0; i--){
         if(select.options[i].value == localStorage['theme'])
             select.options[i].selected = true;
