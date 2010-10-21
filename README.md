@@ -4,34 +4,18 @@ What is it?
 You can choose the theme on the options page.
 Based on SHJS lib.
 
-Screenshots
+Screenshot
 -----------
-
-![](http://cl.ly/1776841d286d19eb7ec9/content)
 ![](http://cl.ly/d18edb57d9cda15a06f6/content)
-![](http://cl.ly/714f01c4552ca3027c8f/content)
-![](http://cl.ly/ac5dc36713bfa9682194/content)
-
 
 I want it! But how?
 ===================
-You can either use the packed version *sight.crx* or use the unpacked version if you want.
-
-###Easy way
-Download the package sight.crx from the Downloads section.
-Now just double click *sight.crx*.
-If you don't have the extension .crx associated with Google Chrome just open it with these arguments from the terminal:
-
-    --load-extension=sight.crx
-    
-###Hacker way
-    $ git clone git://github.com/tsenart/sight.git # and add this dir as an unpacked extension on Chrome.
-
-
-The extension is actually not on the Google Chrome Extensions Gallery because I can't pay the developer fee at the moment. 
+####Update
+You can now install it on the Google Chrome Gallery.
+http://chrome.google.com/extensions/detail/epmaefhielclhlnmjofcdapbeepkmggh
 
 After installing just access any github raw url to try it out.
-Example: http://github.com/tsenart/PlumaCMS/raw/master/app/controllers/pluma/articles_controller.rb
+Example: http://github.com/tsenart/sight/raw/master/js/inject.js
 
 License
 =======
