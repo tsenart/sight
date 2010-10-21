@@ -10,12 +10,11 @@ Screenshot
 
 I want it! But how?
 ===================
-####Update
 You can now install it on the Google Chrome Gallery.
-http://chrome.google.com/extensions/detail/epmaefhielclhlnmjofcdapbeepkmggh
+[](http://chrome.google.com/extensions/detail/epmaefhielclhlnmjofcdapbeepkmggh)
 
 After installing just access any github raw url to try it out.
-Example: http://github.com/tsenart/sight/raw/master/js/inject.js
+Example: [](http://github.com/tsenart/sight/raw/master/js/inject.js)
 
 License
 =======
