@@ -4,10 +4,6 @@ What is it?
 You can choose the theme on the options page.
 Based on SHJS lib.
 
-Screenshot
------------
-![](http://cl.ly/d18edb57d9cda15a06f6/content)
-
 I want it! But how?
 ===================
 You can now [install it](http://chrome.google.com/extensions/detail/epmaefhielclhlnmjofcdapbeepkmggh) on the Google Chrome Gallery.
