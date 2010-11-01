@@ -94,7 +94,7 @@ if(filename &amp;&amp; pres.length &gt; 0 &amp;&amp; document.body.firstChild ==
     chrome.extension.sendRequest({key: &quot;theme&quot;}, function(msg) {
         var theme = msg.value;
         var el = document.createElement(&#x27;link&#x27;);
-        el.href = chrome.extension.getURL( &#x27;css/sh_&#x27; + theme + &#x27;.min.css&#x27;);
+        el.href = chrome.extension.getURL( &#x27;css/sh_&#x27; + theme + &#x27;.css&#x27;);
         el.type = &quot;text/stylesheet&quot;; el.rel = &quot;stylesheet&quot;; el.async = false;
         if(!document.getElementsByTagName(&quot;head&quot;)[0]) {				
 	        var head = document.createElement(&#x27;head&#x27;);

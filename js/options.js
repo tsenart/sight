@@ -2,7 +2,7 @@ function setStyle() {
     var select = document.getElementById('theme');
     select.disabled = true;
     var request = sh_getXMLHttpRequest();
-    request.open('GET', 'css/sh_' + localStorage['theme'] + '.min.css', true);
+    request.open('GET', 'css/sh_' + localStorage['theme'] + '.css', true);
     request.onreadystatechange = function() {
         if (request.readyState === 4) {
             try {
