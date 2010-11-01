@@ -1,3 +1,8 @@
+/*
+ * Theme contributed by bentruyman.
+ * http://github.com/bentruyman
+ */
+
 ::selection {
 	background-color: #49483E;
 }
@@ -5,7 +10,7 @@
 .sh_sourceCode {
 	background-color: #272822;
 	color: #fff;
-	font-family: 'Menlo', 'Inconsolata';
+	font-family: 'Inconsolata';
 	font-weight: normal;
 	font-style: normal;
 }

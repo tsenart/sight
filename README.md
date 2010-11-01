@@ -4,7 +4,7 @@ What is it?
 You can choose the theme on the options page.
 Based on SHJS lib.
 
-![Example Highlighting](http://v3n.us/a6973d91ac9a92a93889d244f8ecb73b.png)
+![Example Highlighting](http://bit.ly/brvgJj)
 
 I want it! But how?
 ===================

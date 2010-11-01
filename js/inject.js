@@ -33,7 +33,7 @@ if(filename && pres.length > 0 && document.body.firstChild == pres[0]) {
     chrome.extension.sendRequest({key: "theme"}, function(msg) {
         var theme = msg.value;
         var el = document.createElement('link');
-        el.href = chrome.extension.getURL( 'css/sh_' + theme + '.min.css');
+        el.href = chrome.extension.getURL( 'css/sh_' + theme + '.css');
         el.type = "text/stylesheet"; el.rel = "stylesheet"; el.async = false;
         if(!document.getElementsByTagName("head")[0]) {				
 	        var head = document.createElement('head');
