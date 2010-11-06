@@ -60,9 +60,9 @@
       <pre id="codePre" class="sh_javascript">
 
 var filename = document.location.pathname.split(&quot;/&quot;).pop().toLowerCase();
-var extension = filename.split(&quot;.&quot;).pop()
+var extension = filename.split(&quot;.&quot;).pop();
 var pres = document.getElementsByTagName(&quot;pre&quot;);
-if(filename &amp;&amp; pres.length &gt; 0 &amp;&amp; document.body.firstChild == pres[0]) { 
+if(filename &amp;&amp; pres.length &gt; 0 &amp;&amp; document.body.firstChild == pres[0]) {
     var table = [
       &quot;bison&quot;, [&quot;ypp&quot;, &quot;y++&quot;, &quot;y&quot;],
       &quot;c&quot;, [&quot;c&quot;, &quot;h&quot;],
@@ -85,22 +85,32 @@ if(filename &amp;&amp; pres.length &gt; 0 &amp;&amp; document.body.firstChild ==
     for (var e = table.length - 1; e &gt;= 0; e -= 2) {
         if (table[e].some(function(g) { return g == filename || g == extension })) {
             var lang = table[e - 1];
-            break
+            break;
         }
     }
+
+    if(!document.getElementsByTagName(&#x27;head&#x27;)[0]) {
+        head = document.createElement(&#x27;head&#x27;);
+        document.getElementsByTagName(&#x27;html&#x27;)[0].insertBefore(head, document.getElementsByTagName(&#x27;html&#x27;)[0].getElementsByTagName(&#x27;*&#x27;)[0]);
+    }
+    else {
+        head = document.getElementsByTagName(&#x27;head&#x27;)[0];
+    }
+
     document.body.className = &#x27;sh_sourceCode&#x27;;
     document.body.firstChild.className = &quot;sh_&quot; + lang;
 
+    var el = document.createElement(&#x27;link&#x27;);
+    el.href = chrome.extension.getURL( &#x27;css/main.css&#x27;);
+    el.type = &quot;text/stylesheet&quot;; el.rel = &quot;stylesheet&quot;;
+    head.appendChild(el);
+
     chrome.extension.sendRequest({key: &quot;theme&quot;}, function(msg) {
         var theme = msg.value;
-        var el = document.createElement(&#x27;link&#x27;);
+        el = document.createElement(&#x27;link&#x27;);
         el.href = chrome.extension.getURL( &#x27;css/sh_&#x27; + theme + &#x27;.css&#x27;);
-        el.type = &quot;text/stylesheet&quot;; el.rel = &quot;stylesheet&quot;; el.async = false;
-        if(!document.getElementsByTagName(&quot;head&quot;)[0]) {				
-	        var head = document.createElement(&#x27;head&#x27;);
-	        document.getElementsByTagName(&#x27;html&#x27;)[0].insertBefore(head, document.getElementsByTagName(&#x27;html&#x27;)[0].getElementsByTagName(&#x27;*&#x27;)[0]);
-        }
-        document.getElementsByTagName(&quot;head&quot;)[0].appendChild(el);
+        el.type = &quot;text/stylesheet&quot;; el.rel = &quot;stylesheet&quot;;
+        head.appendChild(el);
     });
     sh_highlightDocument();
 }

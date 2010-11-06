@@ -14,7 +14,7 @@ if(filename && pres.length > 0 && document.body.firstChild == pres[0]) {
       "html", ["htm", "html", "xhtml"],
       "java", ["java", "class"],
       "javascript_dom", ["js"],
-      "perl", ["pl", "pm"],
+      "perl", ["pl", "pm", "perl"],
       "php", ["php", "phtml"],
       "python", ["py"],
       "ruby", ["rakefile", "gemfile", "rb"],
