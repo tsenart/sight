@@ -1,13 +1,12 @@
 {
   "name": "Sight",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "The Syntax Highlighter for the rest of us.",
   "background_page": "background.html",
   "options_page": "options.html",
   "content_scripts": [{
       "matches": ["*://*/*"],
       "js": ["js/sh_main.js", "js/sh_lang.min.js", "js/inject.js"],
-      "css": ["css/main.css"],
       "run_at": "document_end"
   }],
   "icons": { "16": "icon16.png",
