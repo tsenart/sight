@@ -4,6 +4,11 @@ document.addEventListener("DOMContentLoaded", function() {
         chrome.tabs.executeScript(null, {
             code: _.sprintf("_(document.querySelectorAll('link')).last().href = '%s'", chrome.extension.getURL('css/' + theme + '.css'))
         });
+        chrome.tabs.getSelected(null, function(tab) {
+            var local = JSON.parse(localStorage[tab.id]);
+            local.theme = theme;
+            localStorage[tab.id] = JSON.stringify(local);
+        });
     });
     
     document.getElementById('language').addEventListener('change', function(e){
@@ -13,26 +18,31 @@ document.addEventListener("DOMContentLoaded", function() {
         });
         
         chrome.tabs.getSelected(null, function(tab) {
-            localStorage[tab.id] = JSON.stringify({language: lang});
+            var local = JSON.parse(localStorage[tab.id]);
+            local.language = lang;
+            localStorage[tab.id] = JSON.stringify(local);
         });
     });
     
     var select = document.getElementById('theme');
-    if (!localStorage['theme'] || localStorage['theme'] == '') localStorage['theme'] = 'sunburst';
-    _(select.options).detect(function(i) {
-        return i.value == localStorage['theme'];
-    }).selected = true;
-    
     chrome.tabs.getSelected(null, function(tab) {
+        if(!localStorage[tab.id]) {
+            localStorage[tab.id] = JSON.stringify({theme: localStorage['theme'], language: ''})
+        }
+        
+        var local = JSON.parse(localStorage[tab.id]);
+        _(select.options).detect(function(i) {
+            return i.value == local.theme;
+        }).selected = true;
+        
         select = document.getElementById('language');
-        if(localStorage[tab.id] && localStorage[tab.id] != '')
-            _(select.options).detect(function(i) {
-                return i.value == JSON.parse(localStorage[tab.id]).language;
-            }).selected = true;
+        _(select.options).detect(function(i) {
+            return i.value == local.language;
+        }).selected = true;
+    
     });
 }, true);
 
 chrome.tabs.onSelectionChanged.addListener(function(tabId, selectInfo) {
     window.close();
 });
-

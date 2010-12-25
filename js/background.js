@@ -15,11 +15,24 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     {
         if(!localStorage[request.key] || localStorage[request.key] == '')
             localStorage[request.key] = 'sunburst';
-        sendResponse({value: localStorage['theme']});
+        if(localStorage[sender.tab.id])
+            var tab = JSON.parse(localStorage[sender.tab.id]);
+        else
+            var tab = {theme: ''};
+        
+        if(tab.theme == '') tab.theme = localStorage['theme'];
+        localStorage[sender.tab.id] = JSON.stringify(tab);
+        sendResponse({value: tab.theme});
     }
     if(request.key == 'language')
     {
-        localStorage[sender.tab.id] = JSON.stringify({language: request.value});
+        if(localStorage[sender.tab.id])
+            var tab = JSON.parse(localStorage[sender.tab.id]);
+        else
+            var tab = {language: ''};
+        
+        tab.language = request.value;
+        localStorage[sender.tab.id] = JSON.stringify(tab);
     }
     
     if(request.key == 'include')
@@ -36,3 +49,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
         });
     }
 });
+
+chrome.tabs.onRemoved.addListener(function(tabId) {
+    localStorage.removeItem(tabId);
+});
+
