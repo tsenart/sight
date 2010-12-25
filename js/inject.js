@@ -35,7 +35,6 @@ if(filename && pres.length > 0 && document.body.firstChild == pres[0]) {
 
     document.body.className = 'highlight'; // Some conditions to come
     document.body.firstChild.innerHTML = '<code>' + document.body.firstChild.innerHTML + '</code>';
-    document.body.firstChild.firstChild.contentEditable = true;
 
     var el = document.createElement('link');
     el.href = chrome.extension.getURL( 'css/main.css');
@@ -64,13 +63,4 @@ if(filename && pres.length > 0 && document.body.firstChild == pres[0]) {
     }
 
     chrome.extension.sendRequest({key: "page_action"});
-
-    var content = document.body.firstChild.firstChild.innerText;
-    document.body.firstChild.firstChild.addEventListener('input', function(e){
-        //if(e.target.innerText != content) {
-            hljs.reHighlight(e.target.parentElement, lang);
-            e.target.focus();
-    //    }
-    
-    }, false);
 }

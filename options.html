@@ -3,7 +3,7 @@
   <head> 
     <meta charset="utf-8">
     <script type="text/javascript" charset="utf-8" src="/js/highlight.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/js/languages/javascript.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/languages/ruby.js"></script>
     <script type="text/javascript" charset="utf-8" src="/js/underscore.js"></script>
     <script type="text/javascript" charset="utf-8" src="/js/options.js"></script>
     <link rel="stylesheet" href="/css/main.css" type="text/stylesheet" media="screen" charset="utf-8">
@@ -27,73 +27,31 @@
         <option value="magula">Magula</option>
       </select>
       <pre>
-        <code class="javascript">
-var filename = _(document.location.pathname.split(&quot;/&quot;)).last().toLowerCase();
-var extension = _(filename.split(&quot;.&quot;)).last();
-var pres = document.getElementsByTagName(&quot;pre&quot;);
-if(filename &amp;&amp; pres.length &gt; 0 &amp;&amp; document.body.firstChild == pres[0]) {
-    var table = [
-        &quot;cpp&quot;, [&quot;c&quot;, &quot;h&quot;, &quot;cpp&quot;, &quot;c++&quot;, &quot;hpp&quot;, &quot;h++&quot;],
-        &quot;csharp&quot;, [&quot;cs&quot;],
-        &quot;css&quot;, [&quot;css&quot;],
-        &quot;desktop&quot;, [&quot;desktop&quot;],
-        &quot;diff&quot;, [&quot;diff&quot;, &quot;patch&quot;],
-        &quot;java&quot;, [&quot;java&quot;, &quot;class&quot;],
-        &quot;javascript&quot;, [&quot;js&quot;, &quot;json&quot;],
-        &quot;perl&quot;, [&quot;pl&quot;, &quot;pm&quot;, &quot;perl&quot;],
-        &quot;php&quot;, [&quot;php&quot;, &quot;phtml&quot;],
-        &quot;python&quot;, [&quot;py&quot;],
-        &quot;ruby&quot;, [&quot;rakefile&quot;, &quot;gemfile&quot;, &quot;rb&quot;],
-        &quot;html-xml&quot;, [&quot;htm&quot;, &quot;html&quot;, &quot;xhtml&quot;, &quot;xml&quot;, &quot;atom&quot;, &quot;rss&quot;]
-    ];
+        <code class="ruby">
+module Pluma
+  module Models
+    def self.included(base)
+      # base.send :include, InstanceMethods
+      base.extend ClassMethods
+    end
 
-    for (var e = table.length - 1; e &gt;= 0; e -= 2) {
-        if (_(table[e]).any(function(g) { return g == filename || g == extension })) {
-            var lang = table[e - 1];
-            break;
-        }
-    }
-
-    if(!document.getElementsByTagName(&#x27;head&#x27;)[0]) {
-        var head = document.createElement(&#x27;head&#x27;);
-        document.getElementsByTagName(&#x27;html&#x27;)[0].insertBefore(head, document.getElementsByTagName(&#x27;html&#x27;)[0].getElementsByTagName(&#x27;*&#x27;)[0]);
-    }
-    else {
-        var head = document.getElementsByTagName(&#x27;head&#x27;)[0];
-    }
-
-    document.body.className = &#x27;highlight&#x27;; // Some conditions to come
-    document.body.firstChild.innerHTML = &#x27;&lt;code&gt;&#x27; + document.body.firstChild.innerHTML + &#x27;&lt;/code&gt;&#x27;;
-    document.body.firstChild.firstChild.contentEditable = true;
-
-    var el = document.createElement(&#x27;link&#x27;);
-    el.href = chrome.extension.getURL( &#x27;css/main.css&#x27;);
-    el.type = &quot;text/stylesheet&quot;; el.rel = &quot;stylesheet&quot;;
-    head.appendChild(el);
-
-    chrome.extension.sendRequest({key: &quot;theme&quot;}, function(msg) {
-        var theme = msg.value;
-        el = document.createElement(&#x27;link&#x27;);
-        el.href = chrome.extension.getURL( &#x27;css/ir_black.css&#x27;);
-        el.type = &quot;text/stylesheet&quot;; el.rel = &quot;stylesheet&quot;;
-        head.appendChild(el);
-    });
-
-
-    hljs.tabReplace = &#x27;    &#x27;;
-    if(lang != undefined &amp;&amp; lang != &#x27;&#x27;) {
-        chrome.extension.sendRequest({key: &quot;include&quot;, path: &#x27;js/languages/&#x27; + lang + &#x27;.js&#x27;}, function(msg) {
-            eval(msg.value);
-            hljs.initHighlighting(lang);
-        });
-        chrome.extension.sendRequest({key: &quot;language&quot;, value: lang});
-    }
-    else {
-        hljs.initHighlightingOnLoad();
-    }
-
-    chrome.extension.sendRequest({key: &quot;page_action&quot;});
-}
+    module ClassMethods
+      def has_permalink
+        before_save do |obj|
+          return if obj.permalink.to_s == obj.name.parameterize
+          obj.permalink = obj.name.parameterize
+          last_num = obj.class.select(:permalink).where([&quot;permalink like ?&quot;, obj.permalink + &#x27;%&#x27;])
+          last_num = last_num.order(&#x27;permalink desc&#x27;).first.try :permalink
+          unless last_num.blank?
+            last_num = last_num.match(/.*\-(\d+)$/)
+            last_num = last_num.blank? ? 1 : last_num[1].to_i + 1
+            obj.permalink += &quot;-#{last_num}&quot;
+          end
+        end
+      end
+    end
+  end
+end
         </code>
       </pre>
     </div>

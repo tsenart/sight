@@ -552,7 +552,6 @@ var hljs = new function() {
       this.resetBlockHighlighting(el);
       el.firstChild.className = lang || '';
       this.initHighlighting();
-      el.firstChild.contentEditable = true;
   }
 
   // Common regexps
