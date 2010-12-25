@@ -4,11 +4,17 @@
   "description": "The Syntax Highlighter for the rest of us.",
   "background_page": "background.html",
   "options_page": "options.html",
+  "permissions": ["tabs", "<all_urls>"],
   "content_scripts": [{
       "matches": ["<all_urls>"],
       "js": ["js/underscore.js", "js/highlight.js", "js/inject.js"],
       "run_at": "document_end"
   }],
+  "page_action": {
+      "default_title": "Choose theme and language",
+      "default_icon": "images/icon19.png",
+      "popup": "popup.html"
+  },
   "icons": { "16": "images/icon16.png",
              "48": "images/icon48.png",
             "128": "images/icon128.png" }

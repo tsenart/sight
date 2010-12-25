@@ -1,0 +1,14 @@
+body {
+  font-family: "Inconsolata";
+  color: #fefefe;
+  background-color: #0e0e0e;
+}
+
+body > div {
+  width: 165px;
+}
+
+h3 {
+  text-align: left;
+  font-size: 1em;
+}

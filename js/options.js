@@ -15,6 +15,6 @@ document.addEventListener("DOMContentLoaded", function() {
     el.type = "text/stylesheet";
     el.rel = "stylesheet";
     document.getElementsByTagName('head')[0].appendChild(el);
-    hljs.initHighlighting('javascript');
+    hljs.initHighlighting();
 }, true);
 

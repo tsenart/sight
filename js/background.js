@@ -17,11 +17,22 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
             localStorage[request.key] = 'sunburst';
         sendResponse({value: localStorage['theme']});
     }
+    if(request.key == 'language')
+    {
+        localStorage[sender.tab.id] = JSON.stringify({language: request.value});
+    }
     
     if(request.key == 'include')
     {        
         xhrload({url: chrome.extension.getURL(request.path)}, function(xhr) {
             sendResponse({value: xhr.responseText});
+        });
+    }
+    
+    if(request.key == 'page_action')
+    {
+        chrome.tabs.getSelected(null, function(tab) {
+            chrome.pageAction.show(tab.id);
         });
     }
 });
