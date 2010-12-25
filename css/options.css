@@ -1,4 +1,5 @@
-#exampleDiv {
+body > div {
+  font-family: "Inconsolata";
   margin-left: 1em;
   padding: 2em;
 }
@@ -10,7 +11,7 @@
   margin-right: auto;
 }
 
-#codePre {
-  width: 450px;
-  overflow: hidden;
+body pre {
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }

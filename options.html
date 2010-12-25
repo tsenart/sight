@@ -1,63 +1,33 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html>
-  <head>
-    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <script type="text/javascript" charset="utf-8" src="/js/sh_main.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/js/sh_lang.min.js"></script>
+<!DOCTYPE html> 
+<html lang="en"> 
+  <head> 
+    <meta charset="utf-8">
+    <script type="text/javascript" charset="utf-8" src="/js/highlight.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/languages/javascript.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/underscore.js"></script>
     <script type="text/javascript" charset="utf-8" src="/js/options.js"></script>
-    <link rel="stylesheet" href="/css/options.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="/css/main.css" type="text/stylesheet" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="/css/options.css" type="text/stylesheet" media="screen" charset="utf-8">
     <title>Sight Options</title>
-    <style type="text/css" media="screen">
-    </style>
   </head>
-  <body class="sh_sourceCode" onload="bodyLoad();">
-    <div id="exampleDiv">
+  <body class="highlight">
+    <div>
       <h3>Select your theme</h3>
-      <select name="theme" id="theme" onchange="saveOptions(); setStyle();">
-        <option value="acid"> acid </option>
-        <option value="berries-dark"> berries-dark </option>
-        <option value="berries-light"> berries-light </option>
-        <option value="bipolar"> bipolar </option>
-        <option value="blacknblue"> blacknblue </option>
-        <option value="bright"> bright </option>
-        <option value="contrast"> contrast </option>
-        <option value="darkblue"> darkblue </option>
-        <option value="darkness"> darkness </option>
-        <option value="desert"> desert </option>
-        <option value="dull"> dull </option>
-        <option value="easter"> easter </option>
-        <option value="emacs"> emacs </option>
-        <option value="golden"> golden </option>
-        <option value="greenlcd"> greenlcd </option>
-        <option value="ide-anjuta"> ide-anjuta </option>
-        <option value="ide-codewarrior"> ide-codewarrior </option>
-        <option value="ide-devcpp"> ide-devcpp </option>
-        <option value="ide-eclipse"> ide-eclipse </option>
-        <option value="ide-kdev"> ide-kdev </option>
-        <option value="ide-msvcpp"> ide-msvcpp </option>
-        <option value="kwrite"> kwrite </option>
-        <option value="matlab"> matlab </option>
-        <option value="monokai"> monokai </option>
-        <option value="navy"> navy </option>
-        <option value="nedit"> nedit </option>
-        <option value="neon"> neon </option>
-        <option value="night"> night </option>
-        <option value="pablo"> pablo </option>
-        <option value="peachpuff"> peachpuff </option>
-        <option value="print"> print </option>
-        <option value="rand01"> rand01 </option>
-        <option value="the"> the </option>
-        <option value="typical"> typical </option>
-        <option value="vampire"> vampire </option>
-        <option value="vim"> vim </option>
-        <option value="vim-dark"> vim-dark </option>
-        <option value="whatis"> whatis </option>
-        <option value="whitengrey"> whitengrey </option>
-        <option value="zellner"> zellner </option>
-
+      <select name="theme" id="theme">
+        <option value="ir_black">ir_black</option>
+        <option value="default">default</option>
+        <option value="ascetic">ascetic</option>
+        <option value="far">far</option>
+        <option value="vs">vs</option>
+        <option value="github">github</option>
+        <option value="zenburn">zenburn</option>
+        <option value="idea">idea</option>
+        <option value="dark">dark</option>
+        <option value="magula">magula</option>
+        <option value="sunburst">sunburst</option>
       </select>
-      <pre id="codePre" class="sh_javascript">
+      <pre>
+        <code>
 
 var filename = document.location.pathname.split(&quot;/&quot;).pop().toLowerCase();
 var extension = filename.split(&quot;.&quot;).pop();
@@ -114,7 +84,7 @@ if(filename &amp;&amp; pres.length &gt; 0 &amp;&amp; document.body.firstChild ==
     });
     sh_highlightDocument();
 }
-    
+        </code>
       </pre>
     </div>
   </body>

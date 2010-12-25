@@ -5,11 +5,11 @@
   "background_page": "background.html",
   "options_page": "options.html",
   "content_scripts": [{
-      "matches": ["*://*/*"],
-      "js": ["js/sh_main.js", "js/sh_lang.min.js", "js/inject.js"],
+      "matches": ["<all_urls>"],
+      "js": ["js/underscore.js", "js/highlight.js", "js/inject.js"],
       "run_at": "document_end"
   }],
-  "icons": { "16": "icon16.png",
-             "48": "icon48.png",
-            "128": "icon128.png" }
+  "icons": { "16": "images/icon16.png",
+             "48": "images/icon48.png",
+            "128": "images/icon128.png" }
 }  

@@ -1,51 +1,20 @@
-function setStyle() {
-    var select = document.getElementById('theme');
-    select.disabled = true;
-    var request = sh_getXMLHttpRequest();
-    request.open('GET', 'css/sh_' + localStorage['theme'] + '.css', true);
-    request.onreadystatechange = function() {
-        if (request.readyState === 4) {
-            try {
-                if (request.status === 0 || request.status === 200) {
-                    var style = document.getElementsByTagName('style').item(0);
-                    if (style.styleSheet) {
-                        style.styleSheet.cssText = request.responseText;
-                    }
-                    else {
-                        while (style.hasChildNodes()) {
-                            style.removeChild(style.firstChild);
-                        }
-                        style.appendChild(document.createTextNode(request.responseText));
-                    }
-                }
-            }
-            finally {
-                request = null;
-                select.disabled = false;
-            }
-        }
-    };
-    request.send(null);
-}
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('theme').addEventListener('change', function(e){
+        var theme = e.target.options[e.target.selectedIndex].value;
+        _(document.querySelectorAll('link')).last().href = '/css/' + theme + '.css';
+        localStorage['theme'] = theme;
+    });
 
-function saveOptions() {
     var select = document.getElementById('theme');
-    var value = select.options[select.selectedIndex].value;
-    localStorage['theme'] = value;
-}
+    if (!localStorage['theme'] || localStorage['theme'] == '') localStorage['theme'] = 'sunburst';
+    _(select.options).detect(function(i) {
+        return i.value == localStorage['theme'];
+    }).selected = true;
+    var el = document.createElement('link');
+    el.href = 'css/' + localStorage['theme'] + '.css';
+    el.type = "text/stylesheet";
+    el.rel = "stylesheet";
+    document.getElementsByTagName('head')[0].appendChild(el);
+    hljs.initHighlighting('javascript');
+}, true);
 
-function bodyLoad() {
-    var select = document.getElementById('theme');
-    if(!localStorage['theme'] || localStorage['theme'] == '')
-        localStorage['theme'] = 'monokai';
-    for (var i = select.options.length - 1; i >= 0; i--){
-        if(select.options[i].value == localStorage['theme'])
-            select.options[i].selected = true;
-    }
-    setStyle();
-    sh_highlightDocument();
-    // Opera needs this, or else it truncates the pre
-    var pre = document.getElementById('codePre');
-    var width = pre.scrollWidth + 'px';
-    pre.style.width = width;
-}
