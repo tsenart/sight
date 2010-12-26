@@ -15,7 +15,16 @@ if(filename && pres.length > 0 && document.body.firstChild == pres[0]) {
         "php", ["php", "phtml"],
         "python", ["py"],
         "ruby", ["rakefile", "gemfile", "rb"],
-        "html-xml", ["htm", "html", "xhtml", "xml", "atom", "rss"]
+        "html-xml", ["htm", "html", "xhtml", "xml", "atom", "rss"],
+        "sql", ["sql"],
+        "delphi", ["pas"],
+        "bash", ["sh", "bash", "zsh", "shell"],
+        "lisp", ["lsp", "lisp", "cl"],
+        "tex", ["tex"],
+        "scala", ["scala", "scl", "sca", "scb"],
+        "avrasm", ["asm", "s"],
+        "lua", ["lua"],
+        "smalltalk, ["sm", "sll"]
     ];
    
     for (var e = table.length - 1; e >= 0; e -= 2) {
