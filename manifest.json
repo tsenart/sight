@@ -1,15 +1,10 @@
 {
   "name": "Sight",
-  "version": "1.0.1",
+  "version": "1.2.0",
   "description": "The Syntax Highlighter for Chrome",
   "background_page": "background.html",
   "options_page": "options.html",
   "permissions": ["tabs", "<all_urls>"],
-  "content_scripts": [{
-      "matches": ["<all_urls>"],
-      "js": ["js/underscore.js", "js/highlight.js", "js/inject.js"],
-      "run_at": "document_end"
-  }],
   "page_action": {
       "default_title": "Choose theme and language",
       "default_icon": "images/icon19.png",

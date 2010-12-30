@@ -3,7 +3,7 @@
 Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
 
 */
-.highlight, pre code {
+pre code {
   display: block; padding: 0.5em;
 }
 

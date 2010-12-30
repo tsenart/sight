@@ -4,11 +4,13 @@ Zenburn style from voldmar.ru (c) Vladimir Epifanov <voldmar@voldmar.ru>
 based on dark.css by Ivan Sagalaev
 
 */
-
-.highlight, pre code {
-  display: block; padding: 0.5em;
+body {
   background: #3F3F3F;
   color: #DCDCDC;
+}
+
+pre code {
+  display: block; padding: 0.5em;
 }
 
 pre .keyword,

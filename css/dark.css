@@ -3,10 +3,12 @@
 Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
 
 */
-
-.highlight, pre code {
-  display: block; padding: 0.5em;
+body {
   background: #444;
+}
+
+pre code {
+  display: block; padding: 0.5em;
 }
 
 pre .keyword,

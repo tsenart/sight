@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     var select = document.getElementById('theme');
-    if (!localStorage['theme'] || localStorage['theme'] == '') localStorage['theme'] = 'sunburst';
     _(select.options).detect(function(i) {
         return i.value == localStorage['theme'];
     }).selected = true;

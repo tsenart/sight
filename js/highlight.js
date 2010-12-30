@@ -464,9 +464,9 @@ var hljs = new function() {
     }
 
     var class_name = block.className;
-    if (!class_name.match(result.language)) {
-      class_name = class_name ? (class_name + ' ' + result.language) : result.language;
-    }
+    // if (!class_name.match(result.language)) {
+    //   class_name = class_name ? (class_name + ' ' + result.language) : result.language;
+    // }
     var original = nodeStream(block);
     if (original.length) {
       var pre = document.createElement('pre');
@@ -550,8 +550,12 @@ var hljs = new function() {
   }
   this.reHighlight = function(el, lang) {
       this.resetBlockHighlighting(el);
-      el.firstChild.className = lang || '';
-      this.initHighlighting();
+      if(! !!lang)
+          el.firstChild.className = ''
+      else
+          el.firstChild.className = lang;
+                
+      this.initHighlighting(lang);
   }
 
   // Common regexps

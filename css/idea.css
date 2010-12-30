@@ -3,11 +3,13 @@
 Intellij Idea-like styling (c) Vasily Polovnyov <vast@whiteants.net>
 
 */
-
-.highlight, pre code {
-  display: block; padding: 0.5em;
+body {
   color: #000;
   background: #fff;
+}
+
+pre code {
+  display: block; padding: 0.5em;
 }
 
 pre .subst,

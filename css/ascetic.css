@@ -3,10 +3,12 @@
 Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
 
 */
+body {
+  background: white; color: black;  
+}
 
-.highlight, pre code {
+pre code {
   display: block; padding: 0.5em;
-  background: white; color: black;
 }
 
 pre .string,

@@ -1,4 +1,9 @@
-@import url(https://fonts.googleapis.com/css?family=Inconsolata);
+@font-face {
+  font-family: 'Inconsolata';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Inconsolata'), url('chrome-extension://__MSG_@@extension_id__/Inconsolata.ttf') format('truetype');
+}
 
 body {
   margin: 0;

@@ -6,10 +6,12 @@ Version: 1.0
 Date: 2009-01-03
 Music: Aphex Twin / Xtal
 */
-
-.highlight, pre code {
-  display: block; padding: 0.5em;
+body {
   background-color: #f4f4f4;
+}
+
+pre code {
+  display: block; padding: 0.5em;
 }
 
 pre code,
