@@ -25,9 +25,11 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
                 var tab = JSON.parse(localStorage[stab.id]);
                 tab.theme = request.value;
                 localStorage[stab.id] = JSON.stringify(tab);
-                chrome.tabs.executeScript(stab.id, {file: 'js/reset-styles.js'});
-                chrome.tabs.insertCSS(stab.id, {file: 'css/main.css'});
-                chrome.tabs.insertCSS(stab.id, {file: 'css/' + tab.theme + '.css'});
+                chrome.tabs.executeScript(stab.id, {file: 'js/reset-styles.js'}, function(){
+                    chrome.tabs.insertCSS(stab.id, {file: 'css/main.css'}, function(){
+                        chrome.tabs.insertCSS(stab.id, {file: 'css/' + tab.theme + '.css'});
+                    });
+                });
             });
         }
 

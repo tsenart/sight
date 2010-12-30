@@ -1,13 +1,6 @@
 /*
   IR_Black style (c) Vasily Mikhailitchenko <vaskas@programica.ru>
 */
-body {
-  background: #000; color: #f8f8f8;
-}
-
-pre code {
-  display: block; padding: 0.5em;
-}
 
 pre .shebang,
 pre .comment,
@@ -101,4 +94,8 @@ pre .number {
 
 pre .tex .formula {
   opacity: 0.7;
+}
+
+body {
+  background: #000; color: #f8f8f8;
 }

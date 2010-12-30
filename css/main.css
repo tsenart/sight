@@ -7,11 +7,12 @@
 
 body {
   margin: 0;
-  padding: 0;
 }
 
 pre code {
   font-family: 'Inconsolata';
   outline: none;
   cursor: text;
+  display: block;
+  padding: 0.5em;
 }

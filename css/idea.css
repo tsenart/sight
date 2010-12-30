@@ -3,14 +3,6 @@
 Intellij Idea-like styling (c) Vasily Polovnyov <vast@whiteants.net>
 
 */
-body {
-  color: #000;
-  background: #fff;
-}
-
-pre code {
-  display: block; padding: 0.5em;
-}
 
 pre .subst,
 pre .title {
@@ -116,4 +108,9 @@ pre .deletion {
 
 pre .diff .change {
   background: #bccff9;
+}
+
+body {
+  color: #000;
+  background: #fff;
 }

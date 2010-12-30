@@ -3,12 +3,6 @@
 Sunburst-like style (c) Vasily Polovnyov <vast@whiteants.net>
 
 */
-body {
-  background: #000; color: #f8f8f8;
-}
-pre code {
-  display: block; padding: 0.5em;
-}
 
 pre .comment,
 pre .template_comment,
@@ -142,4 +136,8 @@ pre .addition {
 pre .deletion {
   background-color: #420E09;
   color: #F8F8F8;
+}
+
+body {
+  background: #000; color: #f8f8f8;
 }

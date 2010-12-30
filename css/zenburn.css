@@ -4,14 +4,6 @@ Zenburn style from voldmar.ru (c) Vladimir Epifanov <voldmar@voldmar.ru>
 based on dark.css by Ivan Sagalaev
 
 */
-body {
-  background: #3F3F3F;
-  color: #DCDCDC;
-}
-
-pre code {
-  display: block; padding: 0.5em;
-}
 
 pre .keyword,
 pre .tag,
@@ -112,3 +104,7 @@ pre .tex .formula {
   opacity: 0.5;
 }
 
+body {
+  background: #3F3F3F;
+  color: #DCDCDC;
+}

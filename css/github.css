@@ -3,14 +3,6 @@
 github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 */
-body {
-  color: #000;
-  background: #f8f8ff;
-}
-
-pre code {
-  display: block; padding: 0.5em;
-}
 
 pre .comment,
 pre .template_comment,
@@ -127,4 +119,9 @@ pre .chunk {
 
 pre .tex .formula {
   opacity: 0.5;
+}
+
+body {
+  color: #000;
+  background: #f8f8ff;
 }

@@ -3,13 +3,6 @@
 Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
 
 */
-body {
-  background: #444;
-}
-
-pre code {
-  display: block; padding: 0.5em;
-}
 
 pre .keyword,
 pre .literal,
@@ -99,4 +92,8 @@ pre .html .javascript,
 pre .html .vbscript,
 pre .tex .formula {
   opacity: 0.5;
+}
+
+body {
+  background: #444444;
 }
