@@ -102,7 +102,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 });
 
 chrome.tabs.onSelectionChanged.addListener(function(tabId, selectInfo) {
-    console.log(_.sprintf('Tab %d Selection Changed', tabId))
+    console.log(_.sprintf('Tab %d Selection Changed: %s', tabId, JSON.stringify(selectInfo)))
     if(!localStorage[tabId])
         chrome.tabs.executeScript(tabId, {file: 'js/inject.js'});
 });
