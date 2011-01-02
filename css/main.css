@@ -2,7 +2,7 @@
   font-family: 'Inconsolata';
   font-style: normal;
   font-weight: normal;
-  src: local('Inconsolata'), url('chrome-extension://__MSG_@@extension_id__/Inconsolata.ttf') format('truetype');
+  src: url('chrome-extension://idlcbffgmogeampkjdpkggjbfdohgoka/css/Inconsolata.ttf');
 }
 
 body {

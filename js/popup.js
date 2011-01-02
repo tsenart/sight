@@ -24,3 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }).selected = true;
     });
 }, true);
+
+chrome.tabs.onSelectionChanged.addListener(function(tabId, selectInfo) {
+    window.close();
+});
