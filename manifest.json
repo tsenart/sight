@@ -1,11 +1,11 @@
 {
   "name": "Sight",
-  "version": "1.2.3",
+  "version": "1.3.0",
   "description": "The Syntax Highlighter for Chrome",
   "background_page": "background.html",
   "options_page": "options.html",
   "permissions": ["tabs", "<all_urls>"],
-  "page_action": {
+  "browser_action": {
       "default_title": "Choose theme and language",
       "default_icon": "images/icon19.png",
       "default_popup": "popup.html"
