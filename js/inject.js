@@ -1,7 +1,7 @@
 var filename = document.location.pathname.split("/").pop().toLowerCase();
 var extension = filename.split(".").pop().toLowerCase();
 var pres = document.getElementsByTagName("pre");
-
+chrome.extension.sendRequest({key: 'plaintext', op: 'set', value: document.body.firstChild == pres[0]});
 if(filename && pres.length > 0 && document.body.firstChild == pres[0]) {
     if(!document.getElementsByTagName('head')[0]) {
         var head = document.createElement('head');

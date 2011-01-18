@@ -1,14 +1,23 @@
 body {
   font-family: "Inconsolata";
-  color: #fefefe;
-  background-color: #0e0e0e;
-}
-
-body > div {
-  width: 165px;
+  color: #0e0e0e;
+  margin: 0;
+  padding: 0;
 }
 
 h3 {
   text-align: left;
-  font-size: 1em;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
+#close_popup {
+  cursor: pointer;
+  position: absolute;
+  top: 0px;
+  right: 5px;
+}
+
+#close_popup:hover {
+  color: red;
 }
