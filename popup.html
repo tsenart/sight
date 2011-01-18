@@ -4,10 +4,12 @@
     <meta charset="utf-8">
     <script type="text/javascript" charset="utf-8" src="/js/underscore.js"></script>
     <script type="text/javascript" charset="utf-8" src="/js/popup.js"></script>
+    <link rel="stylesheet" href="/css/main.css" type="text/stylesheet" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/css/popup.css" type="text/stylesheet" media="screen" charset="utf-8">
   </head>
   <body class="highlight">
     <div>
+      <span id="close_popup">x</span>
       <h3>Change theme</h3>
       <select name="theme" id="theme">
         <option value="none">None selected</option>
@@ -22,6 +24,18 @@
         <option value="idea">Idea</option>
         <option value="dark">Dark</option>
         <option value="magula">Magula</option>
+      </select>
+      <h3>Change font</h3>
+      <select name="font" id="font">
+        <option value="Inconsolata">Inconsolata</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Monaco">Monaco</option>
+        <option value="Anonymous Pro">Anonymous Pro</option>
+        <option value="DejaVuSansMono">DejaVu Sans Mono</option>
+        <option value="DroidSansMono">Droid Sans Mono</option>
+        <option value="Monofur">Monofur</option>
+        <option value="ProFont">ProFont</option>
+        <option value="ProggyClean">Proggy Clean</option>
       </select>
       <h3>Change language</h3>
       <select name="language" id="language">
@@ -60,7 +74,7 @@
         <option value="tex">TeX</option>
         <option value="vbscript">VBScript</option>
         <option value="vhdl">VHDL</option>
-      </select>
+      </select>      
     </div>
   </body>
 </html>
