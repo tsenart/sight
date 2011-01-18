@@ -12,7 +12,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
                 stab = sender.tab || stab;
             
                 if(!localStorage[stab.id])
-                    localStorage[stab.id] = JSON.stringify({plaintext: false});
+                    localStorage[stab.id] = JSON.stringify({language: '', theme: localStorage['theme'], font: localStorage['font'], plaintext: false});
                 sendResponse({value: JSON.parse(localStorage[stab.id]).plaintext});
             });
         }
@@ -21,7 +21,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
                 stab = sender.tab || stab;
                 
                 if(!localStorage[stab.id])
-                    localStorage[stab.id] = JSON.stringify({plaintext: false});
+                    localStorage[stab.id] = JSON.stringify({language: '', theme: localStorage['theme'], font: localStorage['font'], plaintext: false});
                 var tab = JSON.parse(localStorage[stab.id]);
                 tab.plaintext = request.value;
                 localStorage[stab.id] = JSON.stringify(tab);
@@ -134,7 +134,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
                 chrome.tabs.executeScript(stab.id, {code: xhr.responseText}, function() {
                     if(request.language && request.language != '') {
                         chrome.tabs.executeScript(stab.id, {
-                            code: _.sprintf("hljs.tabReplace = '    ';chrome.extension.sendRequest({key:'language',op:'set',value:'%s'});chrome.extension.sendRequest({key:'theme',op:'set',value:'%s'});chrome.extension.sendRequest({key:'font',op:'set',value:'%s'});chrome.extension.sendRequest({key:'plaintext',op:'set',value:'true'});", request.language, tab.theme, tab.font)
+                            code: _.sprintf("hljs.tabReplace = '    ';chrome.extension.sendRequest({key:'language',op:'set',value:'%s'});chrome.extension.sendRequest({key:'theme',op:'set',value:'%s'});chrome.extension.sendRequest({key:'font',op:'set',value:'%s'});chrome.extension.sendRequest({key:'plaintext',op:'set',value:true});", request.language, tab.theme, tab.font)
                         });
                     }
                 });
