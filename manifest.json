@@ -5,7 +5,7 @@
   "background_page": "background.html",
   "options_page": "options.html",
   "permissions": ["tabs", "<all_urls>"],
-  "browser_action": {
+  "page_action": {
       "default_title": "Choose theme and language",
       "default_icon": "images/icon19.png",
       "default_popup": "popup.html"

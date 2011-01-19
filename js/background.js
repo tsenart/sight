@@ -24,6 +24,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
                     localStorage[stab.id] = JSON.stringify({language: '', theme: localStorage['theme'], font: localStorage['font'], plaintext: false});
                 var tab = JSON.parse(localStorage[stab.id]);
                 tab.plaintext = request.value;
+                if(tab.plaintext)
+                    chrome.pageAction.show(stab.id);
                 localStorage[stab.id] = JSON.stringify(tab);
             });
         }
