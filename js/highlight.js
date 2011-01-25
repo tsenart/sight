@@ -13,17 +13,8 @@ var hljs = new function() {
 
   /* Utility functions */
 
-  function entities(value) {
-    return value.replace(/&/gm, '&amp;').replace(/</gm, '&lt;').replace(/>/gm, '&gt;');
-  }
-
-  function contains(array, item) {
-    if (!array)
-      return false;
-    for (var i = 0; i < array.length; i++)
-      if (array[i] == item)
-        return true;
-    return false;
+  function escape(value) {
+    return value.replace(/&/gm, '&amp;').replace(/</gm, '&lt;');
   }
 
   function langRe(language, value, global) {
@@ -37,7 +28,7 @@ var hljs = new function() {
       if (node.nodeName == 'CODE')
         return node;
       if (!(node.nodeType == 3 && node.nodeValue.match(/\s+/)))
-        return null;
+        break;
     }
   }
 
@@ -54,7 +45,8 @@ var hljs = new function() {
       else
         result += blockText(block.childNodes[i]);
     // Thank you, MSIE...
-    result = result.replace(/\r/g, '\n');
+    if (/MSIE [678]/.test(navigator.userAgent))
+      result = result.replace(/\r/g, '\n');
     return result;
   }
 
@@ -120,7 +112,7 @@ var hljs = new function() {
         var attribute = node.attributes[i];
         result += ' ' + attribute.nodeName.toLowerCase();
         if (attribute.nodeValue != undefined) {
-          result += '="' + entities(attribute.nodeValue) + '"';
+          result += '="' + escape(attribute.nodeValue) + '"';
         }
       }
       return result + '>';
@@ -132,7 +124,7 @@ var hljs = new function() {
 
     while (stream1.length || stream2.length) {
       var current = selectStream().splice(0, 1)[0];
-      result += entities(value.substr(processed, current.offset - processed));
+      result += escape(value.substr(processed, current.offset - processed));
       processed = current.offset;
       if ( current.event == 'start') {
         result += open(current.node);
@@ -165,7 +157,6 @@ var hljs = new function() {
           return mode.sub_modes[i];
         }
       }
-      return null;
     }
 
     function endOfMode(mode_index, lexem) {
@@ -231,28 +222,24 @@ var hljs = new function() {
 
     function processKeywords(buffer, mode) {
       if (!mode.keywords || !mode.lexems)
-        return entities(buffer);
-      if (!mode.lexemsRe) {
-        var lexems_re = '(' + mode.lexems.join('|') + ')';
-        mode.lexemsRe = langRe(language, lexems_re, true);
-      }
+        return escape(buffer);
       var result = '';
       var last_index = 0;
       mode.lexemsRe.lastIndex = 0;
       var match = mode.lexemsRe.exec(buffer);
       while (match) {
-        result += entities(buffer.substr(last_index, match.index - last_index));
+        result += escape(buffer.substr(last_index, match.index - last_index));
         var keyword_match = keywordMatch(mode, match);
         if (keyword_match) {
           keyword_count += keyword_match[1];
-          result += '<span class="'+ keyword_match[0] +'">' + entities(match[0]) + '</span>';
+          result += '<span class="'+ keyword_match[0] +'">' + escape(match[0]) + '</span>';
         } else {
-          result += entities(match[0]);
+          result += escape(match[0]);
         }
         last_index = mode.lexemsRe.lastIndex;
         match = mode.lexemsRe.exec(buffer);
       }
-      result += entities(buffer.substr(last_index, buffer.length - last_index));
+      result += escape(buffer.substr(last_index, buffer.length - last_index));
       return result;
     }
 
@@ -273,13 +260,13 @@ var hljs = new function() {
         result += markup;
         mode.buffer = '';
       } else if (mode.excludeBegin) {
-        result += entities(lexem) + markup;
+        result += escape(lexem) + markup;
         mode.buffer = '';
       } else {
         result += markup;
         mode.buffer = lexem;
       }
-      modes[modes.length] = mode;
+      modes.push(mode);
     }
 
     function processModeInfo(buffer, lexem, end) {
@@ -303,7 +290,7 @@ var hljs = new function() {
         if (current_mode.returnEnd) {
           result += processBuffer(current_mode.buffer + buffer, current_mode) + markup;
         } else if (current_mode.excludeEnd) {
-          result += processBuffer(current_mode.buffer + buffer, current_mode) + markup + entities(lexem);
+          result += processBuffer(current_mode.buffer + buffer, current_mode) + markup + escape(lexem);
         } else {
           result += processBuffer(current_mode.buffer + buffer + lexem, current_mode) + markup;
         }
@@ -361,7 +348,7 @@ var hljs = new function() {
           language: null,
           relevance: 0,
           keyword_count: 0,
-          value: entities(value)
+          value: escape(value)
         }
       } else {
         throw e;
@@ -383,6 +370,8 @@ var hljs = new function() {
         mode.endRe = langRe(language, '^' + mode.end);
       if (mode.illegal)
         mode.illegalRe = langRe(language, '^(?:' + mode.illegal + ')');
+      if (mode.lexems)
+        mode.lexemsRe = langRe(language, mode.lexems, true);
       if (mode.relevance == undefined)
         mode.relevance = 1;
       if (!mode.displayClassName)
@@ -431,6 +420,9 @@ var hljs = new function() {
   }
 
   function initialize() {
+    if (initialize.called)
+        return;
+    initialize.called = true;
     compileModes();
     selected_languages = LANGUAGES;
   }
@@ -446,27 +438,9 @@ var hljs = new function() {
         return;
     if (language) {
       var result = highlight(language, text);
-    } else {
-      var result = {language: '', keyword_count: 0, relevance: 0, value: entities(text)};
-      var second_best = result;
-      for (var key in selected_languages) {
-        if (!selected_languages.hasOwnProperty(key))
-          continue;
-        var current = highlight(key, text);
-        if (current.keyword_count + current.relevance > second_best.keyword_count + second_best.relevance) {
-          second_best = current;
-        }
-        if (current.keyword_count + current.relevance > result.keyword_count + result.relevance) {
-          second_best = result;
-          result = current;
-        }
-      }
     }
 
     var class_name = block.className;
-    // if (!class_name.match(result.language)) {
-    //   class_name = class_name ? (class_name + ' ' + result.language) : result.language;
-    // }
     var original = nodeStream(block);
     if (original.length) {
       var pre = document.createElement('pre');
@@ -481,35 +455,14 @@ var hljs = new function() {
     if (useBR) {
       result.value = result.value.replace(/\n/g, '<br>');
     }
-    if (/MSIE [678]/.test(navigator.userAgent) && block.tagName == 'CODE' && block.parentNode.tagName == 'PRE') {
-      // This is for backwards compatibility only. IE needs this strange
-      // hack becasue it cannot just cleanly replace <code> block contents.
-      var pre = block.parentNode;
-      var container = document.createElement('div');
-      container.innerHTML = '<pre><code>' + result.value + '</code></pre>';
-      block = container.firstChild.firstChild;
-      container.firstChild.className = pre.className;
-      pre.parentNode.replaceChild(container.firstChild, pre);
-    } else {
-      block.innerHTML = result.value;
-    }
+    block.innerHTML = result.value;
     block.className = class_name;
-    block.dataset = {};
-    block.dataset.result = {
-      language: result.language,
-      kw: result.keyword_count,
-      re: result.relevance
-    };
-    if (second_best && second_best.language) {
-      block.dataset.second_best = {
-        language: second_best.language,
-        kw: second_best.keyword_count,
-        re: second_best.relevance
-      };
-    }
   }
 
   function initHighlighting() {
+    if (initHighlighting.called)
+      return;
+    initHighlighting.called = true;
     initialize();
     if (arguments.length) {
       for (var i = 0; i < arguments.length; i++) {
@@ -544,19 +497,6 @@ var hljs = new function() {
   this.initHighlightingOnLoad = initHighlightingOnLoad;
   this.highlightBlock = highlightBlock;
   this.initHighlighting = initHighlighting;
-  this.entities = entities;
-  this.resetBlockHighlighting = function(el) {
-      el.innerHTML = '<code>' + this.entities(el.firstChild.innerText) + '</code>';
-  }
-  this.reHighlight = function(el, lang) {
-      this.resetBlockHighlighting(el);
-      if(! !!lang)
-          el.firstChild.className = ''
-      else
-          el.firstChild.className = lang;
-                
-      this.initHighlighting(lang);
-  }
 
   // Common regexps
   this.IMMEDIATE_RE = '\\b|\\B'
@@ -567,23 +507,21 @@ var hljs = new function() {
   this.RE_STARTERS_RE = '!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~';
 
   // Common modes
+  this.BACKSLASH_ESCAPE = {
+    begin: '\\\\.', end: this.IMMEDIATE_RE, relevance: 0
+  };
   this.APOS_STRING_MODE = {
     className: 'string',
     begin: '\'', end: '\'',
     illegal: '\\n',
-    contains: ['entities'],
+    contains: [this.BACKSLASH_ESCAPE],
     relevance: 0
   };
   this.QUOTE_STRING_MODE = {
     className: 'string',
     begin: '"', end: '"',
     illegal: '\\n',
-    contains: ['entities'],
-    relevance: 0
-  };
-  this.BACKSLASH_ESCAPE = {
-    className: 'entities',
-    begin: '\\\\.', end: this.IMMEDIATE_RE, noMarkup: true,
+    contains: [this.BACKSLASH_ESCAPE],
     relevance: 0
   };
   this.C_LINE_COMMENT_MODE = {
@@ -620,7 +558,4 @@ var hljs = new function() {
         result[key] = obj[key];
     return result;
   }
-  
 }();
-
-var initHighlightingOnLoad = hljs.initHighlightingOnLoad;

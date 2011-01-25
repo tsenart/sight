@@ -10,7 +10,7 @@ hljs.LANGUAGES.lisp = function(){
   return {
     case_insensitive: true,
     defaultMode: {
-      lexems: [LISP_IDENT_RE],
+      lexems: LISP_IDENT_RE,
       contains: ['literal', 'number', 'string', 'comment', 'quoted', 'list'],
       illegal: '[^\\s]'
     },
@@ -18,10 +18,9 @@ hljs.LANGUAGES.lisp = function(){
       {
         className: 'string',
         begin: '"', end: '"',
-        contains: ['escape'],
+        contains: [hljs.BACKSLASH_ESCAPE],
         relevance: 0
       },
-      hljs.BACKSLASH_ESCAPE,
       {
         className: 'number',
         begin: LISP_SIMPLE_NUMBER_RE, end: hljs.IMMEDIATE_RE
@@ -55,7 +54,7 @@ hljs.LANGUAGES.lisp = function(){
         className: 'quoted',
         begin: '\\(quote ', end: '\\)',
         contains: ['number', 'string', 'variable', 'keyword', 'quoted_list'],
-        lexems: [LISP_IDENT_RE],
+        lexems: LISP_IDENT_RE,
         keywords: {'title': {'quote': 1}}
       },
       {

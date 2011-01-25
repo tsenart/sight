@@ -7,7 +7,7 @@ hljs.LANGUAGES.avrasm =
 {
   case_insensitive: true,
   defaultMode: {
-    lexems: [hljs.IDENT_RE],
+    lexems: hljs.IDENT_RE,
     contains: ['comment',  'number', 'string', 'label', 'preprocessor', 'localvars'],
     illegal: '',
     keywords: {
@@ -55,7 +55,6 @@ hljs.LANGUAGES.avrasm =
       className: 'comment',
       begin: ';',  end: '$'
     },
-    hljs.BACKSLASH_ESCAPE,
     hljs.QUOTE_STRING_MODE,
     {
       className: 'string',

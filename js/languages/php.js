@@ -5,7 +5,7 @@ Author: Victor Karamzin <Victor.Karamzin@enterra-inc.com>
 
 hljs.LANGUAGES.php = {
   defaultMode: {
-    lexems: [hljs.IDENT_RE],
+    lexems: hljs.IDENT_RE,
     contains: ['comment', 'number', 'string', 'variable', 'preprocessor'],
     keywords: {
       'and': 1, 'include_once': 1, 'list': 1, 'abstract': 1, 'global': 1,
@@ -39,19 +39,8 @@ hljs.LANGUAGES.php = {
       }]
     },
     hljs.C_NUMBER_MODE,
-    {
-      className: 'string',
-      begin: '\'', end: '\'',
-      contains: ['escape'],
-      relevance: 0
-    },
-    {
-      className: 'string',
-      begin: '"', end: '"',
-      contains: ['escape'],
-      relevance: 0
-    },
-    hljs.BACKSLASH_ESCAPE,
+    hljs.inherit(hljs.APOS_STRING_MODE, {illegal: null}),
+    hljs.inherit(hljs.QUOTE_STRING_MODE, {illegal: null}),
     {
       className: 'variable',
       begin: '\\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*', end: hljs.IMMEDIATE_RE

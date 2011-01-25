@@ -1,7 +1,14 @@
+body {
+  font-family: Inconsolata;
+}
+
 body > div {
-  font-family: "Inconsolata";
   margin-left: 1em;
   padding: 2em;
+}
+
+select {
+  margin-bottom: 10px;
 }
 
 #theme {
@@ -11,7 +18,17 @@ body > div {
   margin-right: auto;
 }
 
-body pre {
+pre {
+  left: 10px;
+  position: relative;
   word-wrap: break-word;
   white-space: pre-wrap;
 }
+
+ul#line-numbers {
+  position: relative;
+  float: left;
+  padding-top: 0.6em;
+  margin-top: 30px;
+}
+

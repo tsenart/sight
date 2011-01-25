@@ -2,42 +2,15 @@
 <html lang="en"> 
   <head> 
     <meta charset="utf-8">
-    <script type="text/javascript" charset="utf-8" src="/js/underscore.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/js/popup.js"></script>
-    <link rel="stylesheet" href="/css/main.css" type="text/stylesheet" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="/css/popup.css" type="text/stylesheet" media="screen" charset="utf-8">
+    <script type="text/javascript" charset="utf-8" src="js/underscore.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/popup.js"></script>
+    <link rel="stylesheet" href="css/reset.css" type="text/stylesheet" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/main.css" type="text/stylesheet" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/popup.css" type="text/stylesheet" media="screen" charset="utf-8">
   </head>
   <body class="highlight">
     <div>
-      <span id="close_popup">x</span>
-      <h3>Change theme</h3>
-      <select name="theme" id="theme">
-        <option value="none">None selected</option>
-        <option value="sunburst">SunBurst</option>
-        <option value="ir_black">IRBlack</option>
-        <option value="default">Default</option>
-        <option value="ascetic">Ascetic</option>
-        <option value="far">Far</option>
-        <option value="vs">Vs</option>
-        <option value="github">GitHub</option>
-        <option value="zenburn">ZenBurn</option>
-        <option value="idea">Idea</option>
-        <option value="dark">Dark</option>
-        <option value="magula">Magula</option>
-      </select>
-      <h3>Change font</h3>
-      <select name="font" id="font">
-        <option value="Inconsolata">Inconsolata</option>
-        <option value="Courier New">Courier New</option>
-        <option value="Monaco">Monaco</option>
-        <option value="Anonymous Pro">Anonymous Pro</option>
-        <option value="DejaVuSansMono">DejaVu Sans Mono</option>
-        <option value="DroidSansMono">Droid Sans Mono</option>
-        <option value="Monofur">Monofur</option>
-        <option value="ProFont">ProFont</option>
-        <option value="ProggyClean">Proggy Clean</option>
-      </select>
-      <h3>Change language</h3>
+      <p>Change language<span id="close_popup" onclick="window.close();">x</span></p>
       <select name="language" id="language">
         <option value="no-highlight">None selected</option>
         <option value="1c">1C</option>
@@ -61,6 +34,7 @@
         <option value="lua">Lua</option>
         <option value="mel">MEL</option>
         <option value="nginx">Nginx</option>
+        <option value="objc">Objective C/C++</option>
         <option value="parser3">Parser 3</option>
         <option value="perl">Perl</option>
         <option value="php">PHP</option>

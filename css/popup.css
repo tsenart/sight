@@ -5,19 +5,26 @@ body {
   padding: 0;
 }
 
-h3 {
+body > div {
+  width: 165px;
+} 
+
+p {
+  position: absolute
+  width: 100%;
   text-align: left;
   font-size: 0.9em;
+  top: 0;
+  left: 0;
   margin-bottom: 5px;
 }
 
 #close_popup {
+  float: right;
   cursor: pointer;
-  position: absolute;
-  top: 0px;
-  right: 5px;
+  color: red;
 }
 
 #close_popup:hover {
-  color: red;
+  color: black;
 }

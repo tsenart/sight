@@ -20,7 +20,7 @@ hljs.LANGUAGES.sql =
         'number',
         {begin: '\\n', end: hljs.IMMEDIATE_RE}
       ],
-      lexems: ['[a-zA-Z][a-zA-Z0-9_\\.]*'],
+      lexems: '[a-zA-Z][a-zA-Z0-9_\\.]*',
       keywords: {
         'keyword': {
           'all': 1, 'partial': 1, 'global': 1, 'month': 1,
@@ -79,20 +79,19 @@ hljs.LANGUAGES.sql =
     {
       className: 'string',
       begin: '\'', end: '\'',
-      contains: ['escape', {begin: '\'\'', end: hljs.IMMEDIATE_RE}],
+      contains: [hljs.BACKSLASH_ESCAPE, {begin: '\'\'', end: hljs.IMMEDIATE_RE}],
       relevance: 0
     },
     {
       className: 'string',
       begin: '"', end: '"',
-      contains: ['escape', {begin: '""', end: hljs.IMMEDIATE_RE}],
+      contains: [hljs.BACKSLASH_ESCAPE, {begin: '""', end: hljs.IMMEDIATE_RE}],
       relevance: 0
     },
     {
       className: 'string',
       begin: '`', end: '`',
-      contains: ['escape']
-    },
-    hljs.BACKSLASH_ESCAPE
+      contains: [hljs.BACKSLASH_ESCAPE]
+    }
   ]
 };

@@ -5,7 +5,7 @@ Author: Jason Diamond <jason@diamond.name>
 
 hljs.LANGUAGES.cs  = {
   defaultMode: {
-    lexems: [hljs.UNDERSCORE_IDENT_RE],
+    lexems: hljs.UNDERSCORE_IDENT_RE,
     contains: ['comment', 'string', 'number'],
     keywords: {
         // Normal keywords.
@@ -37,7 +37,6 @@ hljs.LANGUAGES.cs  = {
     hljs.C_BLOCK_COMMENT_MODE,
     hljs.APOS_STRING_MODE,
     hljs.QUOTE_STRING_MODE,
-    hljs.BACKSLASH_ESCAPE,
     hljs.C_NUMBER_MODE
   ]
 };

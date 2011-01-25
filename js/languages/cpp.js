@@ -32,7 +32,7 @@ hljs.LANGUAGES.cpp = function(){
   };
   return {
     defaultMode: {
-      lexems: [hljs.UNDERSCORE_IDENT_RE],
+      lexems: hljs.UNDERSCORE_IDENT_RE,
       illegal: '</',
       contains: ['comment', 'string', 'number', 'preprocessor', 'stl_container'],
       keywords: CPP_KEYWORDS
@@ -42,7 +42,6 @@ hljs.LANGUAGES.cpp = function(){
       hljs.C_BLOCK_COMMENT_MODE,
       hljs.C_NUMBER_MODE,
       hljs.QUOTE_STRING_MODE,
-      hljs.BACKSLASH_ESCAPE,
       {
         className: 'string',
         begin: '\'', end: '[^\\\\]\'',
@@ -56,7 +55,7 @@ hljs.LANGUAGES.cpp = function(){
         className: 'stl_container',
         begin: '\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<', end: '>',
         contains: ['stl_container'],
-        lexems: [hljs.UNDERSCORE_IDENT_RE],
+        lexems: hljs.UNDERSCORE_IDENT_RE,
         keywords: CPP_KEYWORDS['built_in'],
         relevance: 10
       }

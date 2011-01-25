@@ -7,7 +7,7 @@ hljs.LANGUAGES.lua = function(){
   var OPENING_LONG_BRACKET = '\\[=*\\[', CLOSING_LONG_BRACKET = '\\]=*\\]';
   return {
     defaultMode: {
-      lexems: [hljs.UNDERSCORE_IDENT_RE],
+      lexems: hljs.UNDERSCORE_IDENT_RE,
       keywords: {
         'keyword': {
           'and': 1, 'break': 1, 'do': 1, 'else': 1, 'elseif': 1, 'end': 1,
@@ -51,7 +51,7 @@ hljs.LANGUAGES.lua = function(){
       {
         className: 'function',
         begin: '\\bfunction\\b', end: '\\)',
-        lexems: [hljs.UNDERSCORE_IDENT_RE],
+        lexems: hljs.UNDERSCORE_IDENT_RE,
         keywords: {'function': 1},
         contains: [
           {
@@ -76,8 +76,7 @@ hljs.LANGUAGES.lua = function(){
         begin: OPENING_LONG_BRACKET, end: CLOSING_LONG_BRACKET,
         contains: ['long_brackets'],
         relevance: 10
-      },
-      hljs.BACKSLASH_ESCAPE
+      }
     ]
   };
 }();

@@ -62,13 +62,43 @@
 }
 
 body {
+  position: relative;
   margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+pre {
+  position: absolute;
+  left: 50px;
+  word-wrap: normal !important;
+  white-space: pre !important;
+  font-family: inherit;
 }
 
 pre code {
-  -webkit-font-smoothing: antialiased;
   outline: none;
   cursor: text;
   display: block;
+  padding: 0.5em 0.5em 0.5em 0;
+  font-family: inherit;
+}
+
+pre.sighted code {
   padding: 0.5em;
+}
+
+ul#line-numbers {
+  position: absolute;
+  padding: 0.6em;
+  list-style: none inside;
+  z-index: -1;
+  border-right: 1px solid #BBB;
+}
+
+ul#line-numbers li {
+  text-align: right;
+}
+
+.clear {
+  clear: both;
 }

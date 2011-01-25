@@ -6,7 +6,7 @@ Author: Shuen-Huei Guan <drake.guan@gmail.com>
 
 hljs.LANGUAGES.mel = {
   defaultMode: {
-    lexems: [hljs.UNDERSCORE_IDENT_RE],
+    lexems: hljs.UNDERSCORE_IDENT_RE,
     illegal: '</',
     contains: ['number', 'string', 'variable', 'comment'],
     keywords: {'int': 1, 'float': 1, 'string': 1, 'float': 1, 'vector': 1, 'matrix': 1,
@@ -23,11 +23,10 @@ hljs.LANGUAGES.mel = {
     // string
     hljs.APOS_STRING_MODE,
     hljs.QUOTE_STRING_MODE,
-    hljs.BACKSLASH_ESCAPE,
     {
       className: 'string',
       begin: '`', end: '`',
-      contains: ['escape']
+      contains: [hljs.BACKSLASH_ESCAPE]
     },
     // variable
     {

@@ -11,7 +11,7 @@ hljs.LANGUAGES.apache =
 {
   case_insensitive: true,
   defaultMode: {
-    lexems: [hljs.IDENT_RE],
+    lexems: hljs.IDENT_RE,
     contains: ['comment', 'sqbracket', 'cbracket', 'number', 'tag', 'string'],
     keywords: {
       'keyword': {
@@ -436,7 +436,6 @@ hljs.LANGUAGES.apache =
       className: 'number',
       begin: '[\\$%]\\d+', end: hljs.IMMEDIATE_RE
     },
-    hljs.QUOTE_STRING_MODE,
-    hljs.BACKSLASH_ESCAPE
+    hljs.QUOTE_STRING_MODE
   ]
 };

@@ -7,7 +7,7 @@ Contributors: Shuen-Huei Guan <drake.guan@gmail.com>
 
 hljs.LANGUAGES.rib  = {
   defaultMode: {
-    lexems: [hljs.UNDERSCORE_IDENT_RE],
+    lexems: hljs.UNDERSCORE_IDENT_RE,
     illegal: '</',
     contains: ['comment', 'string', 'number'],
     keywords: {
@@ -118,14 +118,13 @@ hljs.LANGUAGES.rib  = {
     hljs.HASH_COMMENT_MODE,
     hljs.C_NUMBER_MODE,
     hljs.APOS_STRING_MODE,
-    hljs.QUOTE_STRING_MODE,
-    hljs.BACKSLASH_ESCAPE
+    hljs.QUOTE_STRING_MODE
   ]
 };
 
 hljs.LANGUAGES.rsl  = {
   defaultMode: {
-    lexems: [hljs.UNDERSCORE_IDENT_RE],
+    lexems: hljs.UNDERSCORE_IDENT_RE,
     illegal: '</',
     contains: ['comment', 'string', 'number', 'preprocessor',
                'shader', 'shading'],
@@ -216,13 +215,13 @@ hljs.LANGUAGES.rsl  = {
     {
       className: 'shader',
       begin: 'surface |displacement |light |volume |imager ', end: '\\(',
-      lexems: [hljs.IDENT_RE],
+      lexems: hljs.IDENT_RE,
       keywords: {'surface': 1, 'displacement': 1, 'light': 1, 'volume': 1, 'imager': 1}
     },
     {
       className: 'shading',
       begin: 'illuminate|illuminance|gather', end: '\\(',
-      lexems: [hljs.IDENT_RE],
+      lexems: hljs.IDENT_RE,
       keywords: {'illuminate': 1, 'illuminance': 1, 'gather': 1}
     },
     hljs.C_LINE_COMMENT_MODE,
@@ -230,7 +229,6 @@ hljs.LANGUAGES.rsl  = {
     hljs.C_NUMBER_MODE,
     hljs.QUOTE_STRING_MODE,
     hljs.APOS_STRING_MODE,
-    hljs.BACKSLASH_ESCAPE,
     {
       className: 'preprocessor',
       begin: '#', end: '$'
