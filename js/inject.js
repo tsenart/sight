@@ -5,7 +5,7 @@ RegExp.escape = function(str)
   return str.replace(specials, "\\$&");
 };
 
-if (document.body && document.body.firstChild == pres[0]) {
+if (document.body && document.body.firstChild == pres[0] && document.querySelectorAll('link').length == 0) {
     chrome.extension.sendRequest({op: 'showPageAction'});
     var table = [
            "cpp", ["c", "h", "cpp", "c++", "hpp", "h++"],
