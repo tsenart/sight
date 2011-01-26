@@ -51,14 +51,14 @@ if (document.body && document.body.firstChild == pres[0] && document.querySelect
 
     }
 
-    if(!lang) {
+    if (!lang) {
         var req = new XMLHttpRequest();
         req.open("HEAD", document.location.href, false);
         req.onreadystatechange = function() {
             if (req.readyState == 4) {
                 var hdr = req.getResponseHeader('Content-Type').toLowerCase().split(';').shift().split('/').pop();
                 lang = table.filter(function(i){ return typeof i == 'string' && hdr.match(new RegExp(RegExp.escape(i))) }).pop();
-                if(!lang) {
+                if (!lang) {
                     lang = table.filter(function(i){
                         return typeof i == 'object' && i.some(function(g) { return hdr.match(new RegExp(RegExp.escape(g))) })
                     }).pop();
@@ -68,7 +68,7 @@ if (document.body && document.body.firstChild == pres[0] && document.querySelect
         };
         req.send(null);
     }
-    if(!document.getElementsByTagName('head')[0]) {
+    if (!document.getElementsByTagName('head')[0]) {
         var head = document.createElement('head');
         document.getElementsByTagName('html')[0].insertBefore(head, document.getElementsByTagName('html')[0].getElementsByTagName('*')[0]);
     }
@@ -79,5 +79,7 @@ if (document.body && document.body.firstChild == pres[0] && document.querySelect
     if (extension && extension == 'json') {
         pres[0].innerHTML = JSON.stringify(JSON.parse(pres[0].innerHTML), null, 4);
     }
-    chrome.extension.sendRequest({op: 'highlight', language: lang || 'no-highlight'});
+
+    if (lang && lang != '')
+        chrome.extension.sendRequest({op: 'highlight', language: lang});
 }
