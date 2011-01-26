@@ -61,6 +61,13 @@
   src: url('chrome-extension://epmaefhielclhlnmjofcdapbeepkmggh/css/ProggyClean.ttf');
 }
 
+@font-face {
+  font-family: 'Consolas';
+  font-style: normal;
+  font-weight: normal;
+  src: url('chrome-extension://epmaefhielclhlnmjofcdapbeepkmggh/css/Consolas.ttf');
+}
+
 body {
   position: relative;
   margin: 0;

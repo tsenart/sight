@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
+    if(!localStorage['theme'] || localStorage['theme'] == '') localStorage['theme'] = 'sunburst';
+    if(!localStorage['font'] || localStorage['font'] == '') localStorage['font'] = 'Inconsolata';
+    
     document.getElementById('theme').addEventListener('change', function(e){
         var theme = e.target.options[e.target.selectedIndex].value;
         _(document.querySelectorAll('link')).last().href = '/css/' + theme + '.css';
