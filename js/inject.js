@@ -3,7 +3,7 @@ RegExp.escape = function(str)
 {
   var specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g"); // .*+?|()[]{}\
   return str.replace(specials, "\\$&");
-}
+};
 
 if (document.body && document.body.firstChild == pres[0]) {
     chrome.extension.sendRequest({op: 'showPageAction'});
@@ -41,7 +41,6 @@ if (document.body && document.body.firstChild == pres[0]) {
                 break;
             }
     }
-    
     if (!lang) {
         var url = document.location.href.split('/').pop().toLowerCase();
         for (var e = table.length - 1; e >= 0; e -= 2)
@@ -69,7 +68,6 @@ if (document.body && document.body.firstChild == pres[0]) {
         };
         req.send(null);
     }
-    console.log(lang)
     if(!document.getElementsByTagName('head')[0]) {
         var head = document.createElement('head');
         document.getElementsByTagName('html')[0].insertBefore(head, document.getElementsByTagName('html')[0].getElementsByTagName('*')[0]);
@@ -81,6 +79,5 @@ if (document.body && document.body.firstChild == pres[0]) {
     if (extension && extension == 'json') {
         pres[0].innerHTML = JSON.stringify(JSON.parse(pres[0].innerHTML), null, 4);
     }
-    pres[0].innerHTML = '<code>' + pres[0].innerText + '</code>';
     chrome.extension.sendRequest({op: 'highlight', language: lang || 'no-highlight'});
 }

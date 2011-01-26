@@ -1,10 +1,10 @@
 What is it?
 ===========
-*Sight* is the syntax highlighter chrome extension for those cases when the content of a source code file is displayed inline (on the browser) instead of downloaded.
-You can choose the theme on the options page and change the theme and language for the highlighter on a per file basis.
-Highlighting code based on Highlight.js.
+*Sight* is the Syntax Highlighter Chrome extension that makes reading code on the browser a joy.
+You can choose the theme and font on the options page. Line numbers added on v1.4.
+Highlighting code based on [Highlight.js](https://github.com/isagalaev/highlight.js).
 
-![Example Highlighting](https://dl.dropbox.com/u/13889166/readme_screeny.png)
+![Example Highlighting](https://chrome.google.com/extensions/img/epmaefhielclhlnmjofcdapbeepkmggh/1296014654.98/screenshot_big/19001)
 
 I want it! But how?
 ===================

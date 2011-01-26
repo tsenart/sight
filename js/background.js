@@ -36,7 +36,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
                             chrome.tabs.executeScript(stab.id, {file: 'js/highlight.js'}, function() {
                                 chrome.tabs.executeScript(stab.id, {file: 'js/languages/' + request.language + '.js'}, function() {
                                     chrome.tabs.executeScript(stab.id, {
-                                        code: _.sprintf("document.body.style.fontFamily = '%s'; var blk = document.querySelector('code'); blk.className = '%s'; blk.parentElement.className = 'sighted'; blk.innerHTML = blk.innerText; hljs.tabReplace = '    '; hljs.initHighlighting();document.body.style.display = 'block';", localStorage['font'], request.language)
+                                        code: _.sprintf("document.body.style.fontFamily = '%s'; var blk = document.querySelector('pre'); var content = hljs.escape(blk.innerText); blk.innerHTML = '<code class=\"%s\">' + content + '</code>'; hljs.highlightBlock(blk.firstChild, '    ', false); document.body.style.display = 'block';", localStorage['font'], request.language.replace(/\W.*/, ''))
                                     }, function() {
                                         chrome.tabs.executeScript(stab.id, {file: 'js/line-numbers.js'});
                                     });

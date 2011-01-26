@@ -434,12 +434,10 @@ var hljs = new function() {
 
     var text = blockText(block, useBR);
     var language = blockLanguage(block);
-    if (language == 'no-highlight')
+    if (!language || language == 'no-highlight' || language.match('/\s*/'))
         return;
-    if (language) {
-      var result = highlight(language, text);
-    }
-
+    else
+        var result = highlight(language, text);
     var class_name = block.className;
     var original = nodeStream(block);
     if (original.length) {
@@ -497,6 +495,7 @@ var hljs = new function() {
   this.initHighlightingOnLoad = initHighlightingOnLoad;
   this.highlightBlock = highlightBlock;
   this.initHighlighting = initHighlighting;
+  this.escape = escape
 
   // Common regexps
   this.IMMEDIATE_RE = '\\b|\\B'
