@@ -84,7 +84,7 @@ pre code {
 }
 
 pre.sighted code {
-  padding: 0.5em;
+  padding: 0.5em 0.5em 0.5em 0;
 }
 
 ul#line-numbers {
@@ -93,6 +93,7 @@ ul#line-numbers {
   list-style: none inside;
   z-index: -1;
   border-right: 1px solid #BBB;
+  -webkit-user-select: none;
 }
 
 ul#line-numbers li {
