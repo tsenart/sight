@@ -79,7 +79,9 @@ if (document.body && document.body.firstChild == pres[0] && document.querySelect
     if (extension && extension == 'json') {
         pres[0].innerHTML = JSON.stringify(JSON.parse(pres[0].innerHTML), null, 4);
     }
-
-    if (lang && lang != '')
+    
+    if (lang && lang != '') {
+        if (!!console) console.log('Language: ' + lang);
         chrome.extension.sendRequest({op: 'highlight', language: lang});
+    }
 }

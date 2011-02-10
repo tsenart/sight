@@ -1,8 +1,8 @@
+if(!localStorage['theme'] || localStorage['theme'] == '') localStorage['theme'] = 'sunburst';
+if(!localStorage['font'] || localStorage['font'] == '') localStorage['font'] = 'Inconsolata';
+
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-
-    if(!localStorage['theme'] || localStorage['theme'] == '') localStorage['theme'] = 'sunburst';
-    if(!localStorage['font'] || localStorage['font'] == '') localStorage['font'] = 'Inconsolata';
-
+    
     if (request.key && request.key != '') {
         chrome.tabs.getSelected(null, function(stab) {
             if (localStorage[stab.id] && localStorage[stab.id] != '') {
