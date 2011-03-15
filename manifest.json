@@ -1,6 +1,6 @@
 {
   "name": "Sight",
-  "version": "1.4.9",
+  "version": "1.5.0",
   "description": "The Syntax Highlighter for Chrome",
   "minimum_chrome_version": "8",
   "background_page": "background.html",
