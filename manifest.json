@@ -2,15 +2,18 @@
   "name": "Sight",
   "version": "1.4.9",
   "description": "The Syntax Highlighter for Chrome",
+  "minimum_chrome_version": "8",
   "background_page": "background.html",
   "options_page": "options.html",
   "permissions": ["tabs", "<all_urls>"],
   "page_action": {
-      "default_title": "Change language",
-      "default_icon": "images/icon19.png",
-      "default_popup": "popup.html"
+    "default_title": "Change language",
+    "default_icon": "images/icon19.png",
+    "default_popup": "popup.html"
   },
-  "icons": { "16": "images/icon16.png",
-             "48": "images/icon48.png",
-            "128": "images/icon128.png" }
-}  
+  "icons": { 
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  }
+}

@@ -1,12 +1,11 @@
-var pres = document.querySelectorAll("pre");
-RegExp.escape = function(str)
-{
-  var specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g"); // .*+?|()[]{}\
-  return str.replace(specials, "\\$&");
-};
+if (document.body && document.body.firstChild.tagName == 'PRE' && document.querySelectorAll('link').length == 0) {
+    
+    RegExp.escape = function(str)
+    {
+      var specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g"); // .*+?|()[]{}\
+      return str.replace(specials, "\\$&");
+    };
 
-if (document.body && document.body.firstChild == pres[0] && document.querySelectorAll('link').length == 0) {
-    chrome.extension.sendRequest({op: 'showPageAction'});
     var table = [
            "cpp", ["c", "h", "cpp", "c++", "hpp", "h++"],
            "csharp", ["cs"],
@@ -76,11 +75,12 @@ if (document.body && document.body.firstChild == pres[0] && document.querySelect
         var head = document.getElementsByTagName('head')[0];
     }
 
-    if (extension && extension == 'json') {
-        pres[0].innerHTML = JSON.stringify(JSON.parse(pres[0].innerHTML), null, 4);
-    }
-    
     if (lang && lang != '') {
+        if (lang == 'javascript') try {
+            document.body.firstChild.innerHTML = JSON.stringify(JSON.parse(document.body.firstChild.innerHTML), null, 4);
+        }
+        catch(e) {}
+
         if (!!console) console.log('Language: ' + lang);
         chrome.extension.sendRequest({op: 'highlight', language: lang});
     }

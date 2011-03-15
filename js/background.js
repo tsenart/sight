@@ -16,9 +16,6 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
         });
     }
 
-    if (request.op == 'showPageAction') {
-        chrome.pageAction.show(sender.tab.id);
-    }
     if (request.op == 'highlight')
     {
         chrome.tabs.getSelected(null, function(stab) {
@@ -27,6 +24,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
                 var tab_data = JSON.parse(localStorage[stab.id]);
             else
                 var tab_data = {language: ''}
+
+            chrome.pageAction.show(stab.id);
 
             chrome.tabs.executeScript(stab.id, {file: 'js/reset-styles.js'}, function() {
                 chrome.tabs.insertCSS(stab.id, {file: 'css/' + localStorage['theme'] + '.css'}, function() {
@@ -56,5 +55,5 @@ chrome.tabs.onRemoved.addListener(function(tabId) {
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if(changeInfo.status != 'complete') return;
-    chrome.tabs.executeScript(tab.id, {file: 'js/inject.js'});
+    chrome.tabs.executeScript(tabId, {file: 'js/inject.js'});
 });
