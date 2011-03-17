@@ -69,14 +69,12 @@
 }
 
 body {
-  position: relative;
   margin: 0;
   -webkit-font-smoothing: antialiased;
 }
 
 pre {
-  position: absolute;
-  left: 50px;
+  padding: 10px;
   word-wrap: normal !important;
   white-space: pre !important;
   font-family: inherit;
@@ -86,17 +84,14 @@ pre code {
   outline: none;
   cursor: text;
   display: block;
-  padding: 0.5em 0.5em 0.5em 0;
   font-family: inherit;
 }
 
-pre.sighted code {
-  padding: 0.5em;
-}
-
 ul#line-numbers {
-  position: absolute;
-  padding: 0.6em;
+  float: left;
+  display: none;
+  padding: 10px;
+  margin-right: 10px;
   list-style: none inside;
   z-index: -1;
   border-right: 1px solid #BBB;
