@@ -87,6 +87,7 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
         if (lang && prefs.lang.length > 0 && lang != prefs.lang) lang = prefs.lang;
 
         if (lang && lang != '') {
+            chrome.extension.sendRequest({lang: lang});
             if (!!console) console.log('Language: ' + lang);
 
             document.body.style.display = 'none';
@@ -95,7 +96,6 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
                 list[i].parentNode.removeChild(list[i]);
             load('css/reset.css');
             load('css/main.css');
-            chrome.extension.sendRequest({lang: lang});
             load('css/' + prefs.theme + '.css');
             chrome.extension.sendRequest({inject: 'js/highlight.js'}, function(xhr){
                 eval(xhr.responseText);

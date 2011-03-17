@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     document.getElementById('theme').addEventListener('change', function(e){
         var theme = e.target.options[e.target.selectedIndex].value;
-        _(document.querySelectorAll('link')).last().href = '/css/' + theme + '.css';
+        document.querySelector('link:last-of-type').href = '/css/' + theme + '.css';
         localStorage['theme'] = theme;
     });
 
@@ -21,17 +21,10 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage['show-line-numbers'] = show_line_numbers;
     });
 
-    var select = document.getElementById('theme');
-    _(select.options).detect(function(i) {
-        return i.value == localStorage['theme'];
-    }).selected = true;
-    select = document.getElementById('font');
-    _(select.options).detect(function(i) {
-        return i.value == localStorage['font'];
-    }).selected = true;
+    document.querySelector('#theme option[value="' + localStorage['theme'] + '"]').selected = true;
+    document.querySelector('#font option[value="' + localStorage['font'] + '"]').selected = true;
     document.querySelector('code').style.fontFamily = localStorage['font'];
-    document.querySelector('#line-numbers').style.fontFamily = localStorage['font'];
-    
+    document.querySelector('#line-numbers').style.fontFamily = localStorage['font'];    
     var show_line_numbers = eval(localStorage['show-line-numbers']);
     document.getElementById('show-line-numbers').checked = show_line_numbers;
     if (show_line_numbers) {

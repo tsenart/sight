@@ -19,6 +19,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     
     if (request.lang) {
         window.tab_langs[sender.tab.id] = request.lang;
+        chrome.pageAction.show(sender.tab.id);
     }
     
     if (request.preferences) {
@@ -37,9 +38,9 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     }
 });
 
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if(changeInfo.status != 'complete') return;
-    chrome.tabs.executeScript(tabId, {file: 'js/do_highlight.js'}, function(){
-        chrome.pageAction.show(tabId);
-    });
+    (!!window.tab_langs && !!window.tab_langs[tabId]) && (delete window.tab_langs[tabId]);
+    chrome.tabs.executeScript(tabId, {file: 'js/do_highlight.js'});
 });

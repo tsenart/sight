@@ -7,11 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
             chrome.tabs.executeScript(stab.id, {file: 'js/do_highlight.js'});
         });        
     });
-    var select = document.getElementById('language');
     chrome.tabs.getSelected(null, function(stab) {
-        _(select.options).detect(function(i) {
-            return i.value == bg_page.tab_langs[stab.id];
-        }).selected = true;
+        document.querySelector('#language option[value="' + bg_page.tab_langs[stab.id] + '"]').selected = true;
     });
 }, true);
 
