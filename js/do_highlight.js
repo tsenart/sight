@@ -75,21 +75,29 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
                 req.open("HEAD", document.location.href, false);
                 req.onreadystatechange = function() {
                     if (req.readyState == 4 && req.status >= 200 && req.status < 300) {
-                        var hdr = req.getResponseHeader('Content-Type');
-                        if (!hdr) return;
-                        hdr = hdr.toLowerCase().split(';').shift().split('/').pop();
-                        lang = table.filter(function(i){ return typeof i == 'string' && hdr.match(new RegExp(RegExp.escape(i))) }).pop();
-                        if (lang == 'no-highlight') {
+                        var content_type = req.getResponseHeader('Content-Type');
+                        if (content_type && content_type.length > 0) {
+                            content_type = content_type.toLowerCase().split(';').shift().split('/').pop();
                             lang = table.filter(function(i){
-                                return typeof i == 'object' && i.some(function(g) { return hdr.match(new RegExp(RegExp.escape(g))) })
-                            }).pop();
-                            if (lang != 'no-highlight') lang = lang[0];
+                                return typeof i == 'string' && content_type.match(new RegExp(RegExp.escape(i)))
+                            }).shift();
+                            console.log(lang)
+                            if (!lang) {
+                                lang = table.filter(function(i){
+                                    return typeof i == 'object' && i.some(function(g) {
+                                        return g == content_type.trim()
+                                    })
+                                }).shift();
+                                if (lang.length > 0) lang = table[table.indexOf(lang) - 1];
+                            }
+                            
                         }
                     }
                 };
                 req.send(null);
             }
         }
+        
         chrome.extension.sendRequest({lang: lang});
         document.body.style.display = 'none';
         var list = document.querySelectorAll('style, link');
