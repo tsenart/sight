@@ -24,7 +24,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     
     if (request.preferences) {
         sendResponse({
-            lang: window.tab_langs[sender.tab.id] || '',
+            lang: window.tab_langs[sender.tab.id] || 'no-highlight',
             font: localStorage['font'] || 'Inconsolata',
             theme: localStorage['theme'] || 'sunburst',
             'show-line-numbers': localStorage['show-line-numbers'] || 'true'
