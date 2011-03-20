@@ -89,7 +89,6 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
                                     })
                                 }).shift();
                                 if (lang && lang.length > 0) lang = table[table.indexOf(lang) - 1];
-                                else lang = 'no-highlight';
                             }
                             
                         }
@@ -99,6 +98,7 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
             }
         }
         
+        if (!lang) lang = 'no-highlight';
         chrome.extension.sendRequest({lang: lang});
         document.body.style.display = 'none';
         var list = document.querySelectorAll('style, link');
