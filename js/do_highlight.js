@@ -25,7 +25,7 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
         var prefs = response;
         var lang = prefs.lang;
 
-        if (lang == 'no-highlight') {
+        if (!lang) {
             var table = [
                    "cpp", ["c", "h", "cpp", "c++", "hpp", "h++"],
                    "csharp", ["cs"],
@@ -39,7 +39,8 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
                    "php", ["php", "phtml", "phps"],
                    "python", ["py"],
                    "ruby", ["rakefile", "gemfile", "rb"],
-                   "html-xml", ["htm", "html", "xhtml", "xml", "atom", "rss"],
+                   "html", ["htm", "html", "xhtml"],
+                   "xml", ["xml", "atom", "rss"],
                    "sql", ["sql"],
                    "delphi", ["pas"],
                    "bash", ["sh", "bash", "zsh", "shell"],
@@ -60,7 +61,7 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
                         break;
                     }
             }
-            if (lang == 'no-highlight') {
+            if (!lang) {
                 var url = document.location.href.split('/').pop().toLowerCase();
                 for (var e = table.length - 1; e >= 0; e -= 2)
                     if (table[e].some(function(g) { return url.match(new RegExp(RegExp.escape('.' + g))) })) {
@@ -70,7 +71,7 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
 
             }
 
-            if (lang == 'no-highlight') {
+            if (!lang) {
                 var req = new XMLHttpRequest();
                 req.open("HEAD", document.location.href, false);
                 req.onreadystatechange = function() {
@@ -81,14 +82,14 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
                             lang = table.filter(function(i){
                                 return typeof i == 'string' && content_type.match(new RegExp(RegExp.escape(i)))
                             }).shift();
-                            console.log(lang)
                             if (!lang) {
                                 lang = table.filter(function(i){
                                     return typeof i == 'object' && i.some(function(g) {
                                         return g == content_type.trim()
                                     })
                                 }).shift();
-                                if (lang.length > 0) lang = table[table.indexOf(lang) - 1];
+                                if (lang && lang.length > 0) lang = table[table.indexOf(lang) - 1];
+                                else lang = 'no-highlight';
                             }
                             
                         }
@@ -112,13 +113,23 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
                 eval(xhr2.responseText);
                 document.body.style.fontFamily = prefs.font;
                 var code = document.querySelector('pre');
+                var original = document.querySelector('#original');
+                if (!original) {
+                    original = document.createElement('div');
+                    original.setAttribute('id', 'original');
+                    original.style.display = 'none';
+                    original.innerHTML = code.innerHTML;
+                    document.body.appendChild(original);
+                }
+                code.innerHTML = original.innerHTML;
                 if (lang == 'javascript') try {
-                    code.innerHTML = JSON.stringify(JSON.parse(code.innerText), null, 4);
+                    code.innerHTML = JSON.stringify(JSON.parse(code.innerHTML), null, 4);
                 } catch(e) {}
-                code.innerHTML = '<code class="' + lang + '">' + hljs.escape(code.innerText) + '</code>';
+                code.innerHTML = '<code class="' + lang + '">' + code.innerHTML + '</code>';
                 hljs.highlightBlock(code.firstChild, '    ', false);
                 document.body.style.display = 'block';
                 !isSighted && (document.body.className += 'sighted');
+                
                 var line_numbers = document.getElementById('line-numbers');
                 !!line_numbers && line_numbers.parentNode.removeChild(line_numbers);
                 var lineNumber = function(number, max) {
