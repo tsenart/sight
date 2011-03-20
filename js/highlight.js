@@ -14,7 +14,7 @@ var hljs = new function() {
   /* Utility functions */
 
   function escape(value) {
-    return value.replace(/&/gm, '&amp;').replace(/</gm, '&lt;');
+    return value.replace(/&/gm, '&amp;').replace(/</gm, '&lt;').replace(/>/gm, '&gt;');
   }
 
   function langRe(language, value, global) {
@@ -40,8 +40,7 @@ var hljs = new function() {
         if (ignoreNewLines)
           chunk = chunk.replace(/\n/g, '');
         result += chunk;
-      } else if (block.childNodes[i].nodeName == 'BR')
-        result += '\n';
+      }
       else
         result += blockText(block.childNodes[i]);
     // Thank you, MSIE...
