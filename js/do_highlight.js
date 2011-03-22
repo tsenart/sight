@@ -122,7 +122,7 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
                     document.body.appendChild(original);
                 }
                 code.innerHTML = original.innerHTML;
-                (lang == 'javascript') && (code.innerHTML = js_beautify(code.innerHTML));
+                (lang == 'javascript') && (code.textContent = js_beautify(code.textContent, {preserve_newlines: false}));
                 code.innerHTML = '<code class="' + lang + '">' + code.innerHTML + '</code>';
                 hljs.highlightBlock(code.firstChild, '    ', false);
                 document.body.style.display = 'block';
