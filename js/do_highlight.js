@@ -1,4 +1,4 @@
-var isSighted = !!document.body.className.match(/sighted/);
+var isSighted = document.body.classList.contains('sighted');
 if ((document.body && document.body.firstChild.tagName == 'PRE' && document.querySelectorAll('link').length == 0) || isSighted)
 (function() {
     
@@ -52,7 +52,8 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
                    "smalltalk", ["st", "sm", "sll"]
             ];
         
-            var extension = document.location.href.match(/\.(\w+)$/)
+            var extension = document.location.href.match(/\.(\w+)$/) ||
+                            document.location.href.match(/format=(\w+)/);
             if (extension && extension.length > 0) {
                 extension = extension[1]
                 for (var e = table.length - 1; e >= 0; e -= 2)
@@ -64,9 +65,12 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
             if (!lang) {
                 var url = document.location.href.split('/').pop().toLowerCase();
                 for (var e = table.length - 1; e >= 0; e -= 2)
-                    if (table[e].some(function(g) { return url.match(new RegExp(RegExp.escape('.' + g))) })) {
+                    if (table[e].some(function(g) {
+                        return url.match(new RegExp(RegExp.escape('.' + g) + '\\W'))
+                    })) {
                         lang = table[e - 1];
-                        extension = table[e].filter(function(g) { return url.match(new RegExp(RegExp.escape('.' + g))) })[0]
+                        extension = table[e].filter(function(g) { return url.match(new RegExp(RegExp.escape('.' + g) + '\\W')) })[0]
+                        break;
                     }
 
             }
@@ -130,21 +134,13 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
                 
                 var line_numbers = document.getElementById('line-numbers');
                 !!line_numbers && line_numbers.parentNode.removeChild(line_numbers);
-                var lineNumber = function(number, max) {
-                    var number_s = number.toString();
-                    var len = number_s.length;
-                    for (var i = 0; i < (max.toString().length - len); i++)
-                        number_s = '0' + number_s;
-                    return number_s;
-                };
-
                 var nlines = code.innerText.split(/\n/).length;
                 line_numbers = document.createElement('ul');
                 line_numbers.id = 'line-numbers';
                 for(i = 1; i <= nlines; ++i) {
                     var li = document.createElement('li')
                     li.id = 'line-' + i;
-                    li.innerText = lineNumber(i, nlines);
+                    li.innerText = i;
                     line_numbers.appendChild(li);
                 }
                 document.body.insertBefore(line_numbers, code);
