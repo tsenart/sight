@@ -28,7 +28,7 @@ if ((document.body && document.body.firstChild.tagName == 'PRE' && document.quer
         if (!lang) {
             var table = [
                    "cpp", ["c", "h", "cpp", "c++", "hpp", "h++"],
-                   "csharp", ["cs"],
+                   "cs", ["cs"],
                    "css", ["css"],
                    "desktop", ["desktop"],
                    "diff", ["diff", "patch"],
