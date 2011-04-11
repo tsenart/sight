@@ -3,20 +3,20 @@ body {
   color: #0e0e0e;
   margin: 0;
   padding: 0;
-}
-
-body > div {
   width: 165px;
 }
 
 p {
+    width: 100%;
+    text-align: left;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+body > p {
   position: absolute
-  width: 100%;
-  text-align: left;
-  font-size: 0.9em;
   top: 0;
   left: 0;
-  margin-bottom: 5px;
 }
 
 #close_popup {

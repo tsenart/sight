@@ -1,45 +1,44 @@
 document.addEventListener("DOMContentLoaded", function() {
-    if(!localStorage['theme'] || localStorage['theme'] == '') localStorage['theme'] = 'sunburst';
-    if(!localStorage['font'] || localStorage['font'] == '') localStorage['font'] = 'Inconsolata';
-    
     document.getElementById('theme').addEventListener('change', function(e){
         var theme = e.target.options[e.target.selectedIndex].value;
         document.querySelector('link:last-of-type').href = '/css/' + theme + '.css';
-        localStorage['theme'] = theme;
+        localStorage.theme = theme;
     });
 
     document.getElementById('font').addEventListener('change', function(e){
         var font = e.target.options[e.target.selectedIndex].value;
         document.querySelector('code').style.fontFamily = font;
         document.querySelector('#line-numbers').style.fontFamily = font;
-        localStorage['font'] = font;
+        localStorage.font = font;
     });
 
     document.getElementById('show-line-numbers').addEventListener('change', function(e){
-        var show_line_numbers = e.target.checked;
-        document.getElementById('line-numbers').style.display = (show_line_numbers ? 'block' : 'none');
-        localStorage['show-line-numbers'] = show_line_numbers;
+        var line_numbers = e.target.checked;
+        document.getElementById('line-numbers').style.display = line_numbers ? 'block' : 'none';
+        localStorage.line_numbers = line_numbers;
     });
-
-    document.querySelector('#theme option[value="' + localStorage['theme'] + '"]').selected = true;
-    document.querySelector('#font option[value="' + localStorage['font'] + '"]').selected = true;
-    document.querySelector('code').style.fontFamily = localStorage['font'];
-    document.querySelector('#line-numbers').style.fontFamily = localStorage['font'];    
-    var show_line_numbers = eval(localStorage['show-line-numbers']);
-    document.getElementById('show-line-numbers').checked = show_line_numbers;
-    if (show_line_numbers) {
-        document.getElementById('line-numbers').style.display = 'block';
-    }
-    else {
-        document.getElementById('line-numbers').style.display = 'none';
-    }
     
-    var el = document.createElement('link');
-    el.href = 'css/' + localStorage['theme'] + '.css';
-    el.type = "text/css";
-    el.rel = "stylesheet";
-    document.head.appendChild(el);
-    document.getElementsByTagName('code')[0].style.fontFamily = localStorage['font'];
+    localStorage.theme = localStorage.theme || 'sunburst';
+    localStorage.font = localStorage.font || 'Inconsolata';
+    localStorage.line_numbers = localStorage.line_numbers || true;
+    
+    loadCSS('css/' + localStorage.theme + '.css');
+    document.querySelector('#theme option[value="' + localStorage.theme + '"]').selected = true;
+    document.querySelector('#font option[value="' + localStorage.font + '"]').selected = true;
+    document.querySelector('code').style.fontFamily = localStorage.font;
+    document.querySelector('#line-numbers').style.fontFamily = localStorage.font;
+    document.querySelector('#line-numbers').style.display = eval(localStorage.line_numbers) ? 'block' : 'display';
+    document.querySelector('#show-line-numbers').checked = eval(localStorage.line_numbers);
+    document.querySelector('code').style.fontFamily = localStorage.font;
     hljs.initHighlighting();
-}, true);
+});
+
+function loadCSS(uri) {
+    var link = document.createElement('link');
+    link.setAttribute('type', 'text/css');
+    link.setAttribute('rel', 'stylesheet');
+    link.setAttribute('media', 'screen');
+    link.setAttribute('href', chrome.extension.getURL(uri));
+    document.head && document.head.appendChild(link);
+};
 
