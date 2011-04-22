@@ -47,7 +47,7 @@ if (!isNormalPage || isSighted) chrome.extension.sendRequest({preferences: true}
             'block': 'none',
             '': 'none',
             'none': 'block'
-        }[line_numbers.style.display]);
+        }[window.getComputedStyle(line_numbers).display]);
     }
 
 
@@ -166,7 +166,8 @@ if (!isNormalPage || isSighted) chrome.extension.sendRequest({preferences: true}
             hljs.highlightBlock(code.firstChild, '    ', false);
 
             if (!isSighted) {
-                !!eval(prefs.line_numbers) && activateLineNumbers();
+                activateLineNumbers();
+                !!eval(prefs.line_numbers) && toggleLineNumbers();
                 document.onkeyup = handleKeyboardShortcuts;
             }
 
