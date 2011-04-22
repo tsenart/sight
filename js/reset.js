@@ -8,4 +8,5 @@ if (!!pre) {
 document.body.removeAttribute('style'); document.body.removeAttribute('class');
 for(var i = 0; i < els.length; ++i)
     els[i].parentNode.removeChild(els[i]);
+document.onkeyup = null;
 document.body.style.display = 'block';

@@ -1,4 +1,4 @@
-var loadJs = function(uri, cb) {    
+var loadJs = function(uri, cb) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if(xhr.readyState < 4) return;
@@ -13,7 +13,6 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 
     if (request.lang !== undefined) {
         window.tab_langs[sender.tab.id] = request.lang;
-        chrome.pageAction.show(sender.tab.id);
     }
 
     !!request.preferences && sendResponse({
@@ -32,5 +31,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if(changeInfo.status != 'complete') return;
     (!!window.tab_langs && !!window.tab_langs[tabId]) && (delete window.tab_langs[tabId]);
-    chrome.tabs.executeScript(tabId, {file: 'js/content_script.js'});
+    chrome.tabs.executeScript(tabId, {file: 'js/content_script.js'}, function(){
+        chrome.pageAction.show(tabId);
+    });
 });

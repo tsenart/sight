@@ -17,17 +17,17 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('line-numbers').style.display = line_numbers ? 'block' : 'none';
         localStorage.line_numbers = line_numbers;
     });
-    
+
     localStorage.theme = localStorage.theme || 'sunburst';
     localStorage.font = localStorage.font || 'Inconsolata';
     localStorage.line_numbers = localStorage.line_numbers || true;
-    
+
     loadCSS('css/' + localStorage.theme + '.css');
     document.querySelector('#theme option[value="' + localStorage.theme + '"]').selected = true;
     document.querySelector('#font option[value="' + localStorage.font + '"]').selected = true;
     document.querySelector('code').style.fontFamily = localStorage.font;
     document.querySelector('#line-numbers').style.fontFamily = localStorage.font;
-    document.querySelector('#line-numbers').style.display = eval(localStorage.line_numbers) ? 'block' : 'display';
+    document.querySelector('#line-numbers').style.display = eval(localStorage.line_numbers) ? 'block' : 'none';
     document.querySelector('#show-line-numbers').checked = eval(localStorage.line_numbers);
     document.querySelector('code').style.fontFamily = localStorage.font;
     hljs.initHighlighting();

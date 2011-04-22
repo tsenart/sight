@@ -12,6 +12,45 @@ if (!isNormalPage || isSighted) chrome.extension.sendRequest({preferences: true}
       return str.replace(specials, "\\$&");
     };
 
+    function handleKeyboardShortcuts(e) {
+        if (e.keyCode == 76) toggleLineNumbers();
+        else if (e.keyCode == 71) lineNumbersJump();
+    }
+
+    function lineNumbersJump(e) {
+        var line_numbers = document.querySelector('#line-numbers');
+        if (!line_numbers || getComputedStyle(line_numbers).display == 'none') return;
+        var line = prompt("Go to line number...", "");
+        var el = document.querySelector('#line-' + line);
+        el && el.scrollIntoViewIfNeeded();
+    }
+
+    function activateLineNumbers() { // Call one time only!
+        var line_numbers = document.querySelector('#line-numbers');
+        line_numbers && line_numbers.parentNode.removeChild(line_numbers);
+        var code = document.querySelector('pre');
+        var nlines = code.innerText.split(/\n/).length;
+        line_numbers = document.createElement('ul');
+        line_numbers.setAttribute('id', 'line-numbers');
+        for(i = 1; i <= nlines; ++i) {
+            var li = document.createElement('li')
+            li.setAttribute('id', 'line-' + i);
+            li.textContent = i;
+            line_numbers.appendChild(li);
+        }
+        document.body.insertBefore(line_numbers, code);
+    }
+
+    function toggleLineNumbers() {
+        var line_numbers = document.querySelector('#line-numbers');
+        !!line_numbers && line_numbers.style.setProperty('display', {
+            'block': 'none',
+            '': 'none',
+            'none': 'block'
+        }[line_numbers.style.display]);
+    }
+
+
     if (!lang) {
         var table = [
                "cpp", ["c", "h", "cpp", "c++", "hpp", "h++"],
@@ -49,6 +88,7 @@ if (!isNormalPage || isSighted) chrome.extension.sendRequest({preferences: true}
                     break;
                 }
         }
+
         if (!lang) {
             var url = document.location.href.split('/').pop().toLowerCase();
             for (var e = table.length - 1; e >= 0; e -= 2)
@@ -81,7 +121,7 @@ if (!isNormalPage || isSighted) chrome.extension.sendRequest({preferences: true}
                             }).shift();
                             if (lang && lang.length > 0) lang = table[table.indexOf(lang) - 1];
                         }
-                        
+
                     }
                 }
             };
@@ -123,39 +163,12 @@ if (!isNormalPage || isSighted) chrome.extension.sendRequest({preferences: true}
             code.classList.add(lang);
             hljs.highlightBlock(code.firstChild, '    ', false);
 
-            var toggleLineNumbers = function() {
-                var line_numbers = document.querySelector('#line-numbers');
-                if(!line_numbers) {
-                    var code = document.querySelector('pre');
-                    var nlines = code.innerText.split(/\n/).length;
-                    line_numbers = document.createElement('ul');
-                    line_numbers.setAttribute('id', 'line-numbers');
-                    for(i = 1; i <= nlines; ++i) {
-                        var li = document.createElement('li')
-                        li.setAttribute('id', 'line-' + i);
-                        li.textContent = i;
-                        line_numbers.appendChild(li);
-                    }
-                    document.body.insertBefore(line_numbers, code);
-                }
-                line_numbers.style.display = {'block':'none','none':'block'}[String(window.getComputedStyle(line_numbers).display)];
-            };
-
-            if (!isSighted && eval(prefs.line_numbers)) {
-                toggleLineNumbers();
-                document.addEventListener("keyup", function(e) {
-                    var line_numbers = document.querySelector('#line-numbers');
-                    if (e.keyCode == 71 && window.getComputedStyle(line_numbers).display == 'block') {
-                        var line = prompt("Go to line number...", "");
-                        var el = document.querySelector('#line-' + line);
-                        el && el.scrollIntoViewIfNeeded();
-                    }
-                    if (e.keyCode == 76)
-                        toggleLineNumbers();
-                });
-
+            if (!isSighted) {
+                !!eval(prefs.line_numbers) && activateLineNumbers();
+                document.onkeyup = handleKeyboardShortcuts;
             }
-            !isSighted && document.body.classList.add('sighted');
+
+            document.body.classList.add('sighted');
             document.body.style.display = 'block';
         });
     });

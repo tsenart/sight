@@ -89,7 +89,6 @@ pre code {
 
 ul#line-numbers {
   float: left;
-  display: none;
   padding: 10px;
   margin-right: 10px;
   list-style: none inside;

@@ -11,7 +11,7 @@
     "default_icon": "images/icon19.png",
     "default_popup": "popup.html"
   },
-  "icons": { 
+  "icons": {
     "16": "images/icon16.png",
     "48": "images/icon48.png",
     "128": "images/icon128.png"
