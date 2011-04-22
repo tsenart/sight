@@ -78,10 +78,11 @@ if (!isNormalPage || isSighted) chrome.extension.sendRequest({preferences: true}
                "smalltalk", ["st", "sm", "sll"]
         ];
 
-        var extension = document.location.href.match(/\.(\w+)$/) ||
-                        document.location.href.match(/format=(\w+)/);
+        var base = document.location.href.split('/').pop().toLowerCase();
+        var extension = base.match(/\w+\.(\w+)/) || base.match(/format=(\w+)/);
+
         if (extension && extension.length > 0) {
-            extension = extension[1]
+            extension = extension.pop()
             for (var e = table.length - 1; e >= 0; e -= 2)
                 if (table[e].some(function(g) { return extension == g })) {
                     lang = table[e - 1];
@@ -90,13 +91,14 @@ if (!isNormalPage || isSighted) chrome.extension.sendRequest({preferences: true}
         }
 
         if (!lang) {
-            var url = document.location.href.split('/').pop().toLowerCase();
             for (var e = table.length - 1; e >= 0; e -= 2)
                 if (table[e].some(function(g) {
-                    return url.match(new RegExp(RegExp.escape('.' + g) + '\\W'))
+                    return base.match(new RegExp(RegExp.escape('.' + g) + '\\W'))
                 })) {
                     lang = table[e - 1];
-                    extension = table[e].filter(function(g) { return url.match(new RegExp(RegExp.escape('.' + g) + '\\W')) })[0]
+                    extension = table[e].filter(function(g) {
+                        return base.match(new RegExp(RegExp.escape('.' + g) + '\\W'))
+                    })[0];
                     break;
                 }
 
