@@ -75,6 +75,7 @@ if (!isNormalPage || isSighted) chrome.extension.sendRequest({preferences: true}
                "scala", ["scala", "scl", "sca", "scb"],
                "avrasm", ["asm", "s"],
                "lua", ["lua"],
+               "yaml", ["yaml"],
                "smalltalk", ["st", "sm", "sll"]
         ];
 
