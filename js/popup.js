@@ -16,7 +16,3 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelector('#language option[value="' + (bg_page.tab_langs[stab.id] || '') + '"]').selected = true;
     });
 });
-
-chrome.tabs.onSelectionChanged.addListener(function(tabId, selectInfo) {
-    window.close();
-});
