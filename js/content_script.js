@@ -79,7 +79,7 @@ if (!isNormalPage || isSighted) chrome.extension.sendRequest({preferences: true}
                "smalltalk", ["st", "sm", "sll"]
         ];
 
-        var base = document.location.href.split('/').pop().toLowerCase();
+        var base = document.location.href.split('?').shift().split('/').pop().toLowerCase();
         var extension = base.match(/\w+\.(\w+)/) || base.match(/format=(\w+)/);
 
         if (extension && extension.length > 0) {
