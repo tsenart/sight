@@ -12,6 +12,11 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage.font = font;
     });
 
+    document.getElementById('javascript_tabstop').addEventListener('change', function(e){
+        var javascriptTabstop = e.target.options[e.target.selectedIndex].value;
+        localStorage.javascript_tabstop = javascriptTabstop;
+    });
+
     document.getElementById('show-line-numbers').addEventListener('change', function(e){
         var line_numbers = e.target.checked;
         document.getElementById('line-numbers').style.display = line_numbers ? 'block' : 'none';
@@ -21,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
     localStorage.theme = localStorage.theme || 'sunburst';
     localStorage.font = localStorage.font || 'Inconsolata';
     localStorage.line_numbers = localStorage.line_numbers || true;
+    localStorage.javascript_tabstop = localStorage.javascript_tabstop || '4';
 
     loadCSS('css/' + localStorage.theme + '.css');
     document.querySelector('#theme option[value="' + localStorage.theme + '"]').selected = true;
@@ -30,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelector('#line-numbers').style.display = eval(localStorage.line_numbers) ? 'block' : 'none';
     document.querySelector('#show-line-numbers').checked = eval(localStorage.line_numbers);
     document.querySelector('code').style.fontFamily = localStorage.font;
+    document.querySelector('#javascript_tabstop option[value="' + localStorage.javascript_tabstop + '"]').selected = true;
     hljs.initHighlighting();
 });
 

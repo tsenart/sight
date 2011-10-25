@@ -161,7 +161,7 @@ if (!isNormalPage || isSighted) chrome.extension.sendRequest({preferences: true}
             }
             code.innerHTML = original.innerHTML;
             if(lang == 'javascript')
-                code.textContent = js_beautify(code.textContent, {preserve_newlines: true});
+                code.textContent = js_beautify(code.textContent, {preserve_newlines: true, indent_size: prefs.javascript_tabstop});
             code.innerHTML = '<code>' + code.innerHTML + '</code>';
             code.classList.add(lang);
             hljs.highlightBlock(code.firstChild, '    ', false);

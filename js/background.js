@@ -20,7 +20,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
         lang: window.tab_langs[sender.tab.id],
         font: localStorage.font || 'Inconsolata',
         theme: localStorage.theme || 'sunburst',
-        line_numbers: localStorage.line_numbers || true
+        line_numbers: localStorage.line_numbers || true,
+        javascript_tabstop: localStorage.javascript_tabstop || '4'
     });
 
     !!request.inject && loadJs(request.inject, function(xhr) {
