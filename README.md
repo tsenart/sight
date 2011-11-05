@@ -10,4 +10,4 @@ I want it! But how?
 ===================
 You can now [install it](http://chrome.google.com/extensions/detail/epmaefhielclhlnmjofcdapbeepkmggh) on the Google Chrome Gallery.
 
-After installing just access any github raw url to [try it out](http://github.com/tsenart/sight/raw/master/js/inject.js).
+After installing just access any github raw url to [try it out](http://github.com/tsenart/sight/raw/master/js/content_script.js).
