@@ -5,7 +5,7 @@
   "minimum_chrome_version": "8",
   "background_page": "background.html",
   "options_page": "options.html",
-  "permissions": ["tabs", "<all_urls>", "chrome-extension://*/options.html"],
+  "permissions": ["tabs", "<all_urls>"],
   "page_action": {
     "default_title": "Change language",
     "default_icon": "images/icon19.png",
