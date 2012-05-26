@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <script src="/js/highlight.js"></script>
+    <script src="/js/lib/highlight.js"></script>
     <script src="/js/languages/ruby.js"></script>
     <script src="/js/options.js"></script>
     <link rel="stylesheet" href="/css/reset.css" type="text/css" media="screen">
@@ -39,36 +39,19 @@
         <option value="ProggyClean">Proggy Clean</option>
         <option value="Consolas">Consolas</option>
       </select>
-      <h3>Show line numbers? <input type="checkbox" id="show-line-numbers" /></h3>
-      <div class="clear"></div>
-      <ul id="line-numbers"><li>01</li><li>02</li><li>03</li><li>04</li><li>05</li><li>06</li><li>07</li><li>08</li><li>09</li><li>10</li><li>11</li><li>12</li><li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li><li>19</li><li>20</li><li>21</li><li>22</li><li>23</li><li>24</li></ul>
-      <pre>
-        <code class="ruby">
-module Pluma
-  module Models
-    def self.included(base)
-      # base.send :include, InstanceMethods
-      base.extend ClassMethods
-    end
+      <pre class="ruby">
+class Dog &lt; Animal
+  attr_reader :name
 
-    module ClassMethods
-      def has_permalink
-        before_save do |obj|
-          return if obj.permalink.to_s == obj.name.parameterize
-          obj.permalink = obj.name.parameterize
-          last_num = obj.class.select(:permalink).where([&quot;permalink like ?&quot;, obj.permalink + &#x27;%&#x27;])
-          last_num = last_num.order(&#x27;permalink desc&#x27;).first.try :permalink
-          unless last_num.blank?
-            last_num = last_num.match(/.*\-(\d+)$/)
-            last_num = last_num.blank? ? 1 : last_num[1].to_i + 1
-            obj.permalink += &quot;-#{last_num}&quot;
-          end
-        end
-      end
-    end
+  def initialize(name)
+    @name = name
+    super
+  end
+
+  def bark(loudness)
+    puts "Ouff Ouff " * loudness.to_i
   end
 end
-        </code>
       </pre>
     </div>
   </body>

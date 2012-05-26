@@ -2,70 +2,70 @@
   font-family: 'Inconsolata';
   font-style: normal;
   font-weight: normal;
-  src: url('chrome-extension://epmaefhielclhlnmjofcdapbeepkmggh/css/Inconsolata.ttf');
+  src: url(chrome-extension://__MSG_@@extension_id__/css/Inconsolata.ttf);
 }
 
 @font-face {
   font-family: 'Courier New';
   font-style: normal;
   font-weight: normal;
-  src: url('chrome-extension://epmaefhielclhlnmjofcdapbeepkmggh/css/CourierNew.ttf');
+  src: url(chrome-extension://__MSG_@@extension_id__/css/CourierNew.ttf);
 }
 
 @font-face {
   font-family: 'Monaco';
   font-style: normal;
   font-weight: normal;
-  src: url('chrome-extension://epmaefhielclhlnmjofcdapbeepkmggh/css/Monaco.ttf');
+  src: url(chrome-extension://__MSG_@@extension_id__/css/Monaco.ttf);
 }
 
 @font-face {
   font-family: 'Anonymous Pro';
   font-style: normal;
   font-weight: normal;
-  src: url('chrome-extension://epmaefhielclhlnmjofcdapbeepkmggh/css/AnonymousPro.ttf');
+  src: url(chrome-extension://__MSG_@@extension_id__/css/AnonymousPro.ttf);
 }
 
 @font-face {
   font-family: 'DejaVuSansMono';
   font-style: normal;
   font-weight: normal;
-  src: url('chrome-extension://epmaefhielclhlnmjofcdapbeepkmggh/css/DejaVuSansMono.ttf');
+  src: url(chrome-extension://__MSG_@@extension_id__/css/DejaVuSansMono.ttf);
 }
 
 @font-face {
   font-family: 'DroidSansMono';
   font-style: normal;
   font-weight: normal;
-  src: url('chrome-extension://epmaefhielclhlnmjofcdapbeepkmggh/css/DroidSansMono.ttf');
+  src: url(chrome-extension://__MSG_@@extension_id__/css/DroidSansMono.ttf);
 }
 
 @font-face {
   font-family: 'Monofur';
   font-style: normal;
   font-weight: normal;
-  src: url('chrome-extension://epmaefhielclhlnmjofcdapbeepkmggh/css/Monofur.ttf');
+  src: url('Monofur.ttf');
 }
 
 @font-face {
   font-family: 'ProFont';
   font-style: normal;
   font-weight: normal;
-  src: url('chrome-extension://epmaefhielclhlnmjofcdapbeepkmggh/css/ProFont.ttf');
+  src: url(chrome-extension://__MSG_@@extension_id__/css/ProFont.ttf);
 }
 
 @font-face {
   font-family: 'ProggyClean';
   font-style: normal;
   font-weight: normal;
-  src: url('chrome-extension://epmaefhielclhlnmjofcdapbeepkmggh/css/ProggyClean.ttf');
+  src: url(chrome-extension://__MSG_@@extension_id__/css/ProggyClean.ttf);
 }
 
 @font-face {
   font-family: 'Consolas';
   font-style: normal;
   font-weight: normal;
-  src: url('chrome-extension://epmaefhielclhlnmjofcdapbeepkmggh/css/Consolas.ttf');
+  src: url(chrome-extension://__MSG_@@extension_id__/css/Consolas.ttf);
 }
 
 body {
@@ -78,30 +78,7 @@ pre {
   word-wrap: normal !important;
   white-space: pre !important;
   font-family: inherit;
-}
-
-pre code {
   outline: none;
   cursor: text;
   display: block;
-  font-family: inherit;
-}
-
-ul#line-numbers {
-  float: left;
-  display: none;
-  padding: 10px;
-  margin-right: 10px;
-  list-style: none inside;
-  z-index: -1;
-  border-right: 1px solid #BBB;
-  -webkit-user-select: none;
-}
-
-ul#line-numbers li {
-  text-align: center;
-}
-
-.clear {
-  clear: both;
 }
