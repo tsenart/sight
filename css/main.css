@@ -44,7 +44,7 @@
   font-family: 'Monofur';
   font-style: normal;
   font-weight: normal;
-  src: url('Monofur.ttf');
+  src: url(chrome-extension://__MSG_@@extension_id__/css/Monofur.ttf);
 }
 
 @font-face {
