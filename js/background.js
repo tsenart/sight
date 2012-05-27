@@ -68,18 +68,19 @@
     }
   }
 
-  function getFilenameOrExtensionFromUrl(url) {
-    var identifiers = url.split('/').pop().split('?').shift().toLowerCase().split('.');
-    return (identifiers[1] || identifiers[0]).trim();
+  function getFilenamePartsFromUrl(url) {
+    return url.split('/').pop().split('?').shift().toLowerCase().split('.');
   }
 
-  function detectLanguage(identifier) {
+  function detectLanguage(identifiers) {
     var language, index, length;
 
     for (language in LANG_MAP) {
       length = LANG_MAP[language].length;
       for (index = 0; index < length; index++) {
-        if (LANG_MAP[language][index] === identifier) {
+        if (LANG_MAP[language].some(function(token) {
+          return identifiers.indexOf(token) > -1;
+        })) {
           return language;
         }
       }
@@ -118,13 +119,10 @@
   });
 
   chrome.webRequest.onCompleted.addListener(function(details) {
-    var identifier, contentType, language, font, theme;
-
-    contentType = getContentTypeFromHeaders(details.responseHeaders);
+    var language, contentType = getContentTypeFromHeaders(details.responseHeaders);
 
     if (contentType !== null && contentType !== 'html') {
-      identifier = getFilenameOrExtensionFromUrl(details.url) || contentType;
-      language = detectLanguage(identifier);
+      language = detectLanguage(getFilenamePartsFromUrl(details.url).concat(contentType));
 
       if (language) {
         chrome.tabs.insertCSS(details.tabId, { file: 'css/reset.css' });
