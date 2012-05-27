@@ -1,17 +1,21 @@
-﻿/*
-
-Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
-
+/*
+Monokai style - ported by Luigi Maselli - http://grigio.org
 */
 
 body, pre {
-  background: #444;
+  background: #272822;
 }
 
 pre {
   display: block; padding: 0.5em;
 }
 
+pre .params .identifier .keymethods {
+  color: #FD971F;
+}
+
+pre .tag,
+pre .tag .title,
 pre .keyword,
 pre .literal,
 pre .change,
@@ -19,25 +23,34 @@ pre .winutils,
 pre .flow,
 pre .lisp .title,
 pre .tex .special {
-  color: white;
+  color: #F92672;
 }
 
-pre,
-pre .ruby .subst {
+pre {
   color: #DDD;
 }
 
+pre .constant {
+  color: #66D9EF;
+}
+
+pre .class .title {
+  color: white;
+}
+
+pre .attribute,
+pre .symbol,
+pre .value,
+pre .regexp {
+  color: #BF79DB;
+}
+
+pre .tag .value,
 pre .string,
+pre .ruby .subst,
 pre .title,
 pre .haskell .type,
-pre .ini .title,
-pre .tag .value,
-pre .css .rules .value,
 pre .preprocessor,
-pre .ruby .symbol,
-pre .ruby .symbol .string,
-pre .ruby .symbol .keyword,
-pre .ruby .symbol .keymethods,
 pre .ruby .instancevar,
 pre .ruby .class .parent,
 pre .built_in,
@@ -59,7 +72,7 @@ pre .apache .tag,
 pre .apache .cbracket,
 pre .tex .command,
 pre .input_number {
-  color: #D88;
+  color: #A6E22E;
 }
 
 pre .comment,
@@ -72,14 +85,14 @@ pre .deletion,
 pre .shebang,
 pre .apache .sqbracket,
 pre .tex .formula {
-  color: #777;
+  color: #75715E;
 }
 
 pre .keyword,
 pre .literal,
-pre .title,
 pre .css .id,
 pre .phpdoc,
+pre .title,
 pre .haskell .type,
 pre .vbscript .built_in,
 pre .sql .aggregate,

@@ -3,6 +3,10 @@
 Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
 
 */
+pre {
+  display: block; padding: 0.5em;
+}
+
 pre .comment,
 pre .annotation,
 pre .template_comment,
@@ -14,13 +18,13 @@ pre .apache .cbracket {
 
 pre .keyword,
 pre .id,
-pre .title,
 pre .built_in,
-pre .aggregate,
 pre .smalltalk .class,
 pre .winutils,
 pre .bash .variable,
-pre .tex .command {
+pre .tex .command,
+pre .request,
+pre .status {
   color: rgb(0, 0, 255);
 }
 
@@ -63,7 +67,8 @@ pre .preprocessor,
 pre .userType,
 pre .apache .sqbracket,
 pre .nginx .built_in,
-pre .tex .special {
+pre .tex .special,
+pre .input_number {
   color: rgb(43, 145, 175);
 }
 
@@ -72,3 +77,8 @@ pre .javadoc,
 pre .xmlDocTag {
   color: rgb(128, 128, 128);
 }
+
+pre .vhdl .typename { font-weight: bold; }
+pre .vhdl .string { color: #666666; }
+pre .vhdl .literal { color: rgb(163, 21, 21); }
+pre .vhdl .attribute { color: #00B0E8; }

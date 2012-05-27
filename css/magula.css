@@ -6,15 +6,16 @@ Version: 1.0
 Date: 2009-01-03
 Music: Aphex Twin / Xtal
 */
-body {
+
+body, pre {
   background-color: #f4f4f4;
 }
 
-pre code {
+pre {
   display: block; padding: 0.5em;
 }
 
-pre code,
+pre,
 pre .ruby .subst,
 pre .lisp .title {
   color: black;
@@ -79,7 +80,8 @@ pre .envvar,
 pre .shebang,
 pre .apache .sqbracket,
 pre .nginx .built_in,
-pre .tex .formula {
+pre .tex .formula,
+pre .input_number {
   color: #00e;
 }
 
@@ -94,8 +96,9 @@ pre .winutils,
 pre .bash .variable,
 pre .apache .tag,
 pre .xml .tag,
-pre .xml .title,
-pre .tex .command {
+pre .tex .command,
+pre .request,
+pre .status {
   font-weight: bold;
   color: navy;
 }
@@ -104,9 +107,10 @@ pre .nginx .built_in {
   font-weight: normal;
 }
 
-pre .html .css,
-pre .html .javascript,
-pre .html .vbscript,
+pre .coffeescript .javascript,
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
 pre .tex .formula {
   opacity: 0.5;
 }

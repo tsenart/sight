@@ -4,6 +4,15 @@ Intellij Idea-like styling (c) Vasily Polovnyov <vast@whiteants.net>
 
 */
 
+body, pre {
+  background: #fff;
+}
+
+pre {
+  display: block; padding: 0.5em;
+  color: #000;
+}
+
 pre .subst,
 pre .title {
   font-weight: normal;
@@ -25,7 +34,9 @@ pre .doctype,
 pre .pi,
 pre .chunk,
 pre .shebang,
-pre .apache .cbracket {
+pre .apache .cbracket,
+pre .input_number,
+pre .http .title {
   color: #808000;
 }
 
@@ -45,7 +56,9 @@ pre .css .function,
 pre .ini .title,
 pre .css .class,
 pre .list .title,
-pre .tex .command {
+pre .tex .command,
+pre .request,
+pre .status {
   font-weight: bold;
   color: #000080;
 }
@@ -108,9 +121,4 @@ pre .deletion {
 
 pre .diff .change {
   background: #bccff9;
-}
-
-body {
-  color: #000;
-  background: #fff;
 }

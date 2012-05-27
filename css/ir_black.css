@@ -2,6 +2,15 @@
   IR_Black style (c) Vasily Mikhailitchenko <vaskas@programica.ru>
 */
 
+body, pre {
+  background: #000;
+}
+
+pre {
+  display: block; padding: 0.5em;
+  color: #f8f8f8;
+}
+
 pre .shebang,
 pre .comment,
 pre .template_comment,
@@ -11,12 +20,12 @@ pre .javadoc {
 
 pre .keyword,
 pre .tag,
-pre .ruby .function .keyword,
-pre .tex .command {
+pre .tex .command,
+pre .request,
+pre .status {
   color: #96CBFE;
 }
 
-pre .function .keyword,
 pre .sub .keyword,
 pre .method,
 pre .list .title {
@@ -41,16 +50,12 @@ pre .regexp {
   color: #E9C062;
 }
 
-pre .function .title,
+pre .title,
 pre .sub .identifier,
 pre .pi,
 pre .decorator,
-pre .ini .title,
-pre .tex .special {
-  color: #FFFFB6;
-}
-
-pre .class .title,
+pre .tex .special,
+pre .haskell .type,
 pre .constant,
 pre .smalltalk .class,
 pre .javadoctag,
@@ -71,11 +76,11 @@ pre .literal {
   color: #C6C5FE;
 }
 
-pre .css .keyword {
+pre .css .tag {
   color: #96CBFE;
 }
 
-pre .css .rule .keyword,
+pre .css .rules .property,
 pre .css .id {
   color: #FFFFB6;
 }
@@ -94,8 +99,4 @@ pre .number {
 
 pre .tex .formula {
   opacity: 0.7;
-}
-
-body {
-  background: #000; color: #f8f8f8;
 }

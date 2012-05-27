@@ -4,6 +4,14 @@ Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiac
 
 */
 
+body, pre {
+  background: white; color: black;
+}
+
+pre {
+  display: block; padding: 0.5em;
+}
+
 pre .string,
 pre .tag .value,
 pre .filter .argument,
@@ -29,15 +37,15 @@ pre .apache .sqbracket {
 
 pre .keyword,
 pre .tag .title,
+pre .css .tag,
 pre .ini .title,
 pre .winutils,
 pre .flow,
 pre .lisp .title,
 pre .apache .tag,
-pre .tex .command {
+pre .tex .command,
+pre .http .title,
+pre .request,
+pre .status {
   font-weight: bold;
-}
-
-body {
-  background: white; color: black;
 }
