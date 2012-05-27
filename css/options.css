@@ -11,24 +11,9 @@ select {
   margin-bottom: 10px;
 }
 
-#theme {
-  display: block;
-  font-size: small;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 pre {
-  left: 10px;
+  left: -10px;
   position: relative;
   word-wrap: break-word;
   white-space: pre-wrap;
 }
-
-ul#line-numbers {
-  position: relative;
-  float: left;
-  padding-top: 0.6em;
-  margin-top: 30px;
-}
-

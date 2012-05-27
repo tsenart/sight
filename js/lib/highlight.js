@@ -510,7 +510,7 @@ var hljs = new function() {
   Applies highlighting to a DOM node containing code. Accepts a DOM node and
   two optional parameters for fixMarkup.
   */
-  function highlightBlock(block, tabReplace, useBR) {
+  function highlightBlock(block, tabReplace, useBR, lineNodes) {
     var text = blockText(block, useBR);
     var language = blockLanguage(block);
     var result, pre;
@@ -527,6 +527,14 @@ var hljs = new function() {
       pre = document.createElement('pre');
       pre.innerHTML = result.value;
       result.value = mergeStreams(original, nodeStream(pre), text);
+    }
+    if (lineNodes) {
+      var resultPre = document.createElement('pre');
+      resultPre.innerHTML = result.value;
+      var linesPre = document.createElement('pre');
+      var lines = escape(text).replace(/^/gm, '<span class="line"></span>');
+      linesPre.innerHTML = lines;
+      result.value = mergeStreams(nodeStream(linesPre), nodeStream(resultPre), text);
     }
     result.value = fixMarkup(result.value, tabReplace, useBR);
 
@@ -572,7 +580,7 @@ var hljs = new function() {
     for (var i = 0; i < pres.length; i++) {
       var code = findCode(pres[i]);
       if (code)
-        highlightBlock(code, hljs.tabReplace);
+        highlightBlock(code, hljs.tabReplace, false, hljs.lineNodes);
     }
   }
 

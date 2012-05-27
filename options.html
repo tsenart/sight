@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="/css/reset.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/css/options.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/none.css" type="text/css" media="screen">
     <title>Sight Options</title>
   </head>
-  <body class="highlight">
+  <body>
     <div>
       <h3>Select your theme</h3>
-      <select name="theme" id="theme">
+      <select id="theme">
         <option value="sunburst">SunBurst</option>
         <option value="ir_black">IRBlack</option>
         <option value="default">Default</option>
@@ -27,7 +28,7 @@
         <option value="magula">Magula</option>
       </select>
       <h3>Select your font</h3>
-      <select name="font" id="font">
+      <select id="font">
         <option value="Inconsolata">Inconsolata</option>
         <option value="Courier New">Courier New</option>
         <option value="Monaco">Monaco</option>
@@ -39,7 +40,8 @@
         <option value="ProggyClean">Proggy Clean</option>
         <option value="Consolas">Consolas</option>
       </select>
-      <pre class="ruby">
+      <h3>Line numbers:<input id="lineNumbers" type="checkbox"></h3>
+      <pre id="code" class="ruby">
 class Dog &lt; Animal
   attr_reader :name
 
