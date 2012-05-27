@@ -13,6 +13,7 @@ select {
 
 pre {
   left: -10px;
+  top: 10px;
   position: relative;
   word-wrap: break-word;
   white-space: pre-wrap;
