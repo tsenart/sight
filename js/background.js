@@ -121,7 +121,7 @@
   chrome.webRequest.onCompleted.addListener(function(details) {
     var language, contentType = getContentTypeFromHeaders(details.responseHeaders);
 
-    if (contentType !== null && contentType !== 'html') {
+    if (contentType !== 'html') {
       language = detectLanguage(getFilenamePartsFromUrl(details.url).concat(contentType));
 
       if (language) {
