@@ -96,12 +96,10 @@
     return code;
   }
 
-  function getJSBeautifierCode() {
-    var code = 'var container = document.querySelector("pre");';
-    code += 'var options = { indent_size: 2 };';
-    code += 'container.textContent = js_beautify(container.textContent, options);';
-    return code;
-  }
+  const JS_BEUTIFY_CODE =
+    'var container = document.querySelector("pre");' +
+    'var options = { indent_size: 2 };' +
+    'container.textContent = js_beautify(container.textContent, options);';
 
   chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if (request.options === null) {
@@ -130,9 +128,9 @@
         chrome.tabs.insertCSS(details.tabId, { file: 'css/' + localStorage.getItem('theme') + '.css' });
         chrome.tabs.executeScript(details.tabId, { file: 'js/lib/highlight.js' }, function() {
           chrome.tabs.executeScript(details.tabId, { file: 'js/languages/' + language + '.js' }, function() {
-            if (/javacript|json/.test(language)) {
+            if (/javascript|json/.test(language)) {
               chrome.tabs.executeScript(details.tabId, { file: 'js/lib/beautify.js' }, function() {
-                chrome.tabs.executeScript(details.tabId, { code: getJSBeautifierCode() }, function() {
+                chrome.tabs.executeScript(details.tabId, { code: JS_BEUTIFY_CODE }, function() {
                   chrome.tabs.executeScript(details.tabId, {
                     code: getHighlightingCode(localStorage.getItem('font'), language, localStorage.getItem('lineNumbers'))
                   });
