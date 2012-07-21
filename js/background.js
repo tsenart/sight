@@ -35,6 +35,8 @@
     yaml:        ['yaml']
   };
 
+  const EXT_MAP = {};
+
   const OPTIONS_DEFAULTS = {
     theme: 'sunburst',
     font: 'Inconsolata',
@@ -46,6 +48,12 @@
       localStorage.setItem(option, OPTIONS_DEFAULTS[option]);
     }
   });
+
+  for (lang in LANG_MAP) {
+    LANG_MAP[lang].forEach(function(ext) {
+      EXT_MAP[ext] = lang;
+    });
+  }
 
   function getHeaderByName(headers, name) {
     var index, length = headers.length;
@@ -68,21 +76,34 @@
     }
   }
 
-  function getFilenamePartsFromUrl(url) {
-    return url.split('/').pop().split('?').shift().toLowerCase().split('.');
+  function getUrlParts(url) {
+    var parts = url.split('/');
+    var baseAndParams = parts.pop().split('?');
+    var basename = baseAndParams.shift().toLowerCase();
+    var fileAndFragment = basename.split('#');
+    var filename = fileAndFragment.shift();
+    var fragment = fileAndFragment.pop();
+    return { filename: filename, fragment: fragment };
+  }
+
+  function getIdentifiersFromUrl(url) {
+    var urlParts = getUrlParts(url);
+    var identifiers = [urlParts.filename.split('.').pop()];
+
+    if (urlParts.fragment) {
+      var args = urlParts.fragment.split('='), i;
+      if ((i = args.indexOf('sight')) > -1) {
+        identifiers.unshift(args[i+1]);
+      }
+    }
+
+    return identifiers;
   }
 
   function detectLanguage(identifiers) {
-    var language, index, length;
-
-    for (language in LANG_MAP) {
-      length = LANG_MAP[language].length;
-      for (index = 0; index < length; index++) {
-        if (LANG_MAP[language].some(function(token) {
-          return identifiers.indexOf(token) > -1;
-        })) {
-          return language;
-        }
+    for (var i = 0; i < identifiers.length; i++) {
+      if (identifiers[i] in EXT_MAP) {
+        return EXT_MAP[identifiers[i]];
       }
     }
     return null;
@@ -120,7 +141,7 @@
     var language, contentType = getContentTypeFromHeaders(details.responseHeaders);
 
     if (contentType !== 'html') {
-      language = detectLanguage(getFilenamePartsFromUrl(details.url).concat(contentType));
+      language = detectLanguage(getIdentifiersFromUrl(details.url).concat(contentType));
 
       if (language) {
         chrome.tabs.insertCSS(details.tabId, { file: 'css/reset.css' });
