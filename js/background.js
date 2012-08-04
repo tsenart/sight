@@ -1,5 +1,5 @@
 (function() {
-  const LANG_MAP = {
+  const LANG_EXT_MAP = {
     avrasm:      ['asm', 's'],
     bash:        ['sh', 'bash', 'zsh', 'shell'],
     cmake:       ['Makefile'],
@@ -35,8 +35,6 @@
     yaml:        ['yaml']
   };
 
-  const EXT_MAP = {};
-
   const OPTIONS_DEFAULTS = {
     theme: 'sunburst',
     font: 'Inconsolata',
@@ -49,9 +47,11 @@
     }
   });
 
-  for (lang in LANG_MAP) {
-    LANG_MAP[lang].forEach(function(ext) {
-      EXT_MAP[ext] = lang;
+  // Reverse index
+  const EXT_LANG_MAP = {};
+  for (lang in LANG_EXT_MAP) {
+    LANG_EXT_MAP[lang].forEach(function(ext) {
+      EXT_LANG_MAP[ext] = lang;
     });
   }
 
@@ -80,31 +80,28 @@
     return url.split('/').pop().split('?').shift().toLowerCase();
   }
 
+  function getExtensionFromFilename(filename) {
+    return filename.split('.').pop();
+  }
+
   function getFragmentFromUrl(url) {
-    var fragment = /#ft=(.*)/.exec(url);
+    var fragment = /#ft=(\w+)/.exec(url);
     return fragment && fragment[1];
   }
 
-  function getLanguageFromFragment(fragment) {
-    var match;
-
-    fragment = fragment || "";
-
-    if (!(match = /syn=(\w+)/.exec(fragment))) {
-      return null;
-    }
-
-    return match[1];
+  function isLanguageSupported(language) {
+    return !!LANG_EXT_MAP[language];
   }
 
   function detectLanguage(contentType, url) {
-    var urlParts;
+    var fragment = getFragmentFromUrl(url);
+    var filename = getFilenameFromUrl(url);
+    var extension = getExtensionFromFilename(filename);
 
-    urlParts = getUrlParts(url);
-
-    return getLanguageFromFragment(urlParts.fragment) ||
-      EXT_MAP[contentType] ||
-      EXT_MAP[getFileExtension(urlParts.filename)];
+    return isLanguageSupported(fragment) ?
+      fragment : EXT_LANG_MAP[contentType] ||
+                 EXT_LANG_MAP[extension]   ||
+                 EXT_LANG_MAP[filename];
   }
 
   function getHighlightingCode(font, language, showLineNumbers) {
@@ -119,6 +116,9 @@
     'var container = document.querySelector("pre");' +
     'var options = { indent_size: 2 };' +
     'container.textContent = js_beautify(container.textContent, options);';
+
+  const LANG_CHANGE_CODE =
+    'window.addEventListener("hashchange", document.location.reload.bind(document.location));';
 
   chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if (request.options === null) {
@@ -139,12 +139,11 @@
     var language, contentType = getContentTypeFromHeaders(details.responseHeaders);
 
     if (contentType !== 'html') {
-      language = detectLanguage(contentType, details.url);
-
-      if (language) {
+      if (language = detectLanguage(contentType, details.url)) {
         chrome.tabs.insertCSS(details.tabId, { file: 'css/reset.css' });
         chrome.tabs.insertCSS(details.tabId, { file: 'css/main.css' });
         chrome.tabs.insertCSS(details.tabId, { file: 'css/' + localStorage.getItem('theme') + '.css' });
+        chrome.tabs.executeScript(details.tabId, { code: LANG_CHANGE_CODE });
         chrome.tabs.executeScript(details.tabId, { file: 'js/lib/highlight.js' }, function() {
           chrome.tabs.executeScript(details.tabId, { file: 'js/languages/' + language + '.js' }, function() {
             if (/javascript|json/.test(language)) {
@@ -164,5 +163,5 @@
         });
       }
     }
-  }, { urls: ["<all_urls>"], types: ['main_frame'] }, ['responseHeaders']);
+  }, { urls: ['<all_urls>'], types: ['main_frame'] }, ['responseHeaders']);
 }());
