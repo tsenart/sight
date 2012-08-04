@@ -76,28 +76,13 @@
     }
   }
 
-  function getUrlParts(url) {
-    var uri;
-
-    url = url.replace(/\/+$/, '');
-    uri = URI(url);
-
-    return {
-      filename: uri.path().split('/').pop(),
-      fragment: uri.fragment()
-    };
+  function getFilenameFromUrl(url) {
+    return url.split('/').pop().split('?').shift().toLowerCase();
   }
 
-  function getFileExtension(filename) {
-    var match;
-
-    filename = filename || "";
-
-    if (!(match = /.*\.(\w+)$/.exec(filename))) {
-      return null;
-    }
-
-    return match[1];
+  function getFragmentFromUrl(url) {
+    var fragment = /#ft=(.*)/.exec(url);
+    return fragment && fragment[1];
   }
 
   function getLanguageFromFragment(fragment) {
