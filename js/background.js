@@ -117,9 +117,6 @@
     'var options = { indent_size: 2 };' +
     'container.textContent = js_beautify(container.textContent, options);';
 
-  const LANG_CHANGE_CODE =
-    'window.addEventListener("hashchange", document.location.reload.bind(document.location));';
-
   chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if (request.options === null) {
       sendResponse({
@@ -143,7 +140,6 @@
         chrome.tabs.insertCSS(details.tabId, { file: 'css/reset.css' });
         chrome.tabs.insertCSS(details.tabId, { file: 'css/main.css' });
         chrome.tabs.insertCSS(details.tabId, { file: 'css/' + localStorage.getItem('theme') + '.css' });
-        chrome.tabs.executeScript(details.tabId, { code: LANG_CHANGE_CODE });
         chrome.tabs.executeScript(details.tabId, { file: 'js/lib/highlight.js' }, function() {
           chrome.tabs.executeScript(details.tabId, { file: 'js/languages/' + language + '.js' }, function() {
             if (/javascript|json/.test(language)) {

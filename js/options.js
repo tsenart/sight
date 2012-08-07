@@ -44,7 +44,7 @@
     });
 
     getOptions(function(options) {
-      var lineNumbers = eval(options.lineNumbers);
+      var lineNumbers = JSON.parse(options.lineNumbers);
       themeEl.value = options.theme;
       fontEl.value = options.font;
       lineNumbersEl.checked = lineNumbers;
