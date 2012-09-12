@@ -31,7 +31,7 @@
     smalltalk:   ['st', 'sm', 'sll'],
     sql:         ['sql'],
     tex:         ['tex'],
-    xml:         ['htm', 'html', 'xhtml', 'shtml', 'xml', 'atom', 'rss', 'vsproj', 'csproj', 'build', 'wsdl', 'config', 'xsd', 'plist', 'xib'],
+    xml:         ['htm', 'html', 'xhtml', 'shtml', 'xml', 'atom', 'rss', 'vsproj', 'csproj', 'build', 'wsdl', 'config', 'xsd', 'plist', 'xib', 'tpl'],
     yaml:        ['yaml']
   };
 
