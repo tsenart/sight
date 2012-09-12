@@ -100,6 +100,10 @@ hljs.LANGUAGES.xml = function(){
             },
             TAG_INTERNALS
           ]
+        },
+        {
+          className: 'constant',
+          begin: '{[#|{|%]', end: '[#|}|%]}'
         }
       ]
     }
