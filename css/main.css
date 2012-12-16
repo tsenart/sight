@@ -2,70 +2,77 @@
   font-family: 'Inconsolata';
   font-style: normal;
   font-weight: normal;
-  src: url(chrome-extension://__MSG_@@extension_id__/css/Inconsolata.ttf);
+  src: url(chrome-extension://__MSG_@@extension_id__/font/Inconsolata.ttf);
 }
 
 @font-face {
   font-family: 'Courier New';
   font-style: normal;
   font-weight: normal;
-  src: url(chrome-extension://__MSG_@@extension_id__/css/CourierNew.ttf);
+  src: url(chrome-extension://__MSG_@@extension_id__/font/CourierNew.ttf);
+}
+
+@font-face {
+  font-family: 'Mensch';
+  font-style: normal;
+  font-weight: normal;
+  src: url(chrome-extension://__MSG_@@extension_id__/font/Mensch.ttf);
 }
 
 @font-face {
   font-family: 'Monaco';
   font-style: normal;
   font-weight: normal;
-  src: url(chrome-extension://__MSG_@@extension_id__/css/Monaco.ttf);
+  src: url(chrome-extension://__MSG_@@extension_id__/font/Monaco.ttf);
 }
 
 @font-face {
   font-family: 'Anonymous Pro';
   font-style: normal;
   font-weight: normal;
-  src: url(chrome-extension://__MSG_@@extension_id__/css/AnonymousPro.ttf);
+  src: url(chrome-extension://__MSG_@@extension_id__/font/AnonymousPro.ttf);
 }
 
 @font-face {
   font-family: 'DejaVuSansMono';
   font-style: normal;
   font-weight: normal;
-  src: url(chrome-extension://__MSG_@@extension_id__/css/DejaVuSansMono.ttf);
+  src: url(chrome-extension://__MSG_@@extension_id__/font/DejaVuSansMono.ttf);
 }
 
 @font-face {
   font-family: 'DroidSansMono';
   font-style: normal;
   font-weight: normal;
-  src: url(chrome-extension://__MSG_@@extension_id__/css/DroidSansMono.ttf);
+  src: url(chrome-extension://__MSG_@@extension_id__/font/DroidSansMono.ttf);
 }
 
 @font-face {
   font-family: 'Monofur';
   font-style: normal;
   font-weight: normal;
-  src: url(chrome-extension://__MSG_@@extension_id__/css/Monofur.ttf);
+  src: url(chrome-extension://__MSG_@@extension_id__/font/Monofur.ttf);
 }
 
 @font-face {
   font-family: 'ProFont';
   font-style: normal;
   font-weight: normal;
-  src: url(chrome-extension://__MSG_@@extension_id__/css/ProFont.ttf);
+  src: url(chrome-extension://__MSG_@@extension_id__/font/ProFont.ttf);
 }
 
 @font-face {
   font-family: 'ProggyClean';
   font-style: normal;
   font-weight: normal;
-  src: url(chrome-extension://__MSG_@@extension_id__/css/ProggyClean.ttf);
+  src: url(chrome-extension://__MSG_@@extension_id__/font/ProggyClean.ttf);
 }
 
 @font-face {
   font-family: 'Consolas';
   font-style: normal;
   font-weight: normal;
-  src: url(chrome-extension://__MSG_@@extension_id__/css/Consolas.ttf);
+  src: url(chrome-extension://__MSG_@@extension_id__/font/Consolas.ttf);
 }
 
 body {
@@ -95,5 +102,6 @@ pre .line::before {
   padding-right: 0.5em;
   margin-right: 0.5em;
   color: #BBB;
-  border-right: solid 1px;
+  border-right-width: 1px;
+  border-right-style: solid;
 }

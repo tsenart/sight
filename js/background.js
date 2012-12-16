@@ -37,11 +37,13 @@
 
   const OPTIONS_DEFAULTS = {
     theme: 'sunburst',
-    font: 'Inconsolata',
+    family: 'Inconsolata',
+    size: 12,
+    lineHeight: 1,
     lineNumbers: false
   };
 
-  ['theme', 'font', 'lineNumbers'].forEach(function(option) {
+  ['theme', 'family', 'size', 'lineHeight', 'lineNumbers'].forEach(function(option) {
     if (localStorage.getItem(option) === null) {
       localStorage.setItem(option, OPTIONS_DEFAULTS[option]);
     }
@@ -104,8 +106,10 @@
                  EXT_LANG_MAP[filename];
   }
 
-  function getHighlightingCode(font, language, showLineNumbers) {
-    var code = 'document.body.style.fontFamily = "' + font + '";';
+  function getHighlightingCode(family, size, lineHeight, language, showLineNumbers) {
+    var code = 'document.body.style.fontFamily = "' + family + '";';
+    code += 'document.body.style.fontSize = "' + size + 'px";';
+    code += 'document.body.style.lineHeight = "' + lineHeight + 'em";';
     code += 'var container = document.querySelector("pre");';
     code += 'container.classList.add("' + language + '");';
     code += 'hljs.highlightBlock(container, "  ", false, ' + showLineNumbers + ');';
@@ -121,7 +125,9 @@
     if (request.options === null) {
       sendResponse({
         theme: localStorage.getItem('theme'),
-        font: localStorage.getItem('font'),
+        family: localStorage.getItem('family'),
+        size: localStorage.getItem('size'),
+        lineHeight: localStorage.getItem('lineHeight'),
         lineNumbers: localStorage.getItem('lineNumbers')
       });
     } else {
@@ -146,13 +152,13 @@
               chrome.tabs.executeScript(details.tabId, { file: 'js/lib/beautify.js' }, function() {
                 chrome.tabs.executeScript(details.tabId, { code: JS_BEUTIFY_CODE }, function() {
                   chrome.tabs.executeScript(details.tabId, {
-                    code: getHighlightingCode(localStorage.getItem('font'), language, localStorage.getItem('lineNumbers'))
+                    code: getHighlightingCode(localStorage.getItem('family'), localStorage.getItem('size'), localStorage.getItem('lineHeight'), language, localStorage.getItem('lineNumbers'))
                   });
                 });
               });
             } else {
               chrome.tabs.executeScript(details.tabId, {
-                code: getHighlightingCode(localStorage.getItem('font'), language, localStorage.getItem('lineNumbers'))
+                code: getHighlightingCode(localStorage.getItem('family'), localStorage.getItem('size'), localStorage.getItem('lineHeight'), language, localStorage.getItem('lineNumbers'))
               });
             }
           });

@@ -1,7 +1,9 @@
 (function(doc) {
   doc.addEventListener('DOMContentLoaded', function() {
     var themeEl = doc.getElementById('theme');
-    var fontEl  = doc.getElementById('font');
+    var familyEl  = doc.getElementById('family');
+    var sizeEl  = doc.getElementById('size');
+    var lineHeightEl  = doc.getElementById('lineHeight');
     var lineNumbersEl  = doc.getElementById('lineNumbers');
     var styleEl = doc.querySelector('link:last-of-type');
     var codeEl = doc.getElementById('code');
@@ -19,8 +21,16 @@
       styleEl.href = '/css/' + theme + '.css';
     }
 
-    function applyFont(font) {
-      codeEl.style.fontFamily = font;
+    function applyFamily(family) {
+      codeEl.style.fontFamily = family;
+    }
+
+    function applySize(size) {
+      codeEl.style.fontSize = size + 'px';
+    }
+
+    function applyLineHeight(lineHeight) {
+      codeEl.style.lineHeight = lineHeight + 'em';
     }
 
     function applyLineNumbers(enabled) {
@@ -33,9 +43,19 @@
       setOptions({ theme: theme }, applyTheme.bind(null, theme));
     });
 
-    fontEl.addEventListener('change', function() {
-      var font = fontEl.options[fontEl.selectedIndex].value;
-      setOptions({ font: font }, applyFont.bind(null, font));
+    familyEl.addEventListener('change', function() {
+      var family = familyEl.options[familyEl.selectedIndex].value;
+      setOptions({ family: family }, applyFamily.bind(null, family));
+    });
+
+    sizeEl.addEventListener('change', function() {
+      var size = sizeEl.options[sizeEl.selectedIndex].value;
+      setOptions({ size: size }, applySize.bind(null, size));
+    });
+
+    lineHeightEl.addEventListener('change', function() {
+      var lineHeight = lineHeightEl.options[lineHeightEl.selectedIndex].value;
+      setOptions({ lineHeight: lineHeight }, applyLineHeight.bind(null, lineHeight));
     });
 
     lineNumbersEl.addEventListener('change', function() {
@@ -46,10 +66,14 @@
     getOptions(function(options) {
       var lineNumbers = JSON.parse(options.lineNumbers);
       themeEl.value = options.theme;
-      fontEl.value = options.font;
-      lineNumbersEl.checked = lineNumbers;
+      familyEl.value = options.family;
+      sizeEl.value = options.size;
+      lineHeightEl.value = options.lineHeight;
+      lineNumbersEl.checked = options.lineNumbers;
       applyTheme(options.theme);
-      applyFont(options.font);
+      applyFamily(options.family);
+      applySize(options.size);
+      applyLineHeight(options.lineHeight);
       applyLineNumbers(lineNumbers);
     });
   });
