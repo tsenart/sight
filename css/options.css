@@ -3,6 +3,7 @@ body {
 }
 
 body > div {
+  color: gray;
   margin-left: 1em;
   padding: 2em;
 }
