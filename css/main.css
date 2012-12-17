@@ -85,6 +85,7 @@ pre {
 
 pre .line {
   counter-increment: lines;
+  -webkit-user-select: none;
 }
 
 pre .line::before {
