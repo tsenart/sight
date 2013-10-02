@@ -31,6 +31,7 @@
     smalltalk:   ['st', 'sm', 'sll'],
     sql:         ['sql'],
     tex:         ['tex'],
+    vhdl:        ['vhd', 'vhdl'],
     xml:         ['htm', 'html', 'xhtml', 'shtml', 'xml', 'atom', 'rss', 'vsproj', 'csproj', 'build', 'wsdl', 'config', 'xsd', 'plist', 'xib'],
     yaml:        ['yaml']
   };
