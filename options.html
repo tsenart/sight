@@ -1,54 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <script src="/js/lib/highlight.js"></script>
-    <script src="/js/languages/ruby.js"></script>
-    <script src="/js/options.js"></script>
-    <link rel="stylesheet" href="/css/reset.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/css/options.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/css/none.css" type="text/css" media="screen">
-    <title>Sight Options</title>
-  </head>
-  <body>
-    <div>
-      <h3>Select your theme</h3>
-      <select id="theme">
-        <option value="arta">arta</option>
-        <option value="ascetic">ascetic</option>
-        <option value="dark">dark</option>
-        <option value="default">default</option>
-        <option value="far">far</option>
-        <option value="github">github</option>
-        <option value="googlecode">googlecode</option>
-        <option value="idea">idea</option>
-        <option value="ir_black">ir_black</option>
-        <option value="magula">magula</option>
-        <option value="monokai">monokai</option>
-        <option value="pojoaque">pojoaque</option>
-        <option value="solarized_dark">solarized_dark</option>
-        <option value="solarized_light">solarized_light</option>
-        <option value="sunburst">sunburst</option>
-        <option value="vs">vs</option>
-        <option value="xcode">xcode</option>
-        <option value="zenburn">zenburn</option>
-      </select>
-      <h3>Select your font</h3>
-      <select id="font">
-        <option value="Inconsolata">Inconsolata</option>
-        <option value="Courier New">Courier New</option>
-        <option value="Monaco">Monaco</option>
-        <option value="Anonymous Pro">Anonymous Pro</option>
-        <option value="DejaVuSansMono">DejaVu Sans Mono</option>
-        <option value="DroidSansMono">Droid Sans Mono</option>
-        <option value="Monofur">Monofur</option>
-        <option value="ProFont">ProFont</option>
-        <option value="ProggyClean">Proggy Clean</option>
-        <option value="Consolas">Consolas</option>
-      </select>
-      <h3>Line numbers:<input id="lineNumbers" type="checkbox"></h3>
-      <pre id="code" class="ruby">
+    <head>
+        <meta charset="utf-8">
+        <script src="/js/lib/highlight.js"></script>
+        <script src="/js/languages/ruby.js"></script>
+        <script src="/js/options.js"></script>
+        <link rel="stylesheet" href="/css/reset.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="/css/options.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="/css/none.css" type="text/css" media="screen">
+        <title>Sight Options</title>
+    </head>
+    <body>
+        <div>
+            <h3>Select your theme</h3>
+            <select id="theme">
+                <option value="arta">Arta</option>
+                <option value="ascetic">Ascetic</option>
+                <option value="dark">Dark</option>
+                <option value="default">Default</option>
+                <option value="far">Far</option>
+                <option value="github">Github</option>
+                <option value="googlecode">Googlecode</option>
+                <option value="idea">Idea</option>
+                <option value="ir_black">Ir Black</option>
+                <option value="magula">Magula</option>
+                <option value="monokai">Monokai</option>
+                <option value="pojoaque">Pojoaque</option>
+                <option value="solarized_dark">Solarized dark</option>
+                <option value="solarized_light">Solarized light</option>
+                <option value="sunburst">Sunburst</option>
+                <option value="vs">Vs</option>
+                <option value="xcode">Xcode</option>
+                <option value="zenburn">Zenburn</option>
+            </select>
+            <h3>Select your font family</h3>
+            <select id="family">
+                <option value="Anonymous Pro">Anonymous Pro</option>
+                <option value="Consolas">Consolas</option>
+                <option value="Courier New">Courier New</option>
+                <option value="DejaVuSansMono">DejaVu Sans Mono</option>
+                <option value="DroidSansMono">Droid Sans Mono</option>
+                <option value="Inconsolata">Inconsolata</option>
+                <option value="Mensch">Mensch</option>
+                <option value="Monaco">Monaco</option>
+                <option value="Monofur">Monofur</option>
+                <option value="ProFont">ProFont</option>
+                <option value="ProggyClean">Proggy Clean</option>
+            </select>
+            <h3>Select your font size</h3>
+            <select id="size">
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+            </select> px
+            <h3>Select your line height</h3>
+            <select id="lineHeight">
+                <option value="1">1</option>
+                <option value="1.1">1.1</option>
+                <option value="1.2">1.2</option>
+                <option value="1.3">1.3</option>
+                <option value="1.4">1.4</option>
+                <option value="1.5">1.5</option>
+                <option value="1.6">1.6</option>
+                <option value="1.7">1.7</option>
+                <option value="1.8">1.8</option>
+                <option value="1.9">1.9</option>
+                <option value="2">2</option>
+            </select> em
+            <h3>Line numbers:<input id="lineNumbers" type="checkbox"></h3>
+            <pre id="code" class="ruby">
 class Dog &lt; Animal
   attr_reader :name
 
@@ -60,8 +89,7 @@ class Dog &lt; Animal
   def bark(loudness)
     puts "Ouff Ouff " * loudness.to_i
   end
-end
-      </pre>
-    </div>
-  </body>
+end</pre>
+        </div>
+    </body>
 </html>
