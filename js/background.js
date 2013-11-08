@@ -71,7 +71,7 @@
     var contentType = getHeaderByName(headers, 'content-type');
 
     if (contentType) {
-      return contentType.split('/').pop().split(';').shift().trim();
+      return contentType.split(';').shift().split('/').pop().trim();
     } else {
       return null;
     }
