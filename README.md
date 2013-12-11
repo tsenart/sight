@@ -1,4 +1,4 @@
-![Logo](https://forrst-production.s3.amazonaws.com/posts/snaps/78618/mega.png?1304460757)
+![Logo](https://lh6.googleusercontent.com/5z14_yWd8vaXHZ4232-8NGVxuYHBbBHLOWpKC3QdGqj4lkqyfbjtnzWulyW6ilD-x33qu_CLyyY=s1280-h800-e365-rw)
 
 *Sight* is the Syntax Highlighter Chrome extension that makes reading code on the browser a joy.
 
