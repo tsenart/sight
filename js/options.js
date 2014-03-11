@@ -2,6 +2,7 @@
   doc.addEventListener('DOMContentLoaded', function() {
     var themeEl = doc.getElementById('theme');
     var fontEl  = doc.getElementById('font');
+    var fontSizeEl = doc.getElementById('font-size');
     var lineNumbersEl  = doc.getElementById('lineNumbers');
     var styleEl = doc.querySelector('link:last-of-type');
     var codeEl = doc.getElementById('code');
@@ -22,6 +23,10 @@
     function applyFont(font) {
       codeEl.style.fontFamily = font;
     }
+    
+    function applyFontSize(fontSize) {
+      codeEl.style.fontSize = fontSize;
+    }
 
     function applyLineNumbers(enabled) {
       codeEl.innerHTML = code;
@@ -37,6 +42,11 @@
       var font = fontEl.options[fontEl.selectedIndex].value;
       setOptions({ font: font }, applyFont.bind(null, font));
     });
+    
+    fontSizeEl.addEventListener('change', function() {
+      var fontSize = fontSizeEl.options[fontSizeEl.selectedIndex].value;
+      setOptions({ fontSize: fontSize }, applyFontSize.bind(null, fontSize));
+    });
 
     lineNumbersEl.addEventListener('change', function() {
       var enabled = lineNumbersEl.checked;
@@ -47,9 +57,11 @@
       var lineNumbers = JSON.parse(options.lineNumbers);
       themeEl.value = options.theme;
       fontEl.value = options.font;
+      fontSizeEl.value = options.fontSize;
       lineNumbersEl.checked = lineNumbers;
       applyTheme(options.theme);
       applyFont(options.font);
+      applyFontSize(options.fontSize);
       applyLineNumbers(lineNumbers);
     });
   });
