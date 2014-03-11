@@ -136,7 +136,7 @@
   chrome.webRequest.onCompleted.addListener(function(details) {
     var language, contentType = getContentTypeFromHeaders(details.responseHeaders);
 
-    if (contentType !== null && contentType !== 'html') {
+    if (contentType !== 'html') {
       if (language = detectLanguage(contentType, details.url)) {
         chrome.tabs.insertCSS(details.tabId, { file: 'css/reset.css' });
         chrome.tabs.insertCSS(details.tabId, { file: 'css/main.css' });
