@@ -39,10 +39,11 @@
   const OPTIONS_DEFAULTS = {
     theme: 'sunburst',
     font: 'Inconsolata',
+    fontSize: 'medium',
     lineNumbers: false
   };
 
-  ['theme', 'font', 'lineNumbers'].forEach(function(option) {
+  ['theme', 'font', 'fontSize', 'lineNumbers'].forEach(function(option) {
     if (localStorage.getItem(option) === null) {
       localStorage.setItem(option, OPTIONS_DEFAULTS[option]);
     }
@@ -105,8 +106,9 @@
                  EXT_LANG_MAP[filename];
   }
 
-  function getHighlightingCode(font, language, showLineNumbers) {
+  function getHighlightingCode(font, fontSize, language, showLineNumbers) {
     var code = 'document.body.style.fontFamily = "' + font + '";';
+    code += 'document.body.style.fontSize = "' + fontSize + '";';
     code += 'var container = document.querySelector("pre");';
     code += 'container.classList.add("' + language + '");';
     code += 'hljs.highlightBlock(container, "  ", false, ' + showLineNumbers + ');';
@@ -123,6 +125,7 @@
       sendResponse({
         theme: localStorage.getItem('theme'),
         font: localStorage.getItem('font'),
+        fontSize: localStorage.getItem('fontSize'),
         lineNumbers: localStorage.getItem('lineNumbers')
       });
     } else {
@@ -147,13 +150,13 @@
               chrome.tabs.executeScript(details.tabId, { file: 'js/lib/beautify.js' }, function() {
                 chrome.tabs.executeScript(details.tabId, { code: JS_BEUTIFY_CODE }, function() {
                   chrome.tabs.executeScript(details.tabId, {
-                    code: getHighlightingCode(localStorage.getItem('font'), language, localStorage.getItem('lineNumbers'))
+                    code: getHighlightingCode(localStorage.getItem('font'), localStorage.getItem('fontSize'), language, localStorage.getItem('lineNumbers'))
                   });
                 });
               });
             } else {
               chrome.tabs.executeScript(details.tabId, {
-                code: getHighlightingCode(localStorage.getItem('font'), language, localStorage.getItem('lineNumbers'))
+                code: getHighlightingCode(localStorage.getItem('font'), localStorage.getItem('fontSize'), language, localStorage.getItem('lineNumbers'))
               });
             }
           });
