@@ -23,7 +23,7 @@
     function applyFont(font) {
       codeEl.style.fontFamily = font;
     }
-    
+
     function applyFontSize(fontSize) {
       codeEl.style.fontSize = fontSize;
     }
@@ -42,7 +42,7 @@
       var font = fontEl.options[fontEl.selectedIndex].value;
       setOptions({ font: font }, applyFont.bind(null, font));
     });
-    
+
     fontSizeEl.addEventListener('change', function() {
       var fontSize = fontSizeEl.options[fontSizeEl.selectedIndex].value;
       setOptions({ fontSize: fontSize }, applyFontSize.bind(null, fontSize));
