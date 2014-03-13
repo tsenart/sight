@@ -59,7 +59,6 @@
 
   function getHeaderByName(headers, name) {
     var index, length = headers.length;
-
     for (index = 0; index < length; index++) {
       if (headers[index].name.toLowerCase() === name) {
         return headers[index].value;
@@ -70,12 +69,10 @@
 
   function getContentTypeFromHeaders(headers) {
     var contentType = getHeaderByName(headers, 'content-type');
-
-    if (contentType) {
-      return contentType.split(';').shift().split('/').pop().trim();
-    } else {
+    if (!contentType) {
       return null;
     }
+    return contentType.split(';').shift().split('/').pop().trim();
   }
 
   function getFilenameFromUrl(url) {
@@ -128,40 +125,54 @@
         fontSize: localStorage.getItem('fontSize'),
         lineNumbers: localStorage.getItem('lineNumbers')
       });
-    } else {
-      for (var option in request.options) {
-        localStorage.setItem(option, request.options[option]);
-      }
-      sendResponse();
+      return;
     }
+    for (var option in request.options) {
+      localStorage.setItem(option, request.options[option]);
+    }
+    sendResponse();
   });
 
   chrome.webRequest.onCompleted.addListener(function(details) {
-    var language, contentType = getContentTypeFromHeaders(details.responseHeaders);
+    var contentType = getContentTypeFromHeaders(details.responseHeaders);
+    if (contentType === 'html') {
+      return;
+    }
 
-    if (contentType !== 'html') {
-      if (language = detectLanguage(contentType, details.url)) {
-        chrome.tabs.insertCSS(details.tabId, { file: 'css/reset.css' });
-        chrome.tabs.insertCSS(details.tabId, { file: 'css/main.css' });
-        chrome.tabs.insertCSS(details.tabId, { file: 'css/' + localStorage.getItem('theme') + '.css' });
-        chrome.tabs.executeScript(details.tabId, { file: 'js/lib/highlight.js' }, function() {
-          chrome.tabs.executeScript(details.tabId, { file: 'js/languages/' + language + '.js' }, function() {
-            if (/javascript|json/.test(language)) {
-              chrome.tabs.executeScript(details.tabId, { file: 'js/lib/beautify.js' }, function() {
-                chrome.tabs.executeScript(details.tabId, { code: JS_BEUTIFY_CODE }, function() {
-                  chrome.tabs.executeScript(details.tabId, {
-                    code: getHighlightingCode(localStorage.getItem('font'), localStorage.getItem('fontSize'), language, localStorage.getItem('lineNumbers'))
-                  });
-                });
-              });
-            } else {
-              chrome.tabs.executeScript(details.tabId, {
-                code: getHighlightingCode(localStorage.getItem('font'), localStorage.getItem('fontSize'), language, localStorage.getItem('lineNumbers'))
-              });
-            }
+    var language = detectLanguage(contentType, details.url);
+    if (!language) {
+      return;
+    }
+
+    chrome.tabs.insertCSS(details.tabId, { file: 'css/reset.css' });
+    chrome.tabs.insertCSS(details.tabId, { file: 'css/main.css' });
+    chrome.tabs.insertCSS(details.tabId, { file: 'css/' + localStorage.getItem('theme') + '.css' });
+    chrome.tabs.executeScript(details.tabId, { file: 'js/lib/highlight.js' }, function() {
+      chrome.tabs.executeScript(details.tabId, { file: 'js/languages/' + language + '.js' }, function() {
+        if (!/javascript|json/.test(language)) {
+          chrome.tabs.executeScript(details.tabId, {
+            code: getHighlightingCode(
+              localStorage.getItem('font'),
+              localStorage.getItem('fontSize'),
+              language,
+              localStorage.getItem('lineNumbers')
+            )
+          });
+          return;
+        }
+        chrome.tabs.executeScript(details.tabId, { file: 'js/lib/beautify.js' }, function() {
+          chrome.tabs.executeScript(details.tabId, { code: JS_BEUTIFY_CODE }, function() {
+            chrome.tabs.executeScript(details.tabId, {
+              code: getHighlightingCode(
+                localStorage.getItem('font'),
+                localStorage.getItem('fontSize'),
+                language,
+                localStorage.getItem('lineNumbers')
+              )
+            });
           });
         });
-      }
-    }
+      });
+    });
   }, { urls: ['<all_urls>'], types: ['main_frame'] }, ['responseHeaders']);
 }());
