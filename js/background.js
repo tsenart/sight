@@ -15,7 +15,7 @@
     go:          ['go'],
     haskell:     ['hs'],
     http:        ['http'],
-    java:        ['java', 'class', 'fx'],
+    java:        ['java', 'class', 'fx', 'groovy', 'gsh', 'gvy', 'gy'],
     javascript:  ['js'],
     json:        ['json'],
     lisp:        ['lsp', 'lisp', 'cl', 'el', 'scm', 'clj'],
