@@ -135,7 +135,7 @@
 
   chrome.webRequest.onCompleted.addListener(function(details) {
     var contentType = getContentTypeFromHeaders(details.responseHeaders);
-    if (contentType === 'html') {
+    if (['html', 'xml'].indexOf(contentType) != -1) {
       return;
     }
 
