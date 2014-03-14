@@ -1,6 +1,6 @@
 /*
 Syntax highlighting with language autodetection.
-http://softwaremaniacs.org/soft/highlight/
+http://highlightjs.org/
 */
 
 var hljs = new function() {
@@ -8,76 +8,67 @@ var hljs = new function() {
   /* Utility functions */
 
   function escape(value) {
-    return value.replace(/&/gm, '&amp;').replace(/</gm, '&lt;');
+    return value.replace(/&/gm, '&amp;').replace(/</gm, '&lt;').replace(/>/gm, '&gt;');
   }
 
-  function langRe(language, value, global) {
-    return RegExp(
-      value,
-      'm' + (language.case_insensitive ? 'i' : '') + (global ? 'g' : '')
-    );
+  function tag(node) {
+    return node.nodeName.toLowerCase();
   }
 
-  function findCode(pre) {
-    for (var i = 0; i < pre.childNodes.length; i++) {
-      var node = pre.childNodes[i];
-      if (node.nodeName == 'CODE')
-        return node;
-      if (!(node.nodeType == 3 && node.nodeValue.match(/\s+/)))
-        break;
-    }
+  function testRe(re, lexeme) {
+    var match = re && re.exec(lexeme);
+    return match && match.index == 0;
   }
 
-  function blockText(block, ignoreNewLines) {
-    var result = '';
-    for (var i = 0; i < block.childNodes.length; i++)
-      if (block.childNodes[i].nodeType == 3) {
-        var chunk = block.childNodes[i].nodeValue;
-        if (ignoreNewLines)
-          chunk = chunk.replace(/\n/g, '');
-        result += chunk;
-      } else if (block.childNodes[i].nodeName == 'BR')
-        result += '\n';
-      else
-        result += blockText(block.childNodes[i]);
-    // Thank you, MSIE...
-    if (/MSIE [678]/.test(navigator.userAgent))
-      result = result.replace(/\r/g, '\n');
-    return result;
+  function blockText(block) {
+    return Array.prototype.map.call(block.childNodes, function(node) {
+      if (node.nodeType == 3) {
+        return options.useBR ? node.nodeValue.replace(/\n/g, '') : node.nodeValue;
+      }
+      if (tag(node) == 'br') {
+        return '\n';
+      }
+      return blockText(node);
+    }).join('');
   }
 
   function blockLanguage(block) {
-    var classes = block.className.split(/\s+/);
-    classes = classes.concat(block.parentNode.className.split(/\s+/));
-    for (var i = 0; i < classes.length; i++) {
-      var class_ = classes[i].replace(/^language-/, '');
-      if (languages[class_] || class_ == 'no-highlight') {
-        return class_;
-      }
-    }
+    var classes = (block.className + ' ' + (block.parentNode ? block.parentNode.className : '')).split(/\s+/);
+    classes = classes.map(function(c) {return c.replace(/^language-/, '');});
+    return classes.filter(function(c) {return getLanguage(c) || c == 'no-highlight';})[0];
   }
+
+  function inherit(parent, obj) {
+    var result = {};
+    for (var key in parent)
+      result[key] = parent[key];
+    if (obj)
+      for (var key in obj)
+        result[key] = obj[key];
+    return result;
+  };
 
   /* Stream merging */
 
   function nodeStream(node) {
     var result = [];
     (function _nodeStream(node, offset) {
-      for (var i = 0; i < node.childNodes.length; i++) {
-        if (node.childNodes[i].nodeType == 3)
-          offset += node.childNodes[i].nodeValue.length;
-        else if (node.childNodes[i].nodeName == 'BR')
+      for (var child = node.firstChild; child; child = child.nextSibling) {
+        if (child.nodeType == 3)
+          offset += child.nodeValue.length;
+        else if (tag(child) == 'br')
           offset += 1;
-        else if (node.childNodes[i].nodeType == 1) {
+        else if (child.nodeType == 1) {
           result.push({
             event: 'start',
             offset: offset,
-            node: node.childNodes[i]
+            node: child
           });
-          offset = _nodeStream(node.childNodes[i], offset);
+          offset = _nodeStream(child, offset);
           result.push({
             event: 'stop',
             offset: offset,
-            node: node.childNodes[i]
+            node: child
           });
         }
       }
@@ -86,69 +77,74 @@ var hljs = new function() {
     return result;
   }
 
-  function mergeStreams(stream1, stream2, value) {
+  function mergeStreams(original, highlighted, value) {
     var processed = 0;
     var result = '';
     var nodeStack = [];
 
     function selectStream() {
-      if (stream1.length && stream2.length) {
-        if (stream1[0].offset != stream2[0].offset)
-          return (stream1[0].offset < stream2[0].offset) ? stream1 : stream2;
-        else {
-          /*
-          To avoid starting the stream just before it should stop the order is
-          ensured that stream1 always starts first and closes last:
-
-          if (event1 == 'start' && event2 == 'start')
-            return stream1;
-          if (event1 == 'start' && event2 == 'stop')
-            return stream2;
-          if (event1 == 'stop' && event2 == 'start')
-            return stream1;
-          if (event1 == 'stop' && event2 == 'stop')
-            return stream2;
-
-          ... which is collapsed to:
-          */
-          return stream2[0].event == 'start' ? stream1 : stream2;
-        }
-      } else {
-        return stream1.length ? stream1 : stream2;
+      if (!original.length || !highlighted.length) {
+        return original.length ? original : highlighted;
       }
+      if (original[0].offset != highlighted[0].offset) {
+        return (original[0].offset < highlighted[0].offset) ? original : highlighted;
+      }
+
+      /*
+      To avoid starting the stream just before it should stop the order is
+      ensured that original always starts first and closes last:
+
+      if (event1 == 'start' && event2 == 'start')
+        return original;
+      if (event1 == 'start' && event2 == 'stop')
+        return highlighted;
+      if (event1 == 'stop' && event2 == 'start')
+        return original;
+      if (event1 == 'stop' && event2 == 'stop')
+        return highlighted;
+
+      ... which is collapsed to:
+      */
+      return highlighted[0].event == 'start' ? original : highlighted;
     }
 
     function open(node) {
-      var result = '<' + node.nodeName.toLowerCase();
-      for (var i = 0; i < node.attributes.length; i++) {
-        var attribute = node.attributes[i];
-        result += ' ' + attribute.nodeName.toLowerCase();
-        if (attribute.value !== undefined && attribute.value !== false && attribute.value !== null) {
-          result += '="' + escape(attribute.value) + '"';
-        }
-      }
-      return result + '>';
+      function attr_str(a) {return ' ' + a.nodeName + '="' + escape(a.value) + '"';}
+      result += '<' + tag(node) + Array.prototype.map.call(node.attributes, attr_str).join('') + '>';
     }
 
-    while (stream1.length || stream2.length) {
-      var current = selectStream().splice(0, 1)[0];
-      result += escape(value.substr(processed, current.offset - processed));
-      processed = current.offset;
-      if ( current.event == 'start') {
-        result += open(current.node);
-        nodeStack.push(current.node);
-      } else if (current.event == 'stop') {
-        var node, i = nodeStack.length;
+    function close(node) {
+      result += '</' + tag(node) + '>';
+    }
+
+    function render(event) {
+      (event.event == 'start' ? open : close)(event.node);
+    }
+
+    while (original.length || highlighted.length) {
+      var stream = selectStream();
+      result += escape(value.substr(processed, stream[0].offset - processed));
+      processed = stream[0].offset;
+      if (stream == original) {
+        /*
+        On any opening or closing tag of the original markup we first close
+        the entire highlighted node stack, then render the original tag along
+        with all the following original tags at the same offset and then
+        reopen all the tags on the highlighted stack.
+        */
+        nodeStack.reverse().forEach(close);
         do {
-          i--;
-          node = nodeStack[i];
-          result += ('</' + node.nodeName.toLowerCase() + '>');
-        } while (node != current.node);
-        nodeStack.splice(i, 1);
-        while (i < nodeStack.length) {
-          result += open(nodeStack[i]);
-          i++;
+          render(stream.splice(0, 1)[0]);
+          stream = selectStream();
+        } while (stream == original && stream.length && stream[0].offset == processed);
+        nodeStack.reverse().forEach(open);
+      } else {
+        if (stream[0].event == 'start') {
+          nodeStack.push(stream[0].node);
+        } else {
+          nodeStack.pop();
         }
+        render(stream.splice(0, 1)[0]);
       }
     }
     return result + escape(value.substr(processed));
@@ -156,291 +152,301 @@ var hljs = new function() {
 
   /* Initialization */
 
-  function compileModes() {
+  function compileLanguage(language) {
 
-    function compileMode(mode, language, is_default) {
+    function reStr(re) {
+        return (re && re.source) || re;
+    }
+
+    function langRe(value, global) {
+      return RegExp(
+        reStr(value),
+        'm' + (language.case_insensitive ? 'i' : '') + (global ? 'g' : '')
+      );
+    }
+
+    function compileMode(mode, parent) {
       if (mode.compiled)
         return;
+      mode.compiled = true;
 
-      var keywords = []; // used later with beginWithKeyword but filled as a side-effect of keywords compilation
+      mode.keywords = mode.keywords || mode.beginKeywords;
       if (mode.keywords) {
         var compiled_keywords = {};
 
         function flatten(className, str) {
-          var group = str.split(' ');
-          for (var i = 0; i < group.length; i++) {
-            var pair = group[i].split('|');
-            compiled_keywords[pair[0]] = [className, pair[1] ? Number(pair[1]) : 1];
-            keywords.push(pair[0]);
+          if (language.case_insensitive) {
+            str = str.toLowerCase();
           }
+          str.split(' ').forEach(function(kw) {
+            var pair = kw.split('|');
+            compiled_keywords[pair[0]] = [className, pair[1] ? Number(pair[1]) : 1];
+          });
         }
 
-        mode.lexemsRe = langRe(language, mode.lexems || hljs.IDENT_RE, true);
         if (typeof mode.keywords == 'string') { // string
-          flatten('keyword', mode.keywords)
+          flatten('keyword', mode.keywords);
         } else {
-          for (var className in mode.keywords) {
-            if (!mode.keywords.hasOwnProperty(className))
-              continue;
+          Object.keys(mode.keywords).forEach(function (className) {
             flatten(className, mode.keywords[className]);
-          }
+          });
         }
         mode.keywords = compiled_keywords;
       }
-      if (!is_default) {
-        if (mode.beginWithKeyword) {
-          mode.begin = '\\b(' + keywords.join('|') + ')\\s';
+      mode.lexemesRe = langRe(mode.lexemes || /\b[A-Za-z0-9_]+\b/, true);
+
+      if (parent) {
+        if (mode.beginKeywords) {
+          mode.begin = mode.beginKeywords.split(' ').join('|');
         }
-        mode.beginRe = langRe(language, mode.begin ? mode.begin : '\\B|\\b');
+        if (!mode.begin)
+          mode.begin = /\B|\b/;
+        mode.beginRe = langRe(mode.begin);
         if (!mode.end && !mode.endsWithParent)
-          mode.end = '\\B|\\b';
+          mode.end = /\B|\b/;
         if (mode.end)
-          mode.endRe = langRe(language, mode.end);
+          mode.endRe = langRe(mode.end);
+        mode.terminator_end = reStr(mode.end) || '';
+        if (mode.endsWithParent && parent.terminator_end)
+          mode.terminator_end += (mode.end ? '|' : '') + parent.terminator_end;
       }
       if (mode.illegal)
-        mode.illegalRe = langRe(language, mode.illegal);
+        mode.illegalRe = langRe(mode.illegal);
       if (mode.relevance === undefined)
         mode.relevance = 1;
       if (!mode.contains) {
         mode.contains = [];
       }
-      // compiled flag is set before compiling submodes to avoid self-recursion
-      // (see lisp where quoted_list contains quoted_list)
-      mode.compiled = true;
-      for (var i = 0; i < mode.contains.length; i++) {
-        if (mode.contains[i] == 'self') {
-          mode.contains[i] = mode;
+      var expanded_contains = [];
+      mode.contains.forEach(function(c) {
+        if (c.variants) {
+          c.variants.forEach(function(v) {expanded_contains.push(inherit(c, v));});
+        } else {
+          expanded_contains.push(c == 'self' ? mode : c);
         }
-        compileMode(mode.contains[i], language, false);
-      }
+      });
+      mode.contains = expanded_contains;
+      mode.contains.forEach(function(c) {compileMode(c, mode);});
+
       if (mode.starts) {
-        compileMode(mode.starts, language, false);
+        compileMode(mode.starts, parent);
       }
+
+      var terminators =
+        mode.contains.map(function(c) {
+          return c.beginKeywords ? '\\.?\\b(' + c.begin + ')\\b\\.?' : c.begin;
+        })
+        .concat([mode.terminator_end])
+        .concat([mode.illegal])
+        .map(reStr)
+        .filter(Boolean);
+      mode.terminators = terminators.length ? langRe(terminators.join('|'), true) : {exec: function(s) {return null;}};
+
+      mode.continuation = {};
     }
 
-    for (var i in languages) {
-      if (!languages.hasOwnProperty(i))
-        continue;
-      compileMode(languages[i].defaultMode, languages[i], true);
-    }
+    compileMode(language);
   }
 
   /*
-  Core highlighting function. Accepts a language name and a string with the
-  code to highlight. Returns an object with the following properties:
+  Core highlighting function. Accepts a language name, or an alias, and a
+  string with the code to highlight. Returns an object with the following
+  properties:
 
   - relevance (int)
-  - keyword_count (int)
   - value (an HTML string with highlighting markup)
 
   */
-  function highlight(language_name, value) {
-    if (!compileModes.called) {
-      compileModes();
-      compileModes.called = true;
-    }
+  function highlight(name, value, ignore_illegals, continuation) {
 
-    function subMode(lexem, mode) {
+    function subMode(lexeme, mode) {
       for (var i = 0; i < mode.contains.length; i++) {
-        var match = mode.contains[i].beginRe.exec(lexem);
-        if (match && match.index == 0) {
+        if (testRe(mode.contains[i].beginRe, lexeme)) {
           return mode.contains[i];
         }
       }
     }
 
-    function endOfMode(mode_index, lexem) {
-      if (modes[mode_index].end && modes[mode_index].endRe.test(lexem))
-        return 1;
-      if (modes[mode_index].endsWithParent) {
-        var level = endOfMode(mode_index - 1, lexem);
-        return level ? level + 1 : 0;
+    function endOfMode(mode, lexeme) {
+      if (testRe(mode.endRe, lexeme)) {
+        return mode;
       }
-      return 0;
+      if (mode.endsWithParent) {
+        return endOfMode(mode.parent, lexeme);
+      }
     }
 
-    function isIllegal(lexem, mode) {
-      return mode.illegal && mode.illegalRe.test(lexem);
-    }
-
-    function compileTerminators(mode, language) {
-      var terminators = [];
-
-      for (var i = 0; i < mode.contains.length; i++) {
-        terminators.push(mode.contains[i].begin);
-      }
-
-      var index = modes.length - 1;
-      do {
-        if (modes[index].end) {
-          terminators.push(modes[index].end);
-        }
-        index--;
-      } while (modes[index + 1].endsWithParent);
-
-      if (mode.illegal) {
-        terminators.push(mode.illegal);
-      }
-
-      return terminators.length ? langRe(language, terminators.join('|'), true) : null;
-    }
-
-    function eatModeChunk(value, index) {
-      var mode = modes[modes.length - 1];
-      if (mode.terminators === undefined) {
-        mode.terminators = compileTerminators(mode, language);
-      }
-      var match;
-      if (mode.terminators) {
-        mode.terminators.lastIndex = index;
-        match = mode.terminators.exec(value);
-      }
-      return match ? [value.substr(index, match.index - index), match[0], false] : [value.substr(index), '', true];
+    function isIllegal(lexeme, mode) {
+      return !ignore_illegals && testRe(mode.illegalRe, lexeme);
     }
 
     function keywordMatch(mode, match) {
       var match_str = language.case_insensitive ? match[0].toLowerCase() : match[0];
-      var value = mode.keywords[match_str];
-      if (value && value instanceof Array)
-          return value;
-      return false;
+      return mode.keywords.hasOwnProperty(match_str) && mode.keywords[match_str];
     }
 
-    function processKeywords(buffer, mode) {
-      buffer = escape(buffer);
-      if (!mode.keywords)
+    function buildSpan(classname, insideSpan, leaveOpen, noPrefix) {
+      var classPrefix = noPrefix ? '' : options.classPrefix,
+          openSpan    = '<span class="' + classPrefix,
+          closeSpan   = leaveOpen ? '' : '</span>';
+
+      openSpan += classname + '">';
+
+      return openSpan + insideSpan + closeSpan;
+    }
+
+    function processKeywords() {
+      var buffer = escape(mode_buffer);
+      if (!top.keywords)
         return buffer;
       var result = '';
       var last_index = 0;
-      mode.lexemsRe.lastIndex = 0;
-      var match = mode.lexemsRe.exec(buffer);
+      top.lexemesRe.lastIndex = 0;
+      var match = top.lexemesRe.exec(buffer);
       while (match) {
         result += buffer.substr(last_index, match.index - last_index);
-        var keyword_match = keywordMatch(mode, match);
+        var keyword_match = keywordMatch(top, match);
         if (keyword_match) {
-          keyword_count += keyword_match[1];
-          result += '<span class="'+ keyword_match[0] +'">' + match[0] + '</span>';
+          relevance += keyword_match[1];
+          result += buildSpan(keyword_match[0], match[0]);
         } else {
           result += match[0];
         }
-        last_index = mode.lexemsRe.lastIndex;
-        match = mode.lexemsRe.exec(buffer);
+        last_index = top.lexemesRe.lastIndex;
+        match = top.lexemesRe.exec(buffer);
       }
-      return result + buffer.substr(last_index, buffer.length - last_index);
+      return result + buffer.substr(last_index);
     }
 
-    function processSubLanguage(buffer, mode) {
-      var result;
-      if (mode.subLanguage == '') {
-        result = highlightAuto(buffer);
-      } else {
-        result = highlight(mode.subLanguage, buffer);
+    function processSubLanguage() {
+      if (top.subLanguage && !languages[top.subLanguage]) {
+        return escape(mode_buffer);
       }
+      var result = top.subLanguage ? highlight(top.subLanguage, mode_buffer, true, top.continuation.top) : highlightAuto(mode_buffer);
       // Counting embedded language score towards the host language may be disabled
       // with zeroing the containing mode relevance. Usecase in point is Markdown that
       // allows XML everywhere and makes every XML snippet to have a much larger Markdown
       // score.
-      if (mode.relevance > 0) {
-        keyword_count += result.keyword_count;
+      if (top.relevance > 0) {
         relevance += result.relevance;
       }
-      return '<span class="' + result.language  + '">' + result.value + '</span>';
-    }
-
-    function processBuffer(buffer, mode) {
-      if (mode.subLanguage && languages[mode.subLanguage] || mode.subLanguage == '') {
-        return processSubLanguage(buffer, mode);
-      } else {
-        return processKeywords(buffer, mode);
+      if (top.subLanguageMode == 'continuous') {
+        top.continuation.top = result.top;
       }
+      return buildSpan(result.language, result.value, false, true);
     }
 
-    function startNewMode(mode, lexem) {
-      var markup = mode.className?'<span class="' + mode.className + '">':'';
+    function processBuffer() {
+      return top.subLanguage !== undefined ? processSubLanguage() : processKeywords();
+    }
+
+    function startNewMode(mode, lexeme) {
+      var markup = mode.className? buildSpan(mode.className, '', true): '';
       if (mode.returnBegin) {
         result += markup;
-        mode.buffer = '';
+        mode_buffer = '';
       } else if (mode.excludeBegin) {
-        result += escape(lexem) + markup;
-        mode.buffer = '';
+        result += escape(lexeme) + markup;
+        mode_buffer = '';
       } else {
         result += markup;
-        mode.buffer = lexem;
+        mode_buffer = lexeme;
       }
-      modes.push(mode);
-      relevance += mode.relevance;
+      top = Object.create(mode, {parent: {value: top}});
     }
 
-    function processModeInfo(buffer, lexem, end) {
-      var current_mode = modes[modes.length - 1];
-      if (end) {
-        result += processBuffer(current_mode.buffer + buffer, current_mode);
-        return false;
+    function processLexeme(buffer, lexeme) {
+
+      mode_buffer += buffer;
+      if (lexeme === undefined) {
+        result += processBuffer();
+        return 0;
       }
 
-      var new_mode = subMode(lexem, current_mode);
+      var new_mode = subMode(lexeme, top);
       if (new_mode) {
-        result += processBuffer(current_mode.buffer + buffer, current_mode);
-        startNewMode(new_mode, lexem);
-        return new_mode.returnBegin;
+        result += processBuffer();
+        startNewMode(new_mode, lexeme);
+        return new_mode.returnBegin ? 0 : lexeme.length;
       }
 
-      var end_level = endOfMode(modes.length - 1, lexem);
-      if (end_level) {
-        var markup = current_mode.className?'</span>':'';
-        if (current_mode.returnEnd) {
-          result += processBuffer(current_mode.buffer + buffer, current_mode) + markup;
-        } else if (current_mode.excludeEnd) {
-          result += processBuffer(current_mode.buffer + buffer, current_mode) + markup + escape(lexem);
-        } else {
-          result += processBuffer(current_mode.buffer + buffer + lexem, current_mode) + markup;
+      var end_mode = endOfMode(top, lexeme);
+      if (end_mode) {
+        var origin = top;
+        if (!(origin.returnEnd || origin.excludeEnd)) {
+          mode_buffer += lexeme;
         }
-        while (end_level > 1) {
-          markup = modes[modes.length - 2].className?'</span>':'';
-          result += markup;
-          end_level--;
-          modes.length--;
+        result += processBuffer();
+        do {
+          if (top.className) {
+            result += '</span>';
+          }
+          relevance += top.relevance;
+          top = top.parent;
+        } while (top != end_mode.parent);
+        if (origin.excludeEnd) {
+          result += escape(lexeme);
         }
-        var last_ended_mode = modes[modes.length - 1];
-        modes.length--;
-        modes[modes.length - 1].buffer = '';
-        if (last_ended_mode.starts) {
-          startNewMode(last_ended_mode.starts, '');
+        mode_buffer = '';
+        if (end_mode.starts) {
+          startNewMode(end_mode.starts, '');
         }
-        return current_mode.returnEnd;
+        return origin.returnEnd ? 0 : lexeme.length;
       }
 
-      if (isIllegal(lexem, current_mode))
-        throw 'Illegal';
+      if (isIllegal(lexeme, top))
+        throw new Error('Illegal lexeme "' + lexeme + '" for mode "' + (top.className || '<unnamed>') + '"');
+
+      /*
+      Parser should not reach this point as all types of lexemes should be caught
+      earlier, but if it does due to some bug make sure it advances at least one
+      character forward to prevent infinite looping.
+      */
+      mode_buffer += lexeme;
+      return lexeme.length || 1;
     }
 
-    var language = languages[language_name];
-    var modes = [language.defaultMode];
-    var relevance = 0;
-    var keyword_count = 0;
+    var language = getLanguage(name);
+    if (!language) {
+      throw new Error('Unknown language: "' + name + '"');
+    }
+
+    compileLanguage(language);
+    var top = continuation || language;
     var result = '';
+    for(var current = top; current != language; current = current.parent) {
+      if (current.className) {
+        result = buildSpan(current.className, result, true);
+      }
+    }
+    var mode_buffer = '';
+    var relevance = 0;
     try {
-      var mode_info, index = 0;
-      language.defaultMode.buffer = '';
-      do {
-        mode_info = eatModeChunk(value, index);
-        var return_lexem = processModeInfo(mode_info[0], mode_info[1], mode_info[2]);
-        index += mode_info[0].length;
-        if (!return_lexem) {
-          index += mode_info[1].length;
+      var match, count, index = 0;
+      while (true) {
+        top.terminators.lastIndex = index;
+        match = top.terminators.exec(value);
+        if (!match)
+          break;
+        count = processLexeme(value.substr(index, match.index - index), match[0]);
+        index = match.index + count;
+      }
+      processLexeme(value.substr(index));
+      for(var current = top; current.parent; current = current.parent) { // close dangling modes
+        if (current.className) {
+          result += '</span>';
         }
-      } while (!mode_info[2]);
+      };
       return {
         relevance: relevance,
-        keyword_count: keyword_count,
         value: result,
-        language: language_name
+        language: name,
+        top: top
       };
     } catch (e) {
-      if (e == 'Illegal') {
+      if (e.message.indexOf('Illegal') != -1) {
         return {
           relevance: 0,
-          keyword_count: 0,
           value: escape(value)
         };
       } else {
@@ -455,32 +461,32 @@ var hljs = new function() {
 
   - language (detected language)
   - relevance (int)
-  - keyword_count (int)
   - value (an HTML string with highlighting markup)
   - second_best (object with the same structure for second-best heuristically
     detected language, may be absent)
 
   */
-  function highlightAuto(text) {
+  function highlightAuto(text, languageSubset) {
+    languageSubset = languageSubset || options.languages || Object.keys(languages);
     var result = {
-      keyword_count: 0,
       relevance: 0,
       value: escape(text)
     };
     var second_best = result;
-    for (var key in languages) {
-      if (!languages.hasOwnProperty(key))
-        continue;
-      var current = highlight(key, text);
-      current.language = key;
-      if (current.keyword_count + current.relevance > second_best.keyword_count + second_best.relevance) {
+    languageSubset.forEach(function(name) {
+      if (!getLanguage(name)) {
+        return;
+      }
+      var current = highlight(name, text, false);
+      current.language = name;
+      if (current.relevance > second_best.relevance) {
         second_best = current;
       }
-      if (current.keyword_count + current.relevance > result.keyword_count + result.relevance) {
+      if (current.relevance > result.relevance) {
         second_best = result;
         result = current;
       }
-    }
+    });
     if (second_best.language) {
       result.second_best = second_best;
     }
@@ -494,13 +500,13 @@ var hljs = new function() {
   - replace real line-breaks with '<br>' for non-pre containers
 
   */
-  function fixMarkup(value, tabReplace, useBR) {
-    if (tabReplace) {
+  function fixMarkup(value) {
+    if (options.tabReplace) {
       value = value.replace(/^((<[^>]+>|\t)+)/gm, function(match, p1, offset, s) {
-        return p1.replace(/\t/g, tabReplace);
+        return p1.replace(/\t/g, options.tabReplace);
       });
     }
-    if (useBR) {
+    if (options.useBR) {
       value = value.replace(/\n/g, '<br>');
     }
     return value;
@@ -510,63 +516,46 @@ var hljs = new function() {
   Applies highlighting to a DOM node containing code. Accepts a DOM node and
   two optional parameters for fixMarkup.
   */
-  function highlightBlock(block, tabReplace, useBR, lineNodes) {
-    var text = blockText(block, useBR);
+  function highlightBlock(block) {
+    var text = blockText(block);
     var language = blockLanguage(block);
-    var result, pre;
     if (language == 'no-highlight')
         return;
-    if (language) {
-      result = highlight(language, text);
-    } else {
-      result = highlightAuto(text);
-      language = result.language;
-    }
+    var result = language ? highlight(language, text, true) : highlightAuto(text);
     var original = nodeStream(block);
     if (original.length) {
-      pre = document.createElement('pre');
+      var pre = document.createElementNS('http://www.w3.org/1999/xhtml', 'pre');
       pre.innerHTML = result.value;
       result.value = mergeStreams(original, nodeStream(pre), text);
     }
-    if (lineNodes) {
-      var resultPre = document.createElement('pre');
-      resultPre.innerHTML = result.value;
-      var linesPre = document.createElement('pre');
-      var lines = escape(text).replace(/^/gm, '<span class="line"></span>');
-      linesPre.innerHTML = lines;
-      result.value = mergeStreams(nodeStream(linesPre), nodeStream(resultPre), text);
-    }
-    result.value = fixMarkup(result.value, tabReplace, useBR);
+    result.value = fixMarkup(result.value);
 
-    var class_name = block.className;
-    if (!class_name.match('(\\s|^)(language-)?' + language + '(\\s|$)')) {
-      class_name = class_name ? (class_name + ' ' + language) : language;
-    }
-    if (/MSIE [678]/.test(navigator.userAgent) && block.tagName == 'CODE' && block.parentNode.tagName == 'PRE') {
-      // This is for backwards compatibility only. IE needs this strange
-      // hack becasue it cannot just cleanly replace <code> block contents.
-      pre = block.parentNode;
-      var container = document.createElement('div');
-      container.innerHTML = '<pre><code>' + result.value + '</code></pre>';
-      block = container.firstChild.firstChild;
-      container.firstChild.className = pre.className;
-      pre.parentNode.replaceChild(container.firstChild, pre);
-    } else {
-      block.innerHTML = result.value;
-    }
-    block.className = class_name;
+    block.innerHTML = result.value;
+    block.className += ' hljs ' + (!language && result.language || '');
     block.result = {
-      language: language,
-      kw: result.keyword_count,
+      language: result.language,
       re: result.relevance
     };
     if (result.second_best) {
       block.second_best = {
         language: result.second_best.language,
-        kw: result.second_best.keyword_count,
         re: result.second_best.relevance
       };
     }
+  }
+
+  var options = {
+    classPrefix: 'hljs-',
+    tabReplace: null,
+    useBR: false,
+    languages: undefined
+  };
+
+  /*
+  Updates highlight.js global options with values passed in the form of an object
+  */
+  function configure(user_options) {
+    options = inherit(options, user_options);
   }
 
   /*
@@ -576,64 +565,69 @@ var hljs = new function() {
     if (initHighlighting.called)
       return;
     initHighlighting.called = true;
-    var pres = document.getElementsByTagName('pre');
-    for (var i = 0; i < pres.length; i++) {
-      var code = findCode(pres[i]);
-      if (code)
-        highlightBlock(code, hljs.tabReplace, false, hljs.lineNodes);
-    }
+
+    var blocks = document.querySelectorAll('pre code');
+    Array.prototype.forEach.call(blocks, highlightBlock);
   }
 
   /*
   Attaches highlighting to the page load event.
   */
   function initHighlightingOnLoad() {
-    if (window.addEventListener) {
-      window.addEventListener('DOMContentLoaded', initHighlighting, false);
-      window.addEventListener('load', initHighlighting, false);
-    } else if (window.attachEvent)
-      window.attachEvent('onload', initHighlighting);
-    else
-      window.onload = initHighlighting;
+    addEventListener('DOMContentLoaded', initHighlighting, false);
+    addEventListener('load', initHighlighting, false);
   }
 
-  var languages = {}; // a shortcut to avoid writing "this." everywhere
+  var languages = {};
+  var aliases = {};
+
+  function registerLanguage(name, language) {
+    var lang = languages[name] = language(this);
+    if (lang.aliases) {
+      lang.aliases.forEach(function(alias) {aliases[alias] = name;});
+    }
+  }
+
+  function getLanguage(name) {
+    return languages[name] || languages[aliases[name]];
+  }
 
   /* Interface definition */
 
-  this.LANGUAGES = languages;
   this.highlight = highlight;
   this.highlightAuto = highlightAuto;
   this.fixMarkup = fixMarkup;
   this.highlightBlock = highlightBlock;
+  this.configure = configure;
   this.initHighlighting = initHighlighting;
   this.initHighlightingOnLoad = initHighlightingOnLoad;
+  this.registerLanguage = registerLanguage;
+  this.getLanguage = getLanguage;
+  this.inherit = inherit;
 
   // Common regexps
   this.IDENT_RE = '[a-zA-Z][a-zA-Z0-9_]*';
   this.UNDERSCORE_IDENT_RE = '[a-zA-Z_][a-zA-Z0-9_]*';
   this.NUMBER_RE = '\\b\\d+(\\.\\d+)?';
-  this.C_NUMBER_RE = '\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)'; // 0x..., 0..., decimal, float
+  this.C_NUMBER_RE = '(\\b0[xX][a-fA-F0-9]+|(\\b\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)'; // 0x..., 0..., decimal, float
   this.BINARY_NUMBER_RE = '\\b(0b[01]+)'; // 0b...
-  this.RE_STARTERS_RE = '!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~';
+  this.RE_STARTERS_RE = '!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|-|-=|/=|/|:|;|<<|<<=|<=|<|===|==|=|>>>=|>>=|>=|>>>|>>|>|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~';
 
   // Common modes
   this.BACKSLASH_ESCAPE = {
-    begin: '\\\\.', relevance: 0
+    begin: '\\\\[\\s\\S]', relevance: 0
   };
   this.APOS_STRING_MODE = {
     className: 'string',
     begin: '\'', end: '\'',
     illegal: '\\n',
-    contains: [this.BACKSLASH_ESCAPE],
-    relevance: 0
+    contains: [this.BACKSLASH_ESCAPE]
   };
   this.QUOTE_STRING_MODE = {
     className: 'string',
     begin: '"', end: '"',
     illegal: '\\n',
-    contains: [this.BACKSLASH_ESCAPE],
-    relevance: 0
+    contains: [this.BACKSLASH_ESCAPE]
   };
   this.C_LINE_COMMENT_MODE = {
     className: 'comment',
@@ -662,15 +656,27 @@ var hljs = new function() {
     begin: this.BINARY_NUMBER_RE,
     relevance: 0
   };
-
-  // Utility functions
-  this.inherit = function(parent, obj) {
-    var result = {}
-    for (var key in parent)
-      result[key] = parent[key];
-    if (obj)
-      for (var key in obj)
-        result[key] = obj[key];
-    return result;
-  }
-}();
+  this.REGEXP_MODE = {
+    className: 'regexp',
+    begin: /\//, end: /\/[gim]*/,
+    illegal: /\n/,
+    contains: [
+      this.BACKSLASH_ESCAPE,
+      {
+        begin: /\[/, end: /\]/,
+        relevance: 0,
+        contains: [this.BACKSLASH_ESCAPE]
+      }
+    ]
+  };
+  this.TITLE_MODE = {
+    className: 'title',
+    begin: this.IDENT_RE,
+    relevance: 0
+  };
+  this.UNDERSCORE_TITLE_MODE = {
+    className: 'title',
+    begin: this.UNDERSCORE_IDENT_RE,
+    relevance: 0
+  };
+};

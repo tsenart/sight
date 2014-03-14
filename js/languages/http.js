@@ -4,8 +4,8 @@
   Author: Ivan Sagalaev <maniac@softwaremaniacs.org>
 */
 
-hljs.LANGUAGES.http = {
-  defaultMode: {
+hljs.registerLanguage("http", function(hljs) {
+  return {
     illegal: '\\S',
     contains: [
       {
@@ -27,7 +27,7 @@ hljs.LANGUAGES.http = {
       {
         className: 'attribute',
         begin: '^\\w', end: ': ', excludeEnd: true,
-        illegal: '\\n',
+        illegal: '\\n|\\s|=',
         starts: {className: 'string', end: '$'}
       },
       {
@@ -35,5 +35,6 @@ hljs.LANGUAGES.http = {
         starts: {subLanguage: '', endsWithParent: true}
       }
     ]
-  }
+  };
 }
+)

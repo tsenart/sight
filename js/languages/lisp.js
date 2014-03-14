@@ -4,36 +4,28 @@ Description: Generic lisp syntax
 Author: Vasily Polovnyov <vast@whiteants.net>
 */
 
-hljs.LANGUAGES.lisp = function(){
-  var LISP_IDENT_RE = '[a-zA-Z_\\-\\+\\*\\/\\<\\=\\>\\&\\#][a-zA-Z0-9_\\-\\+\\*\\/\\<\\=\\>\\&\\#]*';
+hljs.registerLanguage("lisp", function(hljs) {
+  var LISP_IDENT_RE = '[a-zA-Z_\\-\\+\\*\\/\\<\\=\\>\\&\\#][a-zA-Z0-9_\\-\\+\\*\\/\\<\\=\\>\\&\\#!]*';
   var LISP_SIMPLE_NUMBER_RE = '(\\-|\\+)?\\d+(\\.\\d+|\\/\\d+)?((d|e|f|l|s)(\\+|\\-)?\\d+)?';
+  var SHEBANG = {
+    className: 'shebang',
+    begin: '^#!', end: '$'
+  };
   var LITERAL = {
     className: 'literal',
     begin: '\\b(t{1}|nil)\\b'
   };
-  var NUMBERS = [
-    {
-      className: 'number', begin: LISP_SIMPLE_NUMBER_RE
-    },
-    {
-      className: 'number', begin: '#b[0-1]+(/[0-1]+)?'
-    },
-    {
-      className: 'number', begin: '#o[0-7]+(/[0-7]+)?'
-    },
-    {
-      className: 'number', begin: '#x[0-9a-f]+(/[0-9a-f]+)?'
-    },
-    {
-      className: 'number', begin: '#c\\(' + LISP_SIMPLE_NUMBER_RE + ' +' + LISP_SIMPLE_NUMBER_RE, end: '\\)'
-    }
-  ]
-  var STRING = {
-    className: 'string',
-    begin: '"', end: '"',
-    contains: [hljs.BACKSLASH_ESCAPE],
-    relevance: 0
+  var NUMBER = {
+    className: 'number',
+    variants: [
+      {begin: LISP_SIMPLE_NUMBER_RE, relevance: 0},
+      {begin: '#b[0-1]+(/[0-1]+)?'},
+      {begin: '#o[0-7]+(/[0-7]+)?'},
+      {begin: '#x[0-9a-f]+(/[0-9a-f]+)?'},
+      {begin: '#c\\(' + LISP_SIMPLE_NUMBER_RE + ' +' + LISP_SIMPLE_NUMBER_RE, end: '\\)'}
+    ]
   };
+  var STRING = hljs.inherit(hljs.QUOTE_STRING_MODE, {illegal: null});
   var COMMENT = {
     className: 'comment',
     begin: ';', end: '$'
@@ -48,41 +40,43 @@ hljs.LANGUAGES.lisp = function(){
   };
   var QUOTED_LIST = {
     begin: '\\(', end: '\\)',
-    contains: ['self', LITERAL, STRING].concat(NUMBERS)
+    contains: ['self', LITERAL, STRING, NUMBER]
   };
-  var QUOTED1 = {
+  var QUOTED = {
     className: 'quoted',
-    begin: '[\'`]\\(', end: '\\)',
-    contains: NUMBERS.concat([STRING, VARIABLE, KEYWORD, QUOTED_LIST])
-  };
-  var QUOTED2 = {
-    className: 'quoted',
-    begin: '\\(quote ', end: '\\)',
-    keywords: {title: 'quote'},
-    contains: NUMBERS.concat([STRING, VARIABLE, KEYWORD, QUOTED_LIST])
+    contains: [NUMBER, STRING, VARIABLE, KEYWORD, QUOTED_LIST],
+    variants: [
+      {
+        begin: '[\'`]\\(', end: '\\)',
+      },
+      {
+        begin: '\\(quote ', end: '\\)',
+        keywords: {title: 'quote'},
+      }
+    ]
   };
   var LIST = {
     className: 'list',
     begin: '\\(', end: '\\)'
   };
   var BODY = {
-    className: 'body',
-    endsWithParent: true, excludeEnd: true
+    endsWithParent: true,
+    relevance: 0
   };
   LIST.contains = [{className: 'title', begin: LISP_IDENT_RE}, BODY];
-  BODY.contains = [QUOTED1, QUOTED2, LIST, LITERAL].concat(NUMBERS).concat([STRING, COMMENT, VARIABLE, KEYWORD]);
+  BODY.contains = [QUOTED, LIST, LITERAL, NUMBER, STRING, COMMENT, VARIABLE, KEYWORD];
 
   return {
-    case_insensitive: true,
-    defaultMode: {
-      illegal: '[^\\s]',
-      contains: NUMBERS.concat([
-        LITERAL,
-        STRING,
-        COMMENT,
-        QUOTED1, QUOTED2,
-        LIST
-      ])
-    }
+    illegal: /\S/,
+    contains: [
+      NUMBER,
+      SHEBANG,
+      LITERAL,
+      STRING,
+      COMMENT,
+      QUOTED,
+      LIST
+    ]
   };
-}();
+}
+)

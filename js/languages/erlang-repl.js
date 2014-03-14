@@ -3,8 +3,8 @@
  Author: Sergey Ignatov <sergey@ignatov.spb.su>
  */
 
-hljs.LANGUAGES.erlang_repl = {
-  defaultMode: {
+hljs.registerLanguage("erlang-repl", function(hljs) {
+  return {
     keywords: {
       special_functions:
         'spawn spawn_link self',
@@ -14,7 +14,7 @@ hljs.LANGUAGES.erlang_repl = {
     },
     contains: [
       {
-        className: 'input_number', begin: '^[0-9]+> ',
+        className: 'prompt', begin: '^[0-9]+> ',
         relevance: 10
       },
       {
@@ -51,5 +51,6 @@ hljs.LANGUAGES.erlang_repl = {
         relevance: 0
       }
     ]
-  }
-};
+  };
+}
+)

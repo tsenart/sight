@@ -2,10 +2,10 @@
 Language: Ini
 */
 
-hljs.LANGUAGES.ini = {
-  case_insensitive: true,
-  defaultMode: {
-    illegal: '[^\\s]',
+hljs.registerLanguage("ini", function(hljs) {
+  return {
+    case_insensitive: true,
+    illegal: /\S/,
     contains: [
       {
         className: 'comment',
@@ -17,16 +17,18 @@ hljs.LANGUAGES.ini = {
       },
       {
         className: 'setting',
-        begin: '^[a-z0-9_\\[\\]]+[ \\t]*=[ \\t]*', end: '$',
+        begin: '^[a-z0-9\\[\\]_-]+[ \\t]*=[ \\t]*', end: '$',
         contains: [
           {
             className: 'value',
             endsWithParent: true,
             keywords: 'on off true false yes no',
-            contains: [hljs.QUOTE_STRING_MODE, hljs.NUMBER_MODE]
+            contains: [hljs.QUOTE_STRING_MODE, hljs.NUMBER_MODE],
+            relevance: 0
           }
         ]
       }
     ]
-  }
-};
+  };
+}
+)

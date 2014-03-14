@@ -5,39 +5,10 @@ Author: Ivan Sagalaev <maniac@softwaremaniacs.org>
 Contributors: Ilya Baryshev <baryshev@gmail.com>
 */
 
-hljs.LANGUAGES.django = function() {
-
-  function allowsDjangoSyntax(mode, parent) {
-    return (
-      parent == undefined || // defaultMode
-      (!mode.className && parent.className == 'tag') || // tag_internal
-      mode.className == 'value' // value
-    );
-  }
-
-  function copy(mode, parent) {
-    var result = {};
-    for (var key in mode) {
-      if (key != 'contains') {
-        result[key] = mode[key];
-      }
-      var contains = [];
-      for (var i = 0; mode.contains && i < mode.contains.length; i++) {
-        contains.push(copy(mode.contains[i], mode));
-      }
-      if (allowsDjangoSyntax(mode, parent)) {
-        contains = DJANGO_CONTAINS.concat(contains);
-      }
-      if (contains.length) {
-        result.contains = contains;
-      }
-    }
-    return result;
-  }
-
+hljs.registerLanguage("django", function(hljs) {
   var FILTER = {
     className: 'filter',
-    begin: '\\|[A-Za-z]+\\:?', excludeEnd: true,
+    begin: /\|[A-Za-z]+\:?/,
     keywords:
       'truncatewords removetags linebreaksbr yesno get_digit timesince random striptags ' +
       'filesizeformat escape linebreaks length_is ljust rjust cut urlize fix_ampersands ' +
@@ -48,43 +19,44 @@ hljs.LANGUAGES.django = function() {
       'escapejs force_escape iriencode last safe safeseq truncatechars localize unlocalize ' +
       'localtime utc timezone',
     contains: [
-      {className: 'argument', begin: '"', end: '"'}
+      {className: 'argument', begin: /"/, end: /"/},
+      {className: 'argument', begin: /'/, end: /'/}
     ]
   };
 
-  var DJANGO_CONTAINS = [
-    {
-      className: 'template_comment',
-      begin: '{%\\s*comment\\s*%}', end: '{%\\s*endcomment\\s*%}'
-    },
-    {
-      className: 'template_comment',
-      begin: '{#', end: '#}'
-    },
-    {
-      className: 'template_tag',
-      begin: '{%', end: '%}',
-      keywords:
-        'comment endcomment load templatetag ifchanged endifchanged if endif firstof for ' +
-        'endfor in ifnotequal endifnotequal widthratio extends include spaceless ' +
-        'endspaceless regroup by as ifequal endifequal ssi now with cycle url filter ' +
-        'endfilter debug block endblock else autoescape endautoescape csrf_token empty elif ' +
-        'endwith static trans blocktrans endblocktrans get_static_prefix get_media_prefix ' +
-        'plural get_current_language language get_available_languages ' +
-        'get_current_language_bidi get_language_info get_language_info_list localize ' +
-        'endlocalize localtime endlocaltime timezone endtimezone get_current_timezone',
-      contains: [FILTER]
-    },
-    {
-      className: 'variable',
-      begin: '{{', end: '}}',
-      contains: [FILTER]
-    }
-  ];
-
   return {
     case_insensitive: true,
-    defaultMode: copy(hljs.LANGUAGES.xml.defaultMode)
+    subLanguage: 'xml', subLanguageMode: 'continuous',
+    contains: [
+      {
+        className: 'template_comment',
+        begin: /\{%\s*comment\s*%}/, end: /\{%\s*endcomment\s*%}/
+      },
+      {
+        className: 'template_comment',
+        begin: /\{#/, end: /#}/
+      },
+      {
+        className: 'template_tag',
+        begin: /\{%/, end: /%}/,
+        keywords:
+          'comment endcomment load templatetag ifchanged endifchanged if endif firstof for ' +
+          'endfor in ifnotequal endifnotequal widthratio extends include spaceless ' +
+          'endspaceless regroup by as ifequal endifequal ssi now with cycle url filter ' +
+          'endfilter debug block endblock else autoescape endautoescape csrf_token empty elif ' +
+          'endwith static trans blocktrans endblocktrans get_static_prefix get_media_prefix ' +
+          'plural get_current_language language get_available_languages ' +
+          'get_current_language_bidi get_language_info get_language_info_list localize ' +
+          'endlocalize localtime endlocaltime timezone endtimezone get_current_timezone ' +
+          'verbatim',
+        contains: [FILTER]
+      },
+      {
+        className: 'variable',
+        begin: /\{\{/, end: /}}/,
+        contains: [FILTER]
+      }
+    ]
   };
-
-}();
+}
+)

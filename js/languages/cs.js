@@ -3,19 +3,20 @@ Language: C#
 Author: Jason Diamond <jason@diamond.name>
 */
 
-hljs.LANGUAGES.cs  = {
-  defaultMode: {
-    keywords:
-      // Normal keywords.
-      'abstract as base bool break byte case catch char checked class const continue decimal ' +
-      'default delegate do double else enum event explicit extern false finally fixed float ' +
-      'for foreach goto if implicit in int interface internal is lock long namespace new null ' +
-      'object operator out override params private protected public readonly ref return sbyte ' +
-      'sealed short sizeof stackalloc static string struct switch this throw true try typeof ' +
-      'uint ulong unchecked unsafe ushort using virtual volatile void while ' +
-      // Contextual keywords.
-      'ascending descending from get group into join let orderby partial select set value var '+
-      'where yield',
+hljs.registerLanguage("cs", function(hljs) {
+  var KEYWORDS =
+    // Normal keywords.
+    'abstract as base bool break byte case catch char checked const continue decimal ' +
+    'default delegate do double else enum event explicit extern false finally fixed float ' +
+    'for foreach goto if implicit in int interface internal is lock long new null ' +
+    'object operator out override params private protected public readonly ref return sbyte ' +
+    'sealed short sizeof stackalloc static string struct switch this throw true try typeof ' +
+    'uint ulong unchecked unsafe ushort using virtual volatile void while async await ' +
+    // Contextual keywords.
+    'ascending descending from get group into join let orderby partial select set value var ' +
+    'where yield';
+  return {
+    keywords: KEYWORDS,
     contains: [
       {
         className: 'comment',
@@ -45,7 +46,26 @@ hljs.LANGUAGES.cs  = {
       },
       hljs.APOS_STRING_MODE,
       hljs.QUOTE_STRING_MODE,
-      hljs.C_NUMBER_MODE
+      hljs.C_NUMBER_MODE,
+      {
+        beginKeywords: 'protected public private internal', end: /[{;=]/,
+        keywords: KEYWORDS,
+        contains: [
+          {
+            beginKeywords: 'class namespace interface',
+            starts: {
+              contains: [hljs.TITLE_MODE]
+            }
+          },
+          {
+            begin: hljs.IDENT_RE + '\\s*\\(', returnBegin: true,
+            contains: [
+              hljs.TITLE_MODE
+            ]
+          }
+        ]
+      }
     ]
-  }
-};
+  };
+}
+)

@@ -3,10 +3,9 @@ Language: AVR Assembler
 Author: Vladimir Ermakov <vooon341@gmail.com>
 */
 
-hljs.LANGUAGES.avrasm =
-{
-  case_insensitive: true,
-  defaultMode: {
+hljs.registerLanguage("avrasm", function(hljs) {
+  return {
+    case_insensitive: true,
     keywords: {
       keyword:
         /* mnemonic */
@@ -33,7 +32,7 @@ hljs.LANGUAGES.avrasm =
     },
     contains: [
       hljs.C_BLOCK_COMMENT_MODE,
-      {className: 'comment', begin: ';',  end: '$'},
+      {className: 'comment', begin: ';',  end: '$', relevance: 0},
       hljs.C_NUMBER_MODE, // 0x..., decimal, float
       hljs.BINARY_NUMBER_MODE, // 0b...
       {
@@ -57,6 +56,5 @@ hljs.LANGUAGES.avrasm =
         begin: '@[0-9]+'
       }
     ]
-  }
-};
-
+  };
+})

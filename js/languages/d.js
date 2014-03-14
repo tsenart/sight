@@ -22,7 +22,7 @@ Date: 2012-04-08
  *   up to the end of line is matched as special token sequence)
  */
 
-hljs.LANGUAGES.d = function() {
+hljs.registerLanguage("d", function(hljs) {
 
 	/**
 	 * Language keywords
@@ -66,7 +66,7 @@ hljs.LANGUAGES.d = function() {
 		hexadecimal_float_re = '(0[xX](' +
 									hexadecimal_digits_re + '\\.' + hexadecimal_digits_re + '|'+
 									'\\.?' + hexadecimal_digits_re +
-							   ')[pP][+-]?' + decimal_integer_nosus_re + ')';
+							   ')[pP][+-]?' + decimal_integer_nosus_re + ')',
 
 		integer_re = '(' +
 			decimal_integer_re + '|' +
@@ -148,8 +148,7 @@ hljs.LANGUAGES.d = function() {
 		className: 'string',
 		begin: '"',
 		contains: [D_ESCAPE_SEQUENCE],
-		end: '"[cwd]?',
-		relevance: 0
+		end: '"[cwd]?'
 	};
 
 	/**
@@ -245,25 +244,24 @@ hljs.LANGUAGES.d = function() {
 	}
 
 	return {
-		defaultMode: {
-			lexems: hljs.UNDERSCORE_IDENT_RE,
-			keywords: D_KEYWORDS,
-			contains: [
-				hljs.C_LINE_COMMENT_MODE,
-      			hljs.C_BLOCK_COMMENT_MODE,
-      			D_NESTING_COMMENT_MODE,
-      			D_HEX_STRING_MODE,
-      			D_STRING_MODE,
-      			D_WYSIWYG_DELIMITED_STRING_MODE,
-      			D_ALTERNATE_WYSIWYG_STRING_MODE,
-      			D_TOKEN_STRING_MODE,
-      			D_FLOAT_MODE,
-      			D_INTEGER_MODE,
-      			D_CHARACTER_MODE,
-      			D_HASHBANG_MODE,
-      			D_SPECIAL_TOKEN_SEQUENCE_MODE,
-      			D_ATTRIBUTE_MODE
-			]
-		}
+		lexemes: hljs.UNDERSCORE_IDENT_RE,
+		keywords: D_KEYWORDS,
+		contains: [
+			hljs.C_LINE_COMMENT_MODE,
+  			hljs.C_BLOCK_COMMENT_MODE,
+  			D_NESTING_COMMENT_MODE,
+  			D_HEX_STRING_MODE,
+  			D_STRING_MODE,
+  			D_WYSIWYG_DELIMITED_STRING_MODE,
+  			D_ALTERNATE_WYSIWYG_STRING_MODE,
+  			D_TOKEN_STRING_MODE,
+  			D_FLOAT_MODE,
+  			D_INTEGER_MODE,
+  			D_CHARACTER_MODE,
+  			D_HASHBANG_MODE,
+  			D_SPECIAL_TOKEN_SEQUENCE_MODE,
+  			D_ATTRIBUTE_MODE
+		]
 	};
-}();
+}
+)

@@ -39,11 +39,10 @@
   const OPTIONS_DEFAULTS = {
     theme: 'sunburst',
     font: 'Inconsolata',
-    fontSize: 'medium',
-    lineNumbers: false
+    fontSize: 'medium'
   };
 
-  ['theme', 'font', 'fontSize', 'lineNumbers'].forEach(function(option) {
+  ['theme', 'font', 'fontSize'].forEach(function(option) {
     if (localStorage.getItem(option) === null) {
       localStorage.setItem(option, OPTIONS_DEFAULTS[option]);
     }
@@ -103,12 +102,12 @@
                  EXT_LANG_MAP[filename];
   }
 
-  function getHighlightingCode(font, fontSize, language, showLineNumbers) {
+  function getHighlightingCode(font, fontSize, language) {
     var code = 'document.body.style.fontFamily = "' + font + '";';
     code += 'document.body.style.fontSize = "' + fontSize + '";';
     code += 'var container = document.querySelector("pre");';
     code += 'container.classList.add("' + language + '");';
-    code += 'hljs.highlightBlock(container, "  ", false, ' + showLineNumbers + ');';
+    code += 'hljs.highlightBlock(container);';
     return code;
   }
 
@@ -122,8 +121,7 @@
       sendResponse({
         theme: localStorage.getItem('theme'),
         font: localStorage.getItem('font'),
-        fontSize: localStorage.getItem('fontSize'),
-        lineNumbers: localStorage.getItem('lineNumbers')
+        fontSize: localStorage.getItem('fontSize')
       });
       return;
     }
@@ -154,8 +152,7 @@
             code: getHighlightingCode(
               localStorage.getItem('font'),
               localStorage.getItem('fontSize'),
-              language,
-              localStorage.getItem('lineNumbers')
+              language
             )
           });
           return;
@@ -166,8 +163,7 @@
               code: getHighlightingCode(
                 localStorage.getItem('font'),
                 localStorage.getItem('fontSize'),
-                language,
-                localStorage.getItem('lineNumbers')
+                language
               )
             });
           });

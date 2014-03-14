@@ -4,16 +4,17 @@ Author: Valerii Hiora <valerii.hiora@gmail.com>
 Contributors: Angel G. Olloqui <angelgarcia.mail@gmail.com>
 */
 
-hljs.LANGUAGES.objectivec = function(){
+hljs.registerLanguage("objectivec", function(hljs) {
   var OBJC_KEYWORDS = {
     keyword:
-      'int float while private char catch export sizeof typedef const struct for union ' +
-      'unsigned long volatile static protected bool mutable if public do return goto void ' +
-      'enum else break extern class asm case short default double throw register explicit ' +
-      'signed typename try this switch continue wchar_t inline readonly assign property ' +
-      'protocol self synchronized end synthesize id optional required implementation ' +
-      'nonatomic interface super unichar finally dynamic IBOutlet IBAction selector strong ' +
-      'weak readonly',
+      'int float while char export sizeof typedef const struct for union ' +
+      'unsigned long volatile static bool mutable if do return goto void ' +
+      'enum else break extern asm case short default double register explicit ' +
+      'signed typename this switch continue wchar_t inline readonly assign ' +
+      'self synchronized id ' +
+      'nonatomic super unichar IBOutlet IBAction strong weak ' +
+      '@private @protected @public @try @property @end @throw @catch @finally ' +
+      '@synthesize @dynamic @selector @optional @required',
     literal:
     	'false true FALSE TRUE nil YES NO NULL',
     built_in:
@@ -27,64 +28,63 @@ hljs.LANGUAGES.objectivec = function(){
       'NSFetchedResultsChangeType UIScrollView UIScrollViewDelegate UIEdgeInsets UIColor ' +
       'UIFont UIApplication NSNotFound NSNotificationCenter NSNotification ' +
       'UILocalNotification NSBundle NSFileManager NSTimeInterval NSDate NSCalendar ' +
-      'NSUserDefaults UIWindow NSRange NSArray NSError NSURLRequest NSURLConnection class ' +
+      'NSUserDefaults UIWindow NSRange NSArray NSError NSURLRequest NSURLConnection ' +
       'UIInterfaceOrientation MPMoviePlayerController dispatch_once_t ' +
       'dispatch_queue_t dispatch_sync dispatch_async dispatch_once'
   };
+  var LEXEMES = /[a-zA-Z@][a-zA-Z0-9_]*/;
+  var CLASS_KEYWORDS = '@interface @class @protocol @implementation';
   return {
-    defaultMode: {
-      keywords: OBJC_KEYWORDS,
-      illegal: '</',
-      contains: [
-        hljs.C_LINE_COMMENT_MODE,
-        hljs.C_BLOCK_COMMENT_MODE,
-        hljs.C_NUMBER_MODE,
-        hljs.QUOTE_STRING_MODE,
-        {
-          className: 'string',
-          begin: '\'',
-          end: '[^\\\\]\'',
-          illegal: '[^\\\\][^\']'
-        },
+    keywords: OBJC_KEYWORDS, lexemes: LEXEMES,
+    illegal: '</',
+    contains: [
+      hljs.C_LINE_COMMENT_MODE,
+      hljs.C_BLOCK_COMMENT_MODE,
+      hljs.C_NUMBER_MODE,
+      hljs.QUOTE_STRING_MODE,
+      {
+        className: 'string',
+        begin: '\'',
+        end: '[^\\\\]\'',
+        illegal: '[^\\\\][^\']'
+      },
 
+      {
+        className: 'preprocessor',
+        begin: '#import',
+        end: '$',
+        contains: [
         {
-          className: 'preprocessor',
-          begin: '#import',
-          end: '$',
-          contains: [
-          {
-            className: 'title',
-            begin: '\"',
-            end: '\"'
-          },
-          {
-            className: 'title',
-            begin: '<',
-            end: '>'
-          }
-          ]
+          className: 'title',
+          begin: '\"',
+          end: '\"'
         },
         {
-          className: 'preprocessor',
-          begin: '#',
-          end: '$'
-        },
-        {
-          className: 'class',
-          beginWithKeyword: true,
-          end: '({|$)',
-          keywords: 'interface class protocol implementation',
-          contains: [{
-            className: 'id',
-            begin: hljs.UNDERSCORE_IDENT_RE
-          }
-          ]
-        },
-        {
-          className: 'variable',
-          begin: '\\.'+hljs.UNDERSCORE_IDENT_RE
+          className: 'title',
+          begin: '<',
+          end: '>'
         }
-      ]
-    }
+        ]
+      },
+      {
+        className: 'preprocessor',
+        begin: '#',
+        end: '$'
+      },
+      {
+        className: 'class',
+        begin: '(' + CLASS_KEYWORDS.split(' ').join('|') + ')\\b', end: '({|$)',
+        keywords: CLASS_KEYWORDS, lexemes: LEXEMES,
+        contains: [
+          hljs.UNDERSCORE_TITLE_MODE
+        ]
+      },
+      {
+        className: 'variable',
+        begin: '\\.'+hljs.UNDERSCORE_IDENT_RE,
+        relevance: 0
+      }
+    ]
   };
-}();
+}
+)

@@ -4,12 +4,12 @@ Description: Python profiler results
 Author: Brian Beck <exogen@gmail.com>
 */
 
-hljs.LANGUAGES.profile = {
-  defaultMode: {
+hljs.registerLanguage("profile", function(hljs) {
+  return {
     contains: [
       hljs.C_NUMBER_MODE,
       {
-        className: 'builtin',
+        className: 'built_in',
         begin: '{', end: '}$',
         excludeBegin: true, excludeEnd: true,
         contains: [hljs.APOS_STRING_MODE, hljs.QUOTE_STRING_MODE],
@@ -37,13 +37,12 @@ hljs.LANGUAGES.profile = {
       {
         className: 'function',
         begin: '\\(', end: '\\)$',
-        contains: [{
-          className: 'title',
-          begin: hljs.UNDERSCORE_IDENT_RE,
-          relevance: 0
-        }],
+        contains: [
+          hljs.UNDERSCORE_TITLE_MODE
+        ],
         relevance: 0
       }
     ]
-  }
-};
+  };
+}
+)

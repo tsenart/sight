@@ -2,9 +2,9 @@
 Language: YAML
 Author: John Tantalo <john.tantalo@gmail.com>
 */
-hljs.LANGUAGES.yaml = (function () {
+hljs.registerLanguage("yaml", function(hljs) {
   var IDENTIFIER = '[a-zA-Z_][a-zA-Z0-9_-]*';
-  
+
   return {
     defaultMode: {
       contains: [
@@ -49,4 +49,4 @@ hljs.LANGUAGES.yaml = (function () {
       }
     ]
   };
-})();
+})

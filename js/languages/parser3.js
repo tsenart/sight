@@ -4,9 +4,9 @@ Requires: xml.js
 Author: Oleg Volchkov <oleg@volchkov.net>
 */
 
-hljs.LANGUAGES.parser3 = {
-  defaultMode: {
-    subLanguage: 'xml',
+hljs.registerLanguage("parser3", function(hljs) {
+  return {
+    subLanguage: 'xml', relevance: 0,
     contains: [
       {
         className: 'comment',
@@ -46,5 +46,6 @@ hljs.LANGUAGES.parser3 = {
       },
       hljs.C_NUMBER_MODE
     ]
-  }
-};
+  };
+}
+)

@@ -1,10 +1,21 @@
 /*
 Language: Matlab
 Author: Denis Bardadym <bardadymchik@gmail.com>
+Contributors: Eugene Nizhibitsky <nizhibitsky@ya.ru>
 */
 
-hljs.LANGUAGES.matlab = {
-  defaultMode: {
+hljs.registerLanguage("matlab", function(hljs) {
+
+  var COMMON_CONTAINS = [
+    hljs.C_NUMBER_MODE,
+    {
+      className: 'string',
+      begin: '\'', end: '\'',
+      contains: [hljs.BACKSLASH_ESCAPE, {begin: '\'\''}]
+    }
+  ];
+
+  return {
     keywords: {
       keyword:
         'break case catch classdef continue else elseif end enumerated events for function ' +
@@ -29,13 +40,9 @@ hljs.LANGUAGES.matlab = {
     contains: [
       {
         className: 'function',
-        beginWithKeyword: true, end: '$',
-        keywords: 'function',
+        beginKeywords: 'function', end: '$',
         contains: [
-          {
-              className: 'title',
-              begin: hljs.UNDERSCORE_IDENT_RE
-          },
+          hljs.UNDERSCORE_TITLE_MODE,
           {
               className: 'params',
               begin: '\\(', end: '\\)'
@@ -47,16 +54,27 @@ hljs.LANGUAGES.matlab = {
         ]
       },
       {
-        className: 'string',
-        begin: '\'', end: '\'',
-        contains: [hljs.BACKSLASH_ESCAPE, {begin: '\'\''}],
+        className: 'transposed_variable',
+        begin: '[a-zA-Z_][a-zA-Z_0-9]*(\'+[\\.\']*|[\\.\']+)', end: '',
         relevance: 0
+      },
+      {
+        className: 'matrix',
+        begin: '\\[', end: '\\]\'*[\\.\']*',
+        contains: COMMON_CONTAINS,
+        relevance: 0
+      },
+      {
+        className: 'cell',
+        begin: '\\{', end: '\\}\'*[\\.\']*',
+        contains: COMMON_CONTAINS,
+        illegal: /:/
       },
       {
         className: 'comment',
         begin: '\\%', end: '$'
-      },
-      hljs.C_NUMBER_MODE
-    ]
-  }
-};
+      }
+    ].concat(COMMON_CONTAINS)
+  };
+}
+)

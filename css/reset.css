@@ -100,3 +100,7 @@ hr {
 input, select {
     vertical-align:middle;
 }
+
+pre { counter-reset: listing; }
+pre { counter-increment: listing; }
+pre pre:before { content: counter(listing) ". "; color: gray; }
