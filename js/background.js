@@ -148,33 +148,37 @@
       return;
     }
 
-    chrome.tabs.insertCSS(details.tabId, { file: 'css/reset.css' });
-    chrome.tabs.insertCSS(details.tabId, { file: 'css/main.css' });
-    chrome.tabs.insertCSS(details.tabId, { file: 'css/' + localStorage.getItem('theme') + '.css' });
-    chrome.tabs.executeScript(details.tabId, { file: 'js/lib/highlight.js' }, function() {
-      chrome.tabs.executeScript(details.tabId, { file: 'js/languages/' + language + '.js' }, function() {
-        if (!/javascript|json/.test(language)) {
-          chrome.tabs.executeScript(details.tabId, {
-            code: getHighlightingCode(
-              localStorage.getItem('font'),
-              localStorage.getItem('fontSize'),
-              language
-            )
-          });
-          return;
-        }
-        chrome.tabs.executeScript(details.tabId, { file: 'js/lib/beautify.js' }, function() {
-          chrome.tabs.executeScript(details.tabId, { code: JS_BEUTIFY_CODE }, function() {
-            chrome.tabs.executeScript(details.tabId, {
-              code: getHighlightingCode(
-                localStorage.getItem('font'),
-                localStorage.getItem('fontSize'),
-                language
-              )
-            });
-          });
-        });
+    var styles  = [
+      { file: 'css/reset.css' },
+      { file: 'css/main.css' },
+      { file: 'css/' + localStorage.getItem('theme') + '.css' }
+    ];
+
+    var scripts = [
+      { file: 'js/lib/highlight.js' },
+      { file: 'js/languages/' + language + '.js' }
+    ];
+
+    if (/json/.test(language)) {
+      scripts.push(
+        { file: 'js/lib/beautify.js' },
+        { code: JS_BEUTIFY_CODE }
+      );
+    }
+
+    scripts.push(
+      { code: getHighlightingCode(localStorage.getItem('font'), localStorage.getItem('fontSize'), language) }
+    );
+
+    for (var i = 0; i < styles.length; i++) {
+      chrome.tabs.insertCSS(details.tabId, styles[i]);
+    }
+
+    (function chain(i) {
+      if (i == scripts.length) { return; }
+      chrome.tabs.executeScript(details.tabId, scripts[i], function() {
+        chain(i + 1);
       });
-    });
+    }(0))
   }, { urls: ['<all_urls>'], types: ['main_frame'] }, ['responseHeaders']);
 }());
