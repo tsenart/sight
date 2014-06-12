@@ -141,7 +141,7 @@
     var contentType = getContentTypeFromHeaders(details.responseHeaders);
     if (
       ['html', 'xml'].indexOf(contentType) != -1 ||
-      (details.url.indexOf('file:///') != -1 && ['html', 'xml'].indexOf(getExtensionFromFilename(getFilenameFromUrl(details.url))) == 0)
+      (details.url.indexOf('file:///') == 0 && ['html', 'xml'].indexOf(getExtensionFromFilename(getFilenameFromUrl(details.url))) == 0)
     ) {
       return;
     }
