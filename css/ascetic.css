@@ -4,6 +4,10 @@ Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiac
 
 */
 
+body {
+  background: white;
+}
+
 .hljs {
   display: block; padding: 0.5em;
   background: white; color: black;

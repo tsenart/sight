@@ -1,5 +1,9 @@
 /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
 
+body {
+  background: white;
+}
+
 /* Tomorrow Comment */
 .hljs-comment,
 .hljs-title {

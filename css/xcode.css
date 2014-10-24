@@ -4,6 +4,10 @@ XCode style (c) Angel Garcia <angelgarcia.mail@gmail.com>
 
 */
 
+body {
+  background: #fff;
+}
+
 .hljs {
   display: block; padding: 0.5em;
   background: #fff; color: black;

@@ -4,6 +4,10 @@ Railscasts-like style (c) Visoft, Inc. (Damien White)
 
 */
 
+body {
+  background: #232323;
+}
+
 .hljs {
   display: block;
   padding: 0.5em;

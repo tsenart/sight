@@ -4,6 +4,10 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 
 */
 
+body {
+  background: #23241f;
+}
+
 .hljs {
   display: block;
   padding: 0.5em;

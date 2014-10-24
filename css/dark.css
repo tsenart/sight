@@ -103,3 +103,7 @@ Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Or
 .xml .hljs-cdata {
   opacity: 0.5;
 }
+
+body {
+  background: #444;
+}

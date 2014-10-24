@@ -2,6 +2,10 @@
 /* Original theme - https://github.com/chriskempson/tomorrow-theme */
 /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
 
+body {
+  background: black;
+}
+
 /* Tomorrow Comment */
 .hljs-comment,
 .hljs-title {
