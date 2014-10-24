@@ -3,6 +3,10 @@
  * ported by Alexander Marenin (http://github.com/ioncreature)
  */
 
+body {
+    background: #282b2e;
+}
+
 .hljs {
     display: block; padding: 0.5em;
     background: #282B2E;

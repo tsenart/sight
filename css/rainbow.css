@@ -4,6 +4,10 @@ Style with support for rainbow parens
 
 */
 
+body {
+  background: #474949;
+}
+
 .hljs {
   display: block; padding: 0.5em;
   background: #474949; color: #D1D9E1;

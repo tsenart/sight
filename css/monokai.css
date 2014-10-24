@@ -2,6 +2,10 @@
 Monokai style - ported by Luigi Maselli - http://grigio.org
 */
 
+body {
+  background: #272822;
+}
+
 .hljs {
   display: block; padding: 0.5em;
   background: #272822;

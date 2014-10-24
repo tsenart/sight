@@ -4,6 +4,10 @@
     Inspired by the art of Rubens LP (http://www.rubenslp.com.br)
 */
 
+body {
+  background: #e7e9db;
+}
+
 /* Paraíso Comment */
 .hljs-comment,
 .hljs-title {

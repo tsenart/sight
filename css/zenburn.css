@@ -5,6 +5,10 @@ based on dark.css by Ivan Sagalaev
 
 */
 
+body {
+  background: #3f3f3f;
+}
+
 .hljs {
   display: block; padding: 0.5em;
   background: #3F3F3F;

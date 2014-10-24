@@ -4,6 +4,10 @@ Orginal Style from ethanschoonover.com/solarized (c) Jeremy Hull <sourdrums@gmai
 
 */
 
+body {
+  background: #fdf6e3;
+}
+
 .hljs {
   display: block;
   padding: 0.5em;
