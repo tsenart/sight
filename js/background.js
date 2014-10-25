@@ -166,9 +166,13 @@
       );
     }
 
-    scripts.push(
-      { code: getHighlightingCode(localStorage.getItem('font'), localStorage.getItem('fontSize'), language) }
-    );
+    scripts.push({
+      code: getHighlightingCode(
+        localStorage.getItem('font'),
+        localStorage.getItem('fontSize'),
+        language
+      )
+    });
 
     for (var i = 0; i < styles.length; i++) {
       chrome.tabs.insertCSS(details.tabId, styles[i]);
