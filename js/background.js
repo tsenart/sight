@@ -180,9 +180,7 @@
 
     (function chain(i) {
       if (i == scripts.length) { return; }
-      chrome.tabs.executeScript(details.tabId, scripts[i], function() {
-        chain(i + 1);
-      });
+      chrome.tabs.executeScript(details.tabId, scripts[i], chain.bind(null, i+1));
     }(0))
   }, { urls: ['<all_urls>'], types: ['main_frame'] }, ['responseHeaders']);
 }());
