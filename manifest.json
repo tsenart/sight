@@ -2,21 +2,22 @@
   "name": "Sight",
   "version": "1.12.0",
   "description": "The Syntax Highlighter for Chrome",
+  "homepage": "https://github.com/tsenart/sight",
   "manifest_version": 2,
   "background": {
-    "scripts": ["js/background.js"]
+    "scripts": [ "js/background.js" ]
   },
   "web_accessible_resources": [
-    "css/AnonymousPro.ttf",
-    "css/Consolas.ttf",
-    "css/CourierNew.ttf",
-    "css/DejaVuSansMono.ttf",
-    "css/DroidSansMono.ttf",
-    "css/Inconsolata.ttf",
-    "css/Monaco.ttf",
-    "css/Monofur.ttf",
-    "css/ProFont.ttf",
-    "css/ProggyClean.ttf",
+    "fonts/AnonymousPro.ttf",
+    "fonts/Consolas.ttf",
+    "fonts/CourierNew.ttf",
+    "fonts/DejaVuSansMono.ttf",
+    "fonts/DroidSansMono.ttf",
+    "fonts/Inconsolata.ttf",
+    "fonts/Monaco.ttf",
+    "fonts/Monofur.ttf",
+    "fonts/ProFont.ttf",
+    "fonts/ProggyClean.ttf",
     "css/arta.css",
     "css/ascetic.css",
     "css/atelier-dune.dark.css",
@@ -138,8 +139,11 @@
     "js/lib/highlight.js"
   ],
   "options_page": "options.html",
-  "permissions": ["tabs", "webRequest", "<all_urls>"],
-  "incognito": "spanning",
+  "permissions": [
+    "tabs",
+    "webRequest",
+    "<all_urls>"
+  ],
   "icons": {
     "16": "images/icon-16.png",
     "48": "images/icon-48.png",
