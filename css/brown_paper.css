@@ -1,69 +1,52 @@
 /*
-Monokai style - ported by Luigi Maselli - http://grigio.org
+
+Brown Paper style from goldblog.com.ua (c) Zaripov Yura <yur4ik7@ukr.net>
+
 */
 
 .hljs {
   display: block;
   overflow-x: auto;
   padding: 0.5em;
-  background: #272822;
+  background:#b7a68e url(./brown_papersq.png);
   -webkit-text-size-adjust: none;
 }
 
-.hljs-tag,
-.hljs-tag .hljs-title,
 .hljs-keyword,
 .hljs-literal,
-.hljs-strong,
 .hljs-change,
 .hljs-winutils,
 .hljs-flow,
 .nginx .hljs-title,
-.tex .hljs-special {
-  color: #f92672;
+.tex .hljs-special,
+.hljs-request,
+.hljs-status {
+  color:#005599;
+  font-weight:bold;
 }
 
-.hljs {
-  color: #ddd;
-}
-
-.hljs .hljs-constant,
-.asciidoc .hljs-code,
-.markdown .hljs-code {
-	color: #66d9ef;
-}
-
-.hljs-code,
-.hljs-class .hljs-title,
-.hljs-header {
-	color: white;
-}
-
-.hljs-link_label,
-.hljs-attribute,
-.hljs-symbol,
-.hljs-symbol .hljs-string,
-.hljs-value,
-.hljs-regexp {
-	color: #bf79db;
-}
-
-.hljs-link_url,
-.hljs-tag .hljs-value,
-.hljs-string,
-.hljs-bullet,
+.hljs,
 .hljs-subst,
+.hljs-tag .hljs-keyword {
+  color: #363c69;
+}
+
+.hljs-string,
 .hljs-title,
-.hljs-emphasis,
 .hljs-type,
+.hljs-tag .hljs-value,
+.css .hljs-rules .hljs-value,
 .hljs-preprocessor,
 .hljs-pragma,
+.ruby .hljs-symbol,
+.ruby .hljs-symbol .hljs-string,
 .ruby .hljs-class .hljs-parent,
 .hljs-built_in,
 .django .hljs-template_tag,
 .django .hljs-variable,
 .smalltalk .hljs-class,
 .hljs-javadoc,
+.ruby .hljs-string,
 .django .hljs-filter .hljs-argument,
 .smalltalk .hljs-localvars,
 .smalltalk .hljs-array,
@@ -74,24 +57,21 @@ Monokai style - ported by Luigi Maselli - http://grigio.org
 .hljs-envvar,
 .apache .hljs-tag,
 .apache .hljs-cbracket,
-.tex .hljs-command,
-.hljs-prompt {
-  color: #a6e22e;
+.tex .hljs-number {
+  color: #2c009f;
 }
 
 .hljs-comment,
 .hljs-annotation,
-.smartquote,
-.hljs-blockquote,
-.hljs-horizontal_rule,
 .hljs-decorator,
 .hljs-pi,
 .hljs-doctype,
 .hljs-deletion,
 .hljs-shebang,
 .apache .hljs-sqbracket,
+.nginx .hljs-built_in,
 .tex .hljs-formula {
-  color: #75715e;
+  color: #802022;
 }
 
 .hljs-keyword,
@@ -100,7 +80,6 @@ Monokai style - ported by Luigi Maselli - http://grigio.org
 .hljs-phpdoc,
 .hljs-dartdoc,
 .hljs-title,
-.hljs-header,
 .hljs-type,
 .vbscript .hljs-built_in,
 .rsl .hljs-built_in,
@@ -110,9 +89,7 @@ Monokai style - ported by Luigi Maselli - http://grigio.org
 .hljs-winutils,
 .bash .hljs-variable,
 .apache .hljs-tag,
-.tex .hljs-special,
-.hljs-request,
-.hljs-status {
+.tex .hljs-command {
   font-weight: bold;
 }
 
@@ -123,5 +100,5 @@ Monokai style - ported by Luigi Maselli - http://grigio.org
 .xml .vbscript,
 .xml .css,
 .xml .hljs-cdata {
-  opacity: 0.5;
+  opacity: 0.8;
 }

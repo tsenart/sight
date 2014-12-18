@@ -3,13 +3,8 @@
 /* Original theme - https://github.com/chriskempson/tomorrow-theme */
 /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
 
-body {
-  background: #1d1f21;
-}
-
 /* Tomorrow Comment */
-.hljs-comment,
-.hljs-title {
+.hljs-comment {
   color: #969896;
 }
 
@@ -57,6 +52,7 @@ body {
 }
 
 /* Tomorrow Aqua */
+.hljs-title,
 .css .hljs-hexcolor {
   color: #8abeb7;
 }
@@ -81,9 +77,11 @@ body {
 
 .hljs {
   display: block;
+  overflow-x: auto;
   background: #1d1f21;
   color: #c5c8c6;
   padding: 0.5em;
+  -webkit-text-size-adjust: none;
 }
 
 .coffeescript .javascript,

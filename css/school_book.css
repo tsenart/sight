@@ -1,69 +1,57 @@
 /*
-Monokai style - ported by Luigi Maselli - http://grigio.org
+
+School Book style from goldblog.com.ua (c) Zaripov Yura <yur4ik7@ukr.net>
+
 */
 
 .hljs {
   display: block;
   overflow-x: auto;
-  padding: 0.5em;
-  background: #272822;
+  padding: 15px 0.5em 0.5em 30px;
+  font-size: 11px !important;
+  line-height:16px !important;
   -webkit-text-size-adjust: none;
 }
 
-.hljs-tag,
-.hljs-tag .hljs-title,
+pre{
+  background:#f6f6ae url(./school_book.png);
+  border-top: solid 2px #d2e8b9;
+  border-bottom: solid 1px #d2e8b9;
+}
+
 .hljs-keyword,
 .hljs-literal,
-.hljs-strong,
 .hljs-change,
 .hljs-winutils,
 .hljs-flow,
 .nginx .hljs-title,
 .tex .hljs-special {
-  color: #f92672;
+  color:#005599;
+  font-weight:bold;
 }
 
-.hljs {
-  color: #ddd;
-}
-
-.hljs .hljs-constant,
-.asciidoc .hljs-code,
-.markdown .hljs-code {
-	color: #66d9ef;
-}
-
-.hljs-code,
-.hljs-class .hljs-title,
-.hljs-header {
-	color: white;
-}
-
-.hljs-link_label,
-.hljs-attribute,
-.hljs-symbol,
-.hljs-symbol .hljs-string,
-.hljs-value,
-.hljs-regexp {
-	color: #bf79db;
-}
-
-.hljs-link_url,
-.hljs-tag .hljs-value,
-.hljs-string,
-.hljs-bullet,
+.hljs,
 .hljs-subst,
+.hljs-tag .hljs-keyword {
+  color: #3e5915;
+}
+
+.hljs-string,
 .hljs-title,
-.hljs-emphasis,
 .hljs-type,
+.hljs-tag .hljs-value,
+.css .hljs-rules .hljs-value,
 .hljs-preprocessor,
 .hljs-pragma,
+.ruby .hljs-symbol,
+.ruby .hljs-symbol .hljs-string,
 .ruby .hljs-class .hljs-parent,
 .hljs-built_in,
 .django .hljs-template_tag,
 .django .hljs-variable,
 .smalltalk .hljs-class,
 .hljs-javadoc,
+.ruby .hljs-string,
 .django .hljs-filter .hljs-argument,
 .smalltalk .hljs-localvars,
 .smalltalk .hljs-array,
@@ -74,24 +62,21 @@ Monokai style - ported by Luigi Maselli - http://grigio.org
 .hljs-envvar,
 .apache .hljs-tag,
 .apache .hljs-cbracket,
+.nginx .hljs-built_in,
 .tex .hljs-command,
-.hljs-prompt {
-  color: #a6e22e;
+.coffeescript .hljs-attribute {
+  color: #2c009f;
 }
 
 .hljs-comment,
 .hljs-annotation,
-.smartquote,
-.hljs-blockquote,
-.hljs-horizontal_rule,
 .hljs-decorator,
 .hljs-pi,
 .hljs-doctype,
 .hljs-deletion,
 .hljs-shebang,
-.apache .hljs-sqbracket,
-.tex .hljs-formula {
-  color: #75715e;
+.apache .hljs-sqbracket {
+  color: #e60415;
 }
 
 .hljs-keyword,
@@ -100,17 +85,17 @@ Monokai style - ported by Luigi Maselli - http://grigio.org
 .hljs-phpdoc,
 .hljs-dartdoc,
 .hljs-title,
-.hljs-header,
 .hljs-type,
 .vbscript .hljs-built_in,
 .rsl .hljs-built_in,
 .smalltalk .hljs-class,
+.xml .hljs-tag .hljs-title,
 .diff .hljs-header,
 .hljs-chunk,
 .hljs-winutils,
 .bash .hljs-variable,
 .apache .hljs-tag,
-.tex .hljs-special,
+.tex .hljs-command,
 .hljs-request,
 .hljs-status {
   font-weight: bold;
