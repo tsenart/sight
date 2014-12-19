@@ -6,7 +6,7 @@
     brainfuck:   ['bf'],
     clojure:     ['clj'],
     coffeescript:['coffee'],
-    cpp:         ['c', 'h', 'cpp', 'c++', 'hpp', 'h++'],
+    cpp:         ['c', 'h', 'cpp', 'c++', 'hpp', 'h++', 'cu', 'cuh'],
     cs:          ['cs'],
     css:         ['css'],
     d:           ['d', 'dd', 'di'],
