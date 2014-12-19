@@ -22,12 +22,7 @@
     }
 
     function applyLines(lines) {
-      if ( lines == "true" ){
-          lines = "block";
-      } else {
-          lines = "none";
-      }
-      numbersEl.style.display = lines;
+      numbersEl.style.display = lines == "true" ? "block" : "none";
     }
 
     function applyFont(font) {
@@ -44,9 +39,9 @@
     });
 
     linesEl.addEventListener('change', function() {
-        var lines = linesEl.checked;
-        setOptions({ lines: lines }, applyLines.bind(null, lines));
-        location.reload();
+      var lines = linesEl.checked;
+      setOptions({ lines: lines }, applyLines.bind(null, lines));
+      location.reload();
     });
 
     fontEl.addEventListener('change', function() {
@@ -61,11 +56,7 @@
 
     getOptions(function(options) {
       themeEl.value = options.theme;
-      if ( options.lines == "true" ){
-          linesEl.checked = true;
-      }else{
-          linesEl.checked = false;
-      }
+      linesEl.checked = options.lines == "true";
       fontEl.value = options.font;
       fontSizeEl.value = options.fontSize;
       applyTheme(options.theme);
