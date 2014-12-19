@@ -166,7 +166,7 @@
       { file: 'js/lib/highlight.js' },
     ];
 
-    switch (language){
+    switch (language) {
       case "json":
       case "javascript":
         scripts.push(
@@ -190,7 +190,7 @@
       )
     });
 
-    if (localStorage.getItem('lines') == "true"){
+    if (localStorage.getItem('lines') == "true") {
       scripts.push(
         { file: 'js/lib/linenumbers.js' }
       );
