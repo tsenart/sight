@@ -122,6 +122,11 @@
     'var options = { indent_size: 2 };' +
     'container.textContent = js_beautify(container.textContent, options);';
 
+  const CSSS_BEUTIFY_CODE =
+    'var container = document.querySelector("pre");' +
+    'var options = { indent_size: 2 };' +
+    'container.textContent = css_beautify(container.textContent, options);';
+
   chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if (request.options === null) {
       sendResponse({
@@ -155,14 +160,18 @@
     ];
 
     var scripts = [
-      { file: 'js/lib/highlight.js' },
-      { file: 'js/languages/' + language + '.js' }
+        { file: 'js/lib/highlight.js' },
     ];
 
-    if (/json/.test(language)) {
+    if (language == "json" || language == "javascript") {
       scripts.push(
         { file: 'js/lib/beautify.js' },
         { code: JS_BEUTIFY_CODE }
+      );
+    }else if (language == "css") {
+        scripts.push(
+        { file: 'js/lib/beautify-css.js' },
+        { code: CSSS_BEUTIFY_CODE }
       );
     }
 
