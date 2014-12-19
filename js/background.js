@@ -112,6 +112,7 @@
   function getHighlightingCode(font, fontSize, language) {
     var code = 'document.body.style.fontFamily = "' + font + '";';
     code += 'document.body.style.fontSize = "' + fontSize + '";';
+    code += 'document.body.className += "hljs";';
     code += 'var container = document.querySelector("pre");';
     code += 'container.classList.add("' + language + '");';
     code += 'hljs.highlightBlock(container);';
@@ -123,7 +124,7 @@
     'var options = { indent_size: 2 };' +
     'container.textContent = js_beautify(container.textContent, options);';
 
-  const CSSS_BEUTIFY_CODE =
+  const CSS_BEUTIFY_CODE =
     'var container = document.querySelector("pre");' +
     'var options = { indent_size: 2 };' +
     'container.textContent = css_beautify(container.textContent, options);';
@@ -162,19 +163,23 @@
     ];
 
     var scripts = [
-        { file: 'js/lib/highlight.js' },
+      { file: 'js/lib/highlight.js' },
     ];
 
-    if (language == "json" || language == "javascript") {
-      scripts.push(
-        { file: 'js/lib/beautify.js' },
-        { code: JS_BEUTIFY_CODE }
-      );
-    }else if (language == "css") {
-      scripts.push(
-        { file: 'js/lib/beautify-css.js' },
-        { code: CSSS_BEUTIFY_CODE }
-      );
+    switch (language){
+      case "json":
+      case "javascript":
+        scripts.push(
+          { file: 'js/lib/beautify.js' },
+          { code: JS_BEUTIFY_CODE }
+        );
+        break;
+      case "css":
+        scripts.push(
+          { file: 'js/lib/beautify-css.js' },
+          { code: CSS_BEUTIFY_CODE }
+        );
+        break;
     }
 
     scripts.push({
@@ -185,7 +190,7 @@
       )
     });
 
-    if ( localStorage.getItem('lines') == "true" ){
+    if (localStorage.getItem('lines') == "true"){
       scripts.push(
         { file: 'js/lib/linenumbers.js' }
       );
