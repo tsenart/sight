@@ -1,12 +1,12 @@
 (function() {
-    var pre = document.getElementsByTagName('pre'),
-        pl = pre.length;
-    for (var i = 0; i < pl; i++) {
-        pre[i].innerHTML = '<span id="linenumbers" class="line-number"></span>' + pre[i].innerHTML + '<span class="cl"></span>';
-        var num = pre[i].innerHTML.split(/\n/).length;
+    var preEl = document.getElementsByTagName('pre'),
+        preElLength = preEl.length;
+    for (var i = 0; i < preElLength; i++) {
+        preEl[i].innerHTML = '<span id="linenumbers"></span>' + preEl[i].innerHTML + '<span class="clearfix"></span>';
+        var num = preEl[i].innerHTML.split(/\n/).length;
         for (var j = 0; j < num; j++) {
-            var line_num = pre[i].getElementsByTagName('span')[0];
-            line_num.innerHTML += '<span>' + (j + 1) + '</span>';
+            var lineNum = preEl[i].getElementsByTagName('span')[0];
+            lineNum.innerHTML += '<span>' + (j + 1) + '</span>';
         }
     }
 })();
