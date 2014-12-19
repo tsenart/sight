@@ -73,19 +73,19 @@ body {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
-pre .line-number {
+pre #linenumbers {
     float:left;
     margin:0 1em 0 -1em;
     border-right:1px solid;
     text-align:right;
 }
 
-pre .line-number span {
+pre #linenumbers span {
     display:block;
     padding:0 .5em 0 1em;
 }
 
-pre .cl {
+pre .clearfix {
     display:block;
     clear:both;
 }
