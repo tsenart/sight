@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <script src="/js/lib/highlight.js"></script>
-    <script src="/js/languages/ruby.js"></script>
     <script src="/js/options.js"></script>
     <link rel="stylesheet" href="/css/reset.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen">
@@ -68,6 +67,10 @@
           <option value="xcode">xcode</option>
           <option value="zenburn">zenburn</option>
       </select>
+      <h3>
+          <label for="lines">Line Numbering (Experimental)</label>
+          <input type="checkbox" id="lines" value="lines">
+      </h3>
       <h3>Select your font</h3>
       <select id="font">
         <option value="Inconsolata">Inconsolata</option>
@@ -92,7 +95,7 @@
         <option value="xx-large">xx-large</option>
       </select>
       <pre id="code" class="go">
-package main
+<span id="linenumbers" class="line-number"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span><span>32</span><span>33</span><span>34</span><span>35</span><span>36</span><span>37</span><span>38</span><span>39</span><span>40</span><span>41</span></span>package main
 
 import (
   "fmt"

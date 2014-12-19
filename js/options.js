@@ -1,9 +1,11 @@
 (function(doc) {
   doc.addEventListener('DOMContentLoaded', function() {
     var themeEl = doc.getElementById('theme');
+    var linesEl = doc.getElementById('lines');
     var fontEl  = doc.getElementById('font');
     var fontSizeEl = doc.getElementById('font-size');
     var styleEl = doc.querySelector('link:last-of-type');
+    var numbersEl = doc.getElementById('linenumbers');
     var codeEl = doc.getElementById('code');
     var code = codeEl.textContent;
 
@@ -19,6 +21,15 @@
       styleEl.href = '/css/' + theme + '.css';
     }
 
+    function applyLines(lines) {
+      if ( lines == "true" ){
+          lines = "block";
+      } else {
+          lines = "none";
+      }
+      numbersEl.style.display = lines;
+    }
+
     function applyFont(font) {
       codeEl.style.fontFamily = font;
     }
@@ -30,6 +41,12 @@
     themeEl.addEventListener('change', function() {
       var theme = themeEl.options[themeEl.selectedIndex].value;
       setOptions({ theme: theme }, applyTheme.bind(null, theme));
+    });
+
+    linesEl.addEventListener('change', function() {
+        var lines = linesEl.checked;
+        setOptions({ lines: lines }, applyLines.bind(null, lines));
+        location.reload();
     });
 
     fontEl.addEventListener('change', function() {
@@ -44,12 +61,18 @@
 
     getOptions(function(options) {
       themeEl.value = options.theme;
+      if ( options.lines == "true" ){
+          linesEl.checked = true;
+      }else{
+          linesEl.checked = false;
+      }
       fontEl.value = options.font;
       fontSizeEl.value = options.fontSize;
       applyTheme(options.theme);
+      applyLines(options.lines);
       applyFont(options.font);
       applyFontSize(options.fontSize);
-      hljs.highlightBlock(codeEl)
+      hljs.highlightBlock(codeEl);
     });
   });
 }(window.document));

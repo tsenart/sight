@@ -44,11 +44,12 @@
 
   const OPTIONS_DEFAULTS = {
     theme: 'sunburst',
+    lines: 'false',
     font: 'Inconsolata',
     fontSize: 'medium'
   };
 
-  ['theme', 'font', 'fontSize'].forEach(function(option) {
+  ['theme', 'lines', 'font', 'fontSize'].forEach(function(option) {
     if (localStorage.getItem(option) === null) {
       localStorage.setItem(option, OPTIONS_DEFAULTS[option]);
     }
@@ -131,6 +132,7 @@
     if (request.options === null) {
       sendResponse({
         theme: localStorage.getItem('theme'),
+        lines: localStorage.getItem('lines'),
         font: localStorage.getItem('font'),
         fontSize: localStorage.getItem('fontSize')
       });
@@ -169,7 +171,7 @@
         { code: JS_BEUTIFY_CODE }
       );
     }else if (language == "css") {
-        scripts.push(
+      scripts.push(
         { file: 'js/lib/beautify-css.js' },
         { code: CSSS_BEUTIFY_CODE }
       );
@@ -182,6 +184,12 @@
         language
       )
     });
+
+    if ( localStorage.getItem('lines') == "true" ){
+      scripts.push(
+        { file: 'js/lib/linenumbers.js' }
+      );
+    }
 
     for (var i = 0; i < styles.length; i++) {
       chrome.tabs.insertCSS(details.tabId, styles[i]);
