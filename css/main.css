@@ -73,28 +73,19 @@ body {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
-pre {
-  counter-reset: lines;
-  word-wrap: normal !important;
-  white-space: pre !important;
-  font-family: inherit;
-  outline: none;
-  cursor: text;
-  display: block;
+pre #linenumbers {
+    float:left;
+    margin:0 1em 0 -1em;
+    border-right:1px solid;
+    text-align:right;
 }
 
-pre .line {
-  counter-increment: lines;
-  -webkit-user-select: none;
+pre #linenumbers span {
+    display:block;
+    padding:0 .5em 0 1em;
 }
 
-pre .line::before {
-  content: counter(lines);
-  text-align: right;
-  display: inline-block;
-  width: 2em;
-  padding-right: 0.5em;
-  margin-right: 0.5em;
-  color: #BBB;
-  border-right: solid 1px;
+pre .clearfix {
+    display:block;
+    clear:both;
 }

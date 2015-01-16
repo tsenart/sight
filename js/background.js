@@ -6,7 +6,7 @@
     brainfuck:   ['bf'],
     clojure:     ['clj'],
     coffeescript:['coffee'],
-    cpp:         ['c', 'h', 'cpp', 'c++', 'hpp', 'h++'],
+    cpp:         ['c', 'h', 'cpp', 'c++', 'hpp', 'h++', 'cu', 'cuh'],
     cs:          ['cs'],
     css:         ['css'],
     d:           ['d', 'dd', 'di'],
@@ -44,11 +44,12 @@
 
   const OPTIONS_DEFAULTS = {
     theme: 'sunburst',
+    lines: 'false',
     font: 'Inconsolata',
     fontSize: 'medium'
   };
 
-  ['theme', 'font', 'fontSize'].forEach(function(option) {
+  ['theme', 'lines', 'font', 'fontSize'].forEach(function(option) {
     if (localStorage.getItem(option) === null) {
       localStorage.setItem(option, OPTIONS_DEFAULTS[option]);
     }
@@ -111,6 +112,7 @@
   function getHighlightingCode(font, fontSize, language) {
     var code = 'document.body.style.fontFamily = "' + font + '";';
     code += 'document.body.style.fontSize = "' + fontSize + '";';
+    code += 'document.body.className += "hljs";';
     code += 'var container = document.querySelector("pre");';
     code += 'container.classList.add("' + language + '");';
     code += 'hljs.highlightBlock(container);';
@@ -122,10 +124,16 @@
     'var options = { indent_size: 2 };' +
     'container.textContent = js_beautify(container.textContent, options);';
 
+  const CSS_BEUTIFY_CODE =
+    'var container = document.querySelector("pre");' +
+    'var options = { indent_size: 2 };' +
+    'container.textContent = css_beautify(container.textContent, options);';
+
   chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if (request.options === null) {
       sendResponse({
         theme: localStorage.getItem('theme'),
+        lines: localStorage.getItem('lines'),
         font: localStorage.getItem('font'),
         fontSize: localStorage.getItem('fontSize')
       });
@@ -156,14 +164,22 @@
 
     var scripts = [
       { file: 'js/lib/highlight.js' },
-      { file: 'js/languages/' + language + '.js' }
     ];
 
-    if (/json/.test(language)) {
-      scripts.push(
-        { file: 'js/lib/beautify.js' },
-        { code: JS_BEUTIFY_CODE }
-      );
+    switch (language) {
+      case "json":
+      case "javascript":
+        scripts.push(
+          { file: 'js/lib/beautify.js' },
+          { code: JS_BEUTIFY_CODE }
+        );
+        break;
+      case "css":
+        scripts.push(
+          { file: 'js/lib/beautify-css.js' },
+          { code: CSS_BEUTIFY_CODE }
+        );
+        break;
     }
 
     scripts.push({
@@ -173,6 +189,12 @@
         language
       )
     });
+
+    if (localStorage.getItem('lines') == "true") {
+      scripts.push(
+        { file: 'js/lib/linenumbers.js' }
+      );
+    }
 
     for (var i = 0; i < styles.length; i++) {
       chrome.tabs.insertCSS(details.tabId, styles[i]);
