@@ -112,8 +112,10 @@
     var code = 'document.body.style.fontFamily = "' + font + '";';
     code += 'document.body.style.fontSize = "' + fontSize + '";';
     code += 'var container = document.querySelector("pre");';
+    code += 'if (container) {';
     code += 'container.classList.add("' + language + '");';
     code += 'hljs.highlightBlock(container);';
+    code += '}';
     return code;
   }
 
@@ -144,6 +146,10 @@
     }
 
     var language = detectLanguage(contentType, details.url);
+    if ((['html', 'xml'].indexOf(language) != -1) && (contentType === null)) {
+      return;
+    }
+
     if (!language) {
       return;
     }
