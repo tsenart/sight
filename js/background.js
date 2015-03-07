@@ -38,9 +38,11 @@
     sql:         ['sql'],
     tex:         ['tex'],
     vhdl:        ['vhd', 'vhdl'],
-    xml:         ['htm', 'html', 'xhtml', 'shtml', 'xml', 'atom', 'rss', 'vsproj', 'csproj', 'build', 'wsdl', 'config', 'xsd', 'plist', 'xib'],
+    xml:         ['atom', 'rss', 'vsproj', 'csproj', 'build', 'wsdl', 'config', 'xsd', 'plist', 'xib'],
     yaml:        ['yaml']
   };
+
+  const BROWSER_CONTENT = ['htm', 'html', 'xml', 'xhtml', 'shtml'];
 
   const OPTIONS_DEFAULTS = {
     theme: 'sunburst',
@@ -93,19 +95,13 @@
     return fragment && fragment[1];
   }
 
-  function isLanguageSupported(language) {
-    return !!LANG_EXT_MAP[language];
-  }
-
-  function detectLanguage(contentType, url) {
-    var fragment = getFragmentFromUrl(url);
-    var filename = getFilenameFromUrl(url);
-    var extension = getExtensionFromFilename(filename);
-
-    return isLanguageSupported(fragment) ?
-      fragment : EXT_LANG_MAP[contentType] ||
-                 EXT_LANG_MAP[extension]   ||
-                 EXT_LANG_MAP[filename];
+  function detectLanguage(contentType, fragment, filename, extension) {
+    if (BROWSER_CONTENT.indexOf(contentType) != -1) {
+      return null;
+    }
+    return !!LANG_EXT_MAP[fragment] ?  fragment : EXT_LANG_MAP[contentType] ||
+                                                  EXT_LANG_MAP[extension]   ||
+                                                  EXT_LANG_MAP[filename];
   }
 
   function getHighlightingCode(font, fontSize, language) {
@@ -139,11 +135,10 @@
 
   chrome.webRequest.onCompleted.addListener(function(details) {
     var contentType = getContentTypeFromHeaders(details.responseHeaders);
-    if (['html', 'xml'].indexOf(contentType) != -1) {
-      return;
-    }
-
-    var language = detectLanguage(contentType, details.url);
+    var fragment = getFragmentFromUrl(details.url);
+    var filename = getFilenameFromUrl(details.url);
+    var extension = getExtensionFromFilename(filename);
+    var language = detectLanguage(contentType, fragment, filename, extension);
     if (!language) {
       return;
     }
