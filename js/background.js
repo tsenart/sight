@@ -15,6 +15,7 @@
     diff:        ['diff', 'patch'],
     erlang:      ['erl', 'erlang'],
     fsharp:      ['fs'],
+    gherkin:     ['feature'],
     go:          ['go'],
     haml:        ['haml'],
     haskell:     ['hs'],
