@@ -4,7 +4,7 @@ Author: Eric Knibbe <eric@lassosoft.com>
 Description: Lasso is a language and server platform for database-driven web applications. This definition handles Lasso 9 syntax and LassoScript for Lasso 8.6 and earlier.
 */
 
-hljs.registerLanguage("lasso", function(hljs) {
+hljs.registerLanguage('lasso', function(hljs) {
   var LASSO_IDENT_RE = '[a-zA-Z_][a-zA-Z0-9_.]*';
   var LASSO_ANGLE_RE = '<\\?(lasso(script)?|=)';
   var LASSO_CLOSE_RE = '\\]|\\?>';
@@ -14,8 +14,8 @@ hljs.registerLanguage("lasso", function(hljs) {
       'bw nbw ew new cn ncn lt lte gt gte eq neq rx nrx ft',
     built_in:
       'array date decimal duration integer map pair string tag xml null ' +
-      'bytes list queue set stack staticarray tie local var variable ' +
-      'global data self inherited',
+      'boolean bytes keyword list locale queue set stack staticarray ' +
+      'local var variable global data self inherited',
     keyword:
       'error_code error_msg error_pop error_push error_reset cache ' +
       'database_names database_schemanames database_tablenames define_tag ' +
@@ -36,11 +36,13 @@ hljs.registerLanguage("lasso", function(hljs) {
       'skip split_thread sum take thread to trait type where with ' +
       'yield yieldhome'
   };
-  var HTML_COMMENT = {
-    className: 'comment',
-    begin: '<!--', end: '-->',
-    relevance: 0
-  };
+  var HTML_COMMENT = hljs.COMMENT(
+    '<!--',
+    '-->',
+    {
+      relevance: 0
+    }
+  );
   var LASSO_NOPROCESS = {
     className: 'preprocessor',
     begin: '\\[noprocess\\]',
@@ -48,7 +50,7 @@ hljs.registerLanguage("lasso", function(hljs) {
       className: 'markup',
       end: '\\[/noprocess\\]',
       returnEnd: true,
-      contains: [ HTML_COMMENT ]
+      contains: [HTML_COMMENT]
     }
   };
   var LASSO_START = {
@@ -63,10 +65,11 @@ hljs.registerLanguage("lasso", function(hljs) {
     hljs.C_LINE_COMMENT_MODE,
     {
       className: 'javadoc',
-      begin: '/\\*\\*!', end: '\\*/'
+      begin: '/\\*\\*!', end: '\\*/',
+      contains: [hljs.PHRASAL_WORDS_MODE]
     },
     hljs.C_BLOCK_COMMENT_MODE,
-    hljs.inherit(hljs.C_NUMBER_MODE, {begin: hljs.C_NUMBER_RE + '|-?(infinity|nan)\\b'}),
+    hljs.inherit(hljs.C_NUMBER_MODE, {begin: hljs.C_NUMBER_RE + '|(-?infinity|nan)\\b'}),
     hljs.inherit(hljs.APOS_STRING_MODE, {illegal: null}),
     hljs.inherit(hljs.QUOTE_STRING_MODE, {illegal: null}),
     {
@@ -92,14 +95,22 @@ hljs.registerLanguage("lasso", function(hljs) {
     },
     {
       className: 'attribute',
-      begin: '\\.\\.\\.|-' + hljs.UNDERSCORE_IDENT_RE
+      variants: [
+        {
+          begin: '-' + hljs.UNDERSCORE_IDENT_RE,
+          relevance: 0
+        },
+        {
+          begin: '(\\.\\.\\.)'
+        }
+      ]
     },
     {
       className: 'subst',
       variants: [
         {
           begin: '->\\s*',
-          contains: [ LASSO_DATAMEMBER ]
+          contains: [LASSO_DATAMEMBER]
         },
         {
           begin: ':=|/(?!\\w)=?|[-+*%=<>&|!?\\\\]+',
@@ -109,9 +120,9 @@ hljs.registerLanguage("lasso", function(hljs) {
     },
     {
       className: 'built_in',
-      begin: '\\.\\.?',
+      begin: '\\.\\.?\\s*',
       relevance: 0,
-      contains: [ LASSO_DATAMEMBER ]
+      contains: [LASSO_DATAMEMBER]
     },
     {
       className: 'class',
@@ -137,7 +148,7 @@ hljs.registerLanguage("lasso", function(hljs) {
           end: '\\[|' + LASSO_ANGLE_RE,
           returnEnd: true,
           relevance: 0,
-          contains: [ HTML_COMMENT ]
+          contains: [HTML_COMMENT]
         }
       },
       LASSO_NOPROCESS,
@@ -156,9 +167,9 @@ hljs.registerLanguage("lasso", function(hljs) {
               relevance: 0,
               starts: {
                 className: 'markup',
-                end: LASSO_ANGLE_RE,
+                end: '\\[noprocess\\]|' + LASSO_ANGLE_RE,
                 returnEnd: true,
-                contains: [ HTML_COMMENT ]
+                contains: [HTML_COMMENT]
               }
             },
             LASSO_NOPROCESS,
@@ -178,5 +189,4 @@ hljs.registerLanguage("lasso", function(hljs) {
       }
     ].concat(LASSO_CODE)
   };
-}
-)
+})

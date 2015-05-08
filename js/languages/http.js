@@ -1,11 +1,13 @@
 /*
-  Language: HTTP
-  Description: HTTP request and response headers with automatic body highlighting
-  Author: Ivan Sagalaev <maniac@softwaremaniacs.org>
+Language: HTTP
+Description: HTTP request and response headers with automatic body highlighting
+Author: Ivan Sagalaev <maniac@softwaremaniacs.org>
+Category: common, protocols
 */
 
-hljs.registerLanguage("http", function(hljs) {
+hljs.registerLanguage('http', function(hljs) {
   return {
+    aliases: ['https'],
     illegal: '\\S',
     contains: [
       {
@@ -36,5 +38,4 @@ hljs.registerLanguage("http", function(hljs) {
       }
     ]
   };
-}
-)
+})

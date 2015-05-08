@@ -4,10 +4,6 @@
     Inspired by the art of Rubens LP (http://www.rubenslp.com.br)
 */
 
-body {
-  background: #2f1e2e;
-}
-
 /* Paraíso Comment */
 .hljs-comment,
 .hljs-title {
@@ -19,6 +15,7 @@ body {
 .hljs-attribute,
 .hljs-tag,
 .hljs-regexp,
+.hljs-name,
 .ruby .hljs-constant,
 .xml .hljs-tag .hljs-title,
 .xml .hljs-pi,
@@ -42,7 +39,7 @@ body {
 
 /* Paraíso Yellow */
 .ruby .hljs-class .hljs-title,
-.css .hljs-rules .hljs-attribute {
+.css .hljs-rule .hljs-attribute {
   color: #fec418;
 }
 
@@ -81,9 +78,11 @@ body {
 
 .hljs {
   display: block;
+  overflow-x: auto;
   background: #2f1e2e;
   color: #a39e9b;
   padding: 0.5em;
+  -webkit-text-size-adjust: none;
 }
 
 .coffeescript .javascript,

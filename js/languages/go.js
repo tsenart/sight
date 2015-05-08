@@ -3,9 +3,10 @@ Language: Go
 Author: Stephan Kountso aka StepLg <steplg@gmail.com>
 Contributors: Evgeny Stepanischev <imbolk@gmail.com>
 Description: Google go language (golang). For info about language see http://golang.org/
+Category: system
 */
 
-hljs.registerLanguage("go", function(hljs) {
+hljs.registerLanguage('go', function(hljs) {
   var GO_KEYWORDS = {
     keyword:
       'break default func interface select case map struct chan else goto package switch ' +
@@ -36,11 +37,10 @@ hljs.registerLanguage("go", function(hljs) {
       },
       {
         className: 'number',
-        begin: '[^a-zA-Z_0-9](\\-|\\+)?\\d+(\\.\\d+|\\/\\d+)?((d|e|f|l|s)(\\+|\\-)?\\d+)?',
+        begin: hljs.C_NUMBER_RE + '[dflsi]?',
         relevance: 0
       },
       hljs.C_NUMBER_MODE
     ]
   };
-}
-)
+})

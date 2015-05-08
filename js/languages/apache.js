@@ -4,11 +4,13 @@ Author: Ruslan Keba <rukeba@gmail.com>
 Contributors: Ivan Sagalaev <maniac@softwaremaniacs.org>
 Website: http://rukeba.com/
 Description: language definition for Apache configuration files (httpd.conf & .htaccess)
+Category: common, config
 */
 
-hljs.registerLanguage("apache", function(hljs) {
+hljs.registerLanguage('apache', function(hljs) {
   var NUMBER = {className: 'number', begin: '[\\$%]\\d+'};
   return {
+    aliases: ['apacheconf'],
     case_insensitive: true,
     contains: [
       hljs.HASH_COMMENT_MODE,

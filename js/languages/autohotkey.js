@@ -2,18 +2,21 @@
 Language: AutoHotkey
 Author: Seongwon Lee <dlimpid@gmail.com>
 Description: AutoHotkey language definition
+Category: scripting
 */
 
-hljs.registerLanguage("autohotkey", function(hljs) {
+hljs.registerLanguage('autohotkey', function(hljs) {
   var BACKTICK_ESCAPE = {
     className: 'escape',
     begin: '`[\\s\\S]'
   };
-  var COMMENTS = {
-    className: 'comment',
-    begin: ';', end: '$',
-    relevance: 0
-  };
+  var COMMENTS = hljs.COMMENT(
+    ';',
+    '$',
+    {
+      relevance: 0
+    }
+  );
   var BUILT_IN = [
     {
       className: 'built_in',

@@ -3,10 +3,12 @@ Language: Markdown
 Requires: xml.js
 Author: John Crepezzi <john.crepezzi@gmail.com>
 Website: http://seejohncode.com/
+Category: common
 */
 
-hljs.registerLanguage("markdown", function(hljs) {
+hljs.registerLanguage('markdown', function(hljs) {
   return {
+    aliases: ['md', 'mkdown', 'mkd'],
     contains: [
       // highlight headers
       {
@@ -64,7 +66,7 @@ hljs.registerLanguage("markdown", function(hljs) {
       },
       // using links - title and link
       {
-        begin: '\\[.+?\\][\\(\\[].+?[\\)\\]]',
+        begin: '\\[.+?\\][\\(\\[].*?[\\)\\]]',
         returnBegin: true,
         contains: [
           {
@@ -82,27 +84,26 @@ hljs.registerLanguage("markdown", function(hljs) {
           {
             className: 'link_reference',
             begin: '\\]\\[', end: '\\]',
-            excludeBegin: true, excludeEnd: true,
+            excludeBegin: true, excludeEnd: true
           }
         ],
         relevance: 10
       },
       {
-        begin: '^\\[\.+\\]:', end: '$',
+        begin: '^\\[\.+\\]:',
         returnBegin: true,
         contains: [
           {
             className: 'link_reference',
-            begin: '\\[', end: '\\]',
-            excludeBegin: true, excludeEnd: true
-          },
-          {
-            className: 'link_url',
-            begin: '\\s', end: '$'
+            begin: '\\[', end: '\\]:',
+            excludeBegin: true, excludeEnd: true,
+            starts: {
+              className: 'link_url',
+              end: '$'
+            }
           }
         ]
       }
     ]
   };
-}
-)
+})

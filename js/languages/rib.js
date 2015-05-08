@@ -2,9 +2,10 @@
 Language: RenderMan RIB
 Author: Konstantin Evdokimenko <qewerty@gmail.com>
 Contributors: Shuen-Huei Guan <drake.guan@gmail.com>
+Category: graphics
 */
 
-hljs.registerLanguage("rib", function(hljs) {
+hljs.registerLanguage('rib', function(hljs) {
   return {
     keywords:
       'ArchiveRecord AreaLightSource Atmosphere Attribute AttributeBegin AttributeEnd Basis ' +
@@ -29,5 +30,4 @@ hljs.registerLanguage("rib", function(hljs) {
       hljs.QUOTE_STRING_MODE
     ]
   };
-}
-)
+})

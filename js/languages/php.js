@@ -2,9 +2,10 @@
 Language: PHP
 Author: Victor Karamzin <Victor.Karamzin@enterra-inc.com>
 Contributors: Evgeny Stepanischev <imbolk@gmail.com>, Ivan Sagalaev <maniac@softwaremaniacs.org>
+Category: common
 */
 
-hljs.registerLanguage("php", function(hljs) {
+hljs.registerLanguage('php', function(hljs) {
   var VARIABLE = {
     className: 'variable', begin: '\\$+[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'
   };
@@ -27,6 +28,7 @@ hljs.registerLanguage("php", function(hljs) {
   };
   var NUMBER = {variants: [hljs.BINARY_NUMBER_MODE, hljs.C_NUMBER_MODE]};
   return {
+    aliases: ['php3', 'php4', 'php5', 'php6'],
     case_insensitive: true,
     keywords:
       'and include_once list abstract global private echo interface as static endswitch ' +
@@ -40,22 +42,28 @@ hljs.registerLanguage("php", function(hljs) {
     contains: [
       hljs.C_LINE_COMMENT_MODE,
       hljs.HASH_COMMENT_MODE,
-      {
-        className: 'comment',
-        begin: '/\\*', end: '\\*/',
-        contains: [
-          {
-            className: 'phpdoc',
-            begin: '\\s@[A-Za-z]+'
-          },
-          PREPROCESSOR
-        ]
-      },
-      {
-          className: 'comment',
-          begin: '__halt_compiler.+?;', endsWithParent: true,
-          keywords: '__halt_compiler', lexemes: hljs.UNDERSCORE_IDENT_RE
-      },
+      hljs.COMMENT(
+        '/\\*',
+        '\\*/',
+        {
+          contains: [
+            {
+              className: 'phpdoc',
+              begin: '\\s@[A-Za-z]+'
+            },
+            PREPROCESSOR
+          ]
+        }
+      ),
+      hljs.COMMENT(
+        '__halt_compiler.+?;',
+        false,
+        {
+          endsWithParent: true,
+          keywords: '__halt_compiler',
+          lexemes: hljs.UNDERSCORE_IDENT_RE
+        }
+      ),
       {
         className: 'string',
         begin: '<<<[\'"]?\\w+[\'"]?$', end: '^\\w+;',
@@ -64,8 +72,12 @@ hljs.registerLanguage("php", function(hljs) {
       PREPROCESSOR,
       VARIABLE,
       {
+        // swallow composed identifiers to avoid parsing them as keywords
+        begin: /(::|->)+[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/
+      },
+      {
         className: 'function',
-        beginKeywords: 'function', end: /[;{]/,
+        beginKeywords: 'function', end: /[;{]/, excludeEnd: true,
         illegal: '\\$|\\[|%',
         contains: [
           hljs.UNDERSCORE_TITLE_MODE,
@@ -84,13 +96,10 @@ hljs.registerLanguage("php", function(hljs) {
       },
       {
         className: 'class',
-        beginKeywords: 'class interface', end: '{',
+        beginKeywords: 'class interface', end: '{', excludeEnd: true,
         illegal: /[:\(\$"]/,
         contains: [
-          {
-            beginKeywords: 'extends implements',
-            relevance: 10
-          },
+          {beginKeywords: 'extends implements'},
           hljs.UNDERSCORE_TITLE_MODE
         ]
       },
@@ -110,5 +119,4 @@ hljs.registerLanguage("php", function(hljs) {
       NUMBER
     ]
   };
-}
-)
+})

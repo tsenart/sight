@@ -1,9 +1,10 @@
 /*
 Language: Lua
 Author: Andrew Fedorov <dmmdrs@mail.ru>
+Category: scripting
 */
 
-hljs.registerLanguage("lua", function(hljs) {
+hljs.registerLanguage('lua', function(hljs) {
   var OPENING_LONG_BRACKET = '\\[=*\\[';
   var CLOSING_LONG_BRACKET = '\\]=*\\]';
   var LONG_BRACKETS = {
@@ -11,17 +12,16 @@ hljs.registerLanguage("lua", function(hljs) {
     contains: ['self']
   };
   var COMMENTS = [
-    {
-      className: 'comment',
-      begin: '--(?!' + OPENING_LONG_BRACKET + ')', end: '$'
-    },
-    {
-      className: 'comment',
-      begin: '--' + OPENING_LONG_BRACKET, end: CLOSING_LONG_BRACKET,
-      contains: [LONG_BRACKETS],
-      relevance: 10
-    }
-  ]
+    hljs.COMMENT('--(?!' + OPENING_LONG_BRACKET + ')', '$'),
+    hljs.COMMENT(
+      '--' + OPENING_LONG_BRACKET,
+      CLOSING_LONG_BRACKET,
+      {
+        contains: [LONG_BRACKETS],
+        relevance: 10
+      }
+    )
+  ];
   return {
     lexemes: hljs.UNDERSCORE_IDENT_RE,
     keywords: {
@@ -54,9 +54,8 @@ hljs.registerLanguage("lua", function(hljs) {
         className: 'string',
         begin: OPENING_LONG_BRACKET, end: CLOSING_LONG_BRACKET,
         contains: [LONG_BRACKETS],
-        relevance: 10
+        relevance: 5
       }
     ])
   };
-}
-)
+})

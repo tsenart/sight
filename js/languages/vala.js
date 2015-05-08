@@ -4,7 +4,7 @@ Author: Antono Vasiljev <antono.vasiljev@gmail.com>
 Description: Vala is a new programming language that aims to bring modern programming language features to GNOME developers without imposing any additional runtime requirements and without using a different ABI compared to applications and libraries written in C.
 */
 
-hljs.registerLanguage("vala", function(hljs) {
+hljs.registerLanguage('vala', function(hljs) {
   return {
     keywords: {
       keyword:
@@ -29,7 +29,7 @@ hljs.registerLanguage("vala", function(hljs) {
     contains: [
       {
         className: 'class',
-        beginKeywords: 'class interface delegate namespace', end: '{',
+        beginKeywords: 'class interface delegate namespace', end: '{', excludeEnd: true,
         illegal: '[^,:\\n\\s\\.]',
         contains: [
           hljs.UNDERSCORE_TITLE_MODE
@@ -57,5 +57,4 @@ hljs.registerLanguage("vala", function(hljs) {
       }
     ]
   };
-}
-)
+})

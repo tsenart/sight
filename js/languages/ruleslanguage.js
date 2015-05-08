@@ -2,9 +2,10 @@
 Language: Oracle Rules Language
 Author: Jason Jacobson <jason.a.jacobson@gmail.com>
 Description: The Oracle Utilities Rules Language is used to program the Oracle Utilities Applications acquired from LODESTAR Corporation.  The products include Billing Component, LPSS, Pricing Component etc. through version 1.6.1.
+Category: enterprise
 */
 
-hljs.registerLanguage("ruleslanguage", function(hljs) {
+hljs.registerLanguage('ruleslanguage', function(hljs) {
   return {
     keywords: {
        keyword: 'BILL_PERIOD BILL_START BILL_STOP RS_EFFECTIVE_START RS_EFFECTIVE_STOP RS_JURIS_CODE RS_OPCO_CODE ' +
@@ -59,5 +60,4 @@ hljs.registerLanguage("ruleslanguage", function(hljs) {
       }
     ]
   };
-}
-)
+})

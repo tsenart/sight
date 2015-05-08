@@ -3,7 +3,7 @@ Language: FIX
 Author: Brent Bradbury <brent@brentium.com>
 */
 
-hljs.registerLanguage("fix", function(hljs) {
+hljs.registerLanguage('fix', function(hljs) {
   return {
     contains: [
     {
@@ -30,5 +30,4 @@ hljs.registerLanguage("fix", function(hljs) {
     }],
     case_insensitive: true
   };
-}
-)
+})

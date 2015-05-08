@@ -2,16 +2,18 @@
 Language: Diff
 Description: Unified and context diff
 Author: Vasily Polovnyov <vast@whiteants.net>
+Category: common
 */
 
-hljs.registerLanguage("diff", function(hljs) {
+hljs.registerLanguage('diff', function(hljs) {
   return {
+    aliases: ['patch'],
     contains: [
       {
         className: 'chunk',
         relevance: 10,
         variants: [
-          {begin: /^\@\@ +\-\d+,\d+ +\+\d+,\d+ +\@\@$/},
+          {begin: /^@@ +\-\d+,\d+ +\+\d+,\d+ +@@$/},
           {begin: /^\*\*\* +\d+,\d+ +\*\*\*\*$/},
           {begin: /^\-\-\- +\d+,\d+ +\-\-\-\-$/}
         ]
@@ -41,5 +43,4 @@ hljs.registerLanguage("diff", function(hljs) {
       }
     ]
   };
-}
-)
+})

@@ -2,9 +2,10 @@
 Language: Nginx
 Author: Peter Leonov <gojpeg@yandex.ru>
 Contributors: Ivan Sagalaev <maniac@softwaremaniacs.org>
+Category: common, config
 */
 
-hljs.registerLanguage("nginx", function(hljs) {
+hljs.registerLanguage('nginx', function(hljs) {
   var VAR = {
     className: 'variable',
     variants: [
@@ -35,7 +36,8 @@ hljs.registerLanguage("nginx", function(hljs) {
       },
       {
         className: 'url',
-        begin: '([a-z]+):/', end: '\\s', endsWithParent: true, excludeEnd: true
+        begin: '([a-z]+):/', end: '\\s', endsWithParent: true, excludeEnd: true,
+        contains: [VAR]
       },
       {
         className: 'regexp',
@@ -66,17 +68,21 @@ hljs.registerLanguage("nginx", function(hljs) {
   };
 
   return {
+    aliases: ['nginxconf'],
     contains: [
       hljs.HASH_COMMENT_MODE,
       {
         begin: hljs.UNDERSCORE_IDENT_RE + '\\s', end: ';|{', returnBegin: true,
         contains: [
-          hljs.inherit(hljs.UNDERSCORE_TITLE_MODE, {starts: DEFAULT})
+          {
+            className: 'title',
+            begin: hljs.UNDERSCORE_IDENT_RE,
+            starts: DEFAULT
+          }
         ],
         relevance: 0
       }
     ],
     illegal: '[^\\s\\}]'
   };
-}
-)
+})

@@ -2,9 +2,10 @@
 Language: RenderMan RSL
 Author: Konstantin Evdokimenko <qewerty@gmail.com>
 Contributors: Shuen-Huei Guan <drake.guan@gmail.com>
+Category: graphics
 */
 
-hljs.registerLanguage("rsl", function(hljs) {
+hljs.registerLanguage('rsl', function(hljs) {
   return {
     keywords: {
       keyword:
@@ -39,5 +40,4 @@ hljs.registerLanguage("rsl", function(hljs) {
       }
     ]
   };
-}
-)
+})

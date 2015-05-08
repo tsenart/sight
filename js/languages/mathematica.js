@@ -1,9 +1,10 @@
 /*
 Language: Mathematica
 Author: Daniel Kvasnicka <dkvasnicka@vendavo.com>
+Category: scientific
 */
 
-hljs.registerLanguage("mathematica", function(hljs) {
+hljs.registerLanguage('mathematica', function(hljs) {
   return {
     aliases: ['mma'],
     lexemes: '(\\$|\\b)' + hljs.IDENT_RE + '\\b',
@@ -60,5 +61,4 @@ hljs.registerLanguage("mathematica", function(hljs) {
       }
     ]
   };
-}
-)
+})

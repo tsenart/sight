@@ -1,8 +1,9 @@
 /*
 Language: HTML, XML
+Category: common
 */
 
-hljs.registerLanguage("xml", function(hljs) {
+hljs.registerLanguage('xml', function(hljs) {
   var XML_IDENT_RE = '[A-Za-z0-9\\._:-]+';
   var PHP = {
     begin: /<\?(php)?(?!\w)/, end: /\?>/,
@@ -25,6 +26,7 @@ hljs.registerLanguage("xml", function(hljs) {
         contains: [
           {
             className: 'value',
+            contains: [PHP],
             variants: [
               {begin: /"/, end: /"/},
               {begin: /'/, end: /'/},
@@ -36,7 +38,7 @@ hljs.registerLanguage("xml", function(hljs) {
     ]
   };
   return {
-    aliases: ['html'],
+    aliases: ['html', 'xhtml', 'rss', 'atom', 'xsl', 'plist'],
     case_insensitive: true,
     contains: [
       {
@@ -45,11 +47,13 @@ hljs.registerLanguage("xml", function(hljs) {
         relevance: 10,
         contains: [{begin: '\\[', end: '\\]'}]
       },
-      {
-        className: 'comment',
-        begin: '<!--', end: '-->',
-        relevance: 10
-      },
+      hljs.COMMENT(
+        '<!--',
+        '-->',
+        {
+          relevance: 10
+        }
+      ),
       {
         className: 'cdata',
         begin: '<\\!\\[CDATA\\[', end: '\\]\\]>',
@@ -79,12 +83,8 @@ hljs.registerLanguage("xml", function(hljs) {
         contains: [TAG_INTERNALS],
         starts: {
           end: '</script>', returnEnd: true,
-          subLanguage: 'javascript'
+          subLanguage: ''
         }
-      },
-      {
-        begin: '<%', end: '%>',
-        subLanguage: 'vbscript'
       },
       PHP,
       {
@@ -97,12 +97,11 @@ hljs.registerLanguage("xml", function(hljs) {
         begin: '</?', end: '/?>',
         contains: [
           {
-            className: 'title', begin: '[^ /><]+', relevance: 0
+            className: 'title', begin: /[^ \/><\n\t]+/, relevance: 0
           },
           TAG_INTERNALS
         ]
       }
     ]
   };
-}
-)
+})

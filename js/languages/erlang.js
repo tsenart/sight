@@ -2,24 +2,21 @@
 Language: Erlang
 Description: Erlang is a general-purpose functional language, with strict evaluation, single assignment, and dynamic typing.
 Author: Nikolay Zakharov <nikolay.desh@gmail.com>, Dmitry Kovega <arhibot@gmail.com>
+Category: functional
 */
 
-hljs.registerLanguage("erlang", function(hljs) {
+hljs.registerLanguage('erlang', function(hljs) {
   var BASIC_ATOM_RE = '[a-z\'][a-zA-Z0-9_\']*';
   var FUNCTION_NAME_RE = '(' + BASIC_ATOM_RE + ':' + BASIC_ATOM_RE + '|' + BASIC_ATOM_RE + ')';
   var ERLANG_RESERVED = {
     keyword:
-      'after and andalso|10 band begin bnot bor bsl bzr bxor case catch cond div end fun let ' +
-      'not of orelse|10 query receive rem try when xor',
+      'after and andalso|10 band begin bnot bor bsl bzr bxor case catch cond div end fun if ' +
+      'let not of orelse|10 query receive rem try when xor',
     literal:
       'false true'
   };
 
-  var COMMENT = {
-    className: 'comment',
-    begin: '%', end: '$',
-    relevance: 0
-  };
+  var COMMENT = hljs.COMMENT('%', '$');
   var NUMBER = {
     className: 'number',
     begin: '\\b(\\d+#[a-fA-F0-9]+|\\d+(\\.\\d+)?([eE][-+]?\\d+)?)',
@@ -117,8 +114,9 @@ hljs.registerLanguage("erlang", function(hljs) {
     contains: BASIC_MODES
   };
   return {
+    aliases: ['erl'],
     keywords: ERLANG_RESERVED,
-    illegal: '(</|\\*=|\\+=|-=|/=|/\\*|\\*/|\\(\\*|\\*\\))',
+    illegal: '(</|\\*=|\\+=|-=|/\\*|\\*/|\\(\\*|\\*\\))',
     contains: [
       {
         className: 'function',
@@ -146,15 +144,15 @@ hljs.registerLanguage("erlang", function(hljs) {
         keywords:
           '-module -record -undef -export -ifdef -ifndef -author -copyright -doc -vsn ' +
           '-import -include -include_lib -compile -define -else -endif -file -behaviour ' +
-          '-behavior',
+          '-behavior -spec',
         contains: [PARAMS]
       },
       NUMBER,
       hljs.QUOTE_STRING_MODE,
       RECORD_ACCESS,
       VAR1, VAR2,
-      TUPLE
+      TUPLE,
+      {begin: /\.$/} // relevance booster
     ]
   };
-}
-)
+})

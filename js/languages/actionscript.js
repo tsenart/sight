@@ -1,9 +1,10 @@
 /*
 Language: ActionScript
 Author: Alexander Myadzel <myadzel@gmail.com>
+Category: scripting
 */
 
-hljs.registerLanguage("actionscript", function(hljs) {
+hljs.registerLanguage('actionscript', function(hljs) {
   var IDENT_RE = '[a-zA-Z_$][a-zA-Z0-9_$]*';
   var IDENT_FUNC_RETURN_TYPE_RE = '([*]|[a-zA-Z_$][a-zA-Z0-9_$]*)';
 
@@ -14,6 +15,7 @@ hljs.registerLanguage("actionscript", function(hljs) {
   };
 
   return {
+    aliases: ['as'],
     keywords: {
       keyword: 'as break case catch class const continue default delete do dynamic each ' +
         'else extends final finally for function get if implements import in include ' +
@@ -35,7 +37,7 @@ hljs.registerLanguage("actionscript", function(hljs) {
       },
       {
         className: 'class',
-        beginKeywords: 'class interface', end: '{',
+        beginKeywords: 'class interface', end: '{', excludeEnd: true,
         contains: [
           {
             beginKeywords: 'extends implements'
@@ -49,7 +51,7 @@ hljs.registerLanguage("actionscript", function(hljs) {
       },
       {
         className: 'function',
-        beginKeywords: 'function', end: '[{;]',
+        beginKeywords: 'function', end: '[{;]', excludeEnd: true,
         illegal: '\\S',
         contains: [
           hljs.TITLE_MODE,

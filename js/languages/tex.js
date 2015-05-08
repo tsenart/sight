@@ -4,7 +4,7 @@ Author: Vladimir Moskva <vladmos@gmail.com>
 Website: http://fulc.ru/
 */
 
-hljs.registerLanguage("tex", function(hljs) {
+hljs.registerLanguage('tex', function(hljs) {
   var COMMAND1 = {
     className: 'command',
     begin: '\\\\[a-zA-Zа-яА-я]+[\\*]?'
@@ -48,12 +48,13 @@ hljs.registerLanguage("tex", function(hljs) {
         contains: [COMMAND1, COMMAND2, SPECIAL],
         relevance: 0
       },
-      {
-        className: 'comment',
-        begin: '%', end: '$',
-        relevance: 0
-      }
+      hljs.COMMENT(
+        '%',
+        '$',
+        {
+          relevance: 0
+        }
+      )
     ]
   };
-}
-)
+})

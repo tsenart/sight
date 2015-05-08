@@ -2,7 +2,7 @@
 Language: Delphi
 */
 
-hljs.registerLanguage("delphi", function(hljs) {
+hljs.registerLanguage('delphi', function(hljs) {
   var KEYWORDS =
     'exports register file shl array record property for mod while set ally label uses raise not ' +
     'stored class safecall var interface or private static exit index inherited to else stdcall ' +
@@ -11,13 +11,23 @@ hljs.registerLanguage("delphi", function(hljs) {
     'destructor write message program with read initialization except default nil if case cdecl in ' +
     'downto threadvar of try pascal const external constructor type public then implementation ' +
     'finally published procedure';
-  var COMMENT =  {
-    className: 'comment',
-    variants: [
-      {begin: /\{/, end: /\}/, relevance: 0},
-      {begin: /\(\*/, end: /\*\)/, relevance: 10}
-    ]
-  };
+  var COMMENT_MODES = [
+    hljs.C_LINE_COMMENT_MODE,
+    hljs.COMMENT(
+      /\{/,
+      /\}/,
+      {
+        relevance: 0
+      }
+    ),
+    hljs.COMMENT(
+      /\(\*/,
+      /\*\)/,
+      {
+        relevance: 10
+      }
+    )
+  ];
   var STRING = {
     className: 'string',
     begin: /'/, end: /'/,
@@ -43,21 +53,18 @@ hljs.registerLanguage("delphi", function(hljs) {
         begin: /\(/, end: /\)/,
         keywords: KEYWORDS,
         contains: [STRING, CHAR_STRING]
-      },
-      COMMENT
-    ]
+      }
+    ].concat(COMMENT_MODES)
   };
   return {
     case_insensitive: true,
     keywords: KEYWORDS,
-    illegal: /("|\$[G-Zg-z]|\/\*|<\/)/,
+    illegal: /"|\$[G-Zg-z]|\/\*|<\/|\|/,
     contains: [
-      COMMENT, hljs.C_LINE_COMMENT_MODE,
       STRING, CHAR_STRING,
       hljs.NUMBER_MODE,
       CLASS,
       FUNCTION
-    ]
+    ].concat(COMMENT_MODES)
   };
-}
-)
+})

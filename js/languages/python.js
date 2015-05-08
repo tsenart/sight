@@ -1,11 +1,12 @@
 /*
 Language: Python
+Category: common
 */
 
-hljs.registerLanguage("python", function(hljs) {
+hljs.registerLanguage('python', function(hljs) {
   var PROMPT = {
     className: 'prompt',  begin: /^(>>>|\.\.\.) /
-  }
+  };
   var STRING = {
     className: 'string',
     contains: [hljs.BACKSLASH_ESCAPE],
@@ -29,10 +30,10 @@ hljs.registerLanguage("python", function(hljs) {
         relevance: 10
       },
       {
-        begin: /(b|br)'/, end: /'/,
+        begin: /(b|br)'/, end: /'/
       },
       {
-        begin: /(b|br)"/, end: /"/,
+        begin: /(b|br)"/, end: /"/
       },
       hljs.APOS_STRING_MODE,
       hljs.QUOTE_STRING_MODE
@@ -45,19 +46,14 @@ hljs.registerLanguage("python", function(hljs) {
       {begin: '\\b(0o[0-7]+)[lLjJ]?'},
       {begin: hljs.C_NUMBER_RE + '[lLjJ]?'}
     ]
-  }
+  };
   var PARAMS = {
     className: 'params',
     begin: /\(/, end: /\)/,
     contains: ['self', PROMPT, NUMBER, STRING]
   };
-  var FUNC_CLASS_PROTO = {
-    end: /:/,
-    illegal: /[${=;\n]/,
-    contains: [hljs.UNDERSCORE_TITLE_MODE, PARAMS]
-  };
-
   return {
+    aliases: ['py', 'gyp'],
     keywords: {
       keyword:
         'and elif is global as in if from raise for except finally print import pass return ' +
@@ -72,8 +68,15 @@ hljs.registerLanguage("python", function(hljs) {
       NUMBER,
       STRING,
       hljs.HASH_COMMENT_MODE,
-      hljs.inherit(FUNC_CLASS_PROTO, {className: 'function', beginKeywords: 'def', relevance: 10}),
-      hljs.inherit(FUNC_CLASS_PROTO, {className: 'class', beginKeywords: 'class'}),
+      {
+        variants: [
+          {className: 'function', beginKeywords: 'def', relevance: 10},
+          {className: 'class', beginKeywords: 'class'}
+        ],
+        end: /:/,
+        illegal: /[${=;\n,]/,
+        contains: [hljs.UNDERSCORE_TITLE_MODE, PARAMS]
+      },
       {
         className: 'decorator',
         begin: /@/, end: /$/
@@ -83,5 +86,4 @@ hljs.registerLanguage("python", function(hljs) {
       }
     ]
   };
-}
-)
+})

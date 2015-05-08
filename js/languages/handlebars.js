@@ -3,11 +3,13 @@ Language: Handlebars
 Requires: xml.js
 Author: Robin Ward <robin.ward@gmail.com>
 Description: Matcher for Handlebars as well as EmberJS additions.
+Category: template
 */
 
-hljs.registerLanguage("handlebars", function(hljs) {
+hljs.registerLanguage('handlebars', function(hljs) {
   var EXPRESSION_KEYWORDS = 'each in with if else unless bindattr action collection debugger log outlet template unbound view yield';
   return {
+    aliases: ['hbs', 'html.hbs', 'html.handlebars'],
     case_insensitive: true,
     subLanguage: 'xml', subLanguageMode: 'continuous',
     contains: [
@@ -35,5 +37,4 @@ hljs.registerLanguage("handlebars", function(hljs) {
       }
     ]
   };
-}
-)
+})

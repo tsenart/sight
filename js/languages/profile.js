@@ -4,7 +4,7 @@ Description: Python profiler results
 Author: Brian Beck <exogen@gmail.com>
 */
 
-hljs.registerLanguage("profile", function(hljs) {
+hljs.registerLanguage('profile', function(hljs) {
   return {
     contains: [
       hljs.C_NUMBER_MODE,
@@ -44,5 +44,4 @@ hljs.registerLanguage("profile", function(hljs) {
       }
     ]
   };
-}
-)
+})

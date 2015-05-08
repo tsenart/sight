@@ -2,9 +2,10 @@
 Language: GLSL
 Description: OpenGL Shading Language
 Author: Sergey Tikhomirov <me@stikhomirov.com>
+Category: graphics
 */
 
-hljs.registerLanguage("glsl", function(hljs) {
+hljs.registerLanguage('glsl', function(hljs) {
   return {
     keywords: {
       keyword:
@@ -96,5 +97,4 @@ hljs.registerLanguage("glsl", function(hljs) {
       }
     ]
   };
-}
-)
+})

@@ -1,30 +1,32 @@
 /*
 Language: AppleScript
-Authors: Nathan Grigg <nathan@nathanamy.org>
-         Dr. Drang <drdrang@gmail.com>
+Authors: Nathan Grigg <nathan@nathanamy.org>, Dr. Drang <drdrang@gmail.com>
+Category: scripting
 */
 
-hljs.registerLanguage("applescript", function(hljs) {
+hljs.registerLanguage('applescript', function(hljs) {
   var STRING = hljs.inherit(hljs.QUOTE_STRING_MODE, {illegal: ''});
   var PARAMS = {
     className: 'params',
     begin: '\\(', end: '\\)',
     contains: ['self', hljs.C_NUMBER_MODE, STRING]
   };
+  var COMMENT_MODE_1 = hljs.COMMENT('--', '$');
+  var COMMENT_MODE_2 = hljs.COMMENT(
+    '\\(\\*',
+    '\\*\\)',
+    {
+      contains: ['self', COMMENT_MODE_1] //allow nesting
+    }
+  );
   var COMMENTS = [
-    {
-      className: 'comment',
-      begin: '--', end: '$',
-    },
-    {
-      className: 'comment',
-      begin: '\\(\\*', end: '\\*\\)',
-      contains: ['self', {begin: '--', end: '$'}] //allow nesting
-    },
+    COMMENT_MODE_1,
+    COMMENT_MODE_2,
     hljs.HASH_COMMENT_MODE
   ];
 
   return {
+    aliases: ['osascript'],
     keywords: {
       keyword:
         'about above after against and around as at back before beginning ' +
@@ -34,7 +36,7 @@ hljs.registerLanguage("applescript", function(hljs) {
         'get given global if ignoring in into is it its last local me ' +
         'middle mod my ninth not of on onto or over prop property put ref ' +
         'reference repeat returning script second set seventh since ' +
-        'sixth some tell tenth that the then third through thru ' +
+        'sixth some tell tenth that the|0 then third through thru ' +
         'timeout times to transaction try until where while whose with ' +
         'without',
       constant:
@@ -95,6 +97,6 @@ hljs.registerLanguage("applescript", function(hljs) {
         contains: [hljs.UNDERSCORE_TITLE_MODE, PARAMS]
       }
     ].concat(COMMENTS),
-    illegal: '//'
+    illegal: '//|->|=>'
   };
 })

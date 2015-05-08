@@ -1,16 +1,14 @@
 /*
 Language: Ini
+Category: common, config
 */
 
-hljs.registerLanguage("ini", function(hljs) {
+hljs.registerLanguage('ini', function(hljs) {
   return {
     case_insensitive: true,
     illegal: /\S/,
     contains: [
-      {
-        className: 'comment',
-        begin: ';', end: '$'
-      },
+      hljs.COMMENT(';', '$'),
       {
         className: 'title',
         begin: '^\\[', end: '\\]'
@@ -30,5 +28,4 @@ hljs.registerLanguage("ini", function(hljs) {
       }
     ]
   };
-}
-)
+})

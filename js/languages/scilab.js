@@ -3,9 +3,10 @@ Language: Scilab
 Author: Sylvestre Ledru <sylvestre.ledru@scilab-enterprises.com>
 Origin: matlab.js
 Description: Scilab is a port from Matlab
+Category: scientific
 */
 
-hljs.registerLanguage("scilab", function(hljs) {
+hljs.registerLanguage('scilab', function(hljs) {
 
   var COMMON_CONTAINS = [
     hljs.C_NUMBER_MODE,
@@ -17,6 +18,7 @@ hljs.registerLanguage("scilab", function(hljs) {
   ];
 
   return {
+    aliases: ['sci'],
     keywords: {
       keyword: 'abort break case clear catch continue do elseif else endfunction end for function'+
         'global if pause return resume select try then while'+
@@ -40,8 +42,8 @@ hljs.registerLanguage("scilab", function(hljs) {
           {
             className: 'params',
             begin: '\\(', end: '\\)'
-          },
-        ],
+          }
+        ]
       },
       {
         className: 'transposed_variable',
@@ -54,11 +56,7 @@ hljs.registerLanguage("scilab", function(hljs) {
         relevance: 0,
         contains: COMMON_CONTAINS
       },
-      {
-        className: 'comment',
-        begin: '//', end: '$'
-      }
+      hljs.COMMENT('//', '$')
     ].concat(COMMON_CONTAINS)
   };
-}
-)
+})

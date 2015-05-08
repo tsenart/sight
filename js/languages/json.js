@@ -1,9 +1,10 @@
 /*
 Language: JSON
 Author: Ivan Sagalaev <maniac@softwaremaniacs.org>
+Category: common, protocols
 */
 
-hljs.registerLanguage("json", function(hljs) {
+hljs.registerLanguage('json', function(hljs) {
   var LITERALS = {literal: 'true false null'};
   var TYPES = [
     hljs.QUOTE_STRING_MODE,
@@ -39,5 +40,4 @@ hljs.registerLanguage("json", function(hljs) {
     keywords: LITERALS,
     illegal: '\\S'
   };
-}
-)
+})

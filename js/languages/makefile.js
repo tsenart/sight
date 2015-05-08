@@ -1,15 +1,17 @@
 /*
 Language: Makefile
 Author: Ivan Sagalaev <maniac@softwaremaniacs.org>
+Category: common
 */
 
-hljs.registerLanguage("makefile", function(hljs) {
+hljs.registerLanguage('makefile', function(hljs) {
   var VARIABLE = {
     className: 'variable',
     begin: /\$\(/, end: /\)/,
     contains: [hljs.BACKSLASH_ESCAPE]
-  }
+  };
   return {
+    aliases: ['mk', 'mak'],
     contains: [
       hljs.HASH_COMMENT_MODE,
       {
@@ -23,7 +25,7 @@ hljs.registerLanguage("makefile", function(hljs) {
             relevance: 0,
             contains: [
               VARIABLE
-            ],
+            ]
           }
         }
       },
@@ -38,6 +40,7 @@ hljs.registerLanguage("makefile", function(hljs) {
       },
       {
         begin: /^\t+/, end: /$/,
+        relevance: 0,
         contains: [
           hljs.QUOTE_STRING_MODE,
           VARIABLE
@@ -45,5 +48,4 @@ hljs.registerLanguage("makefile", function(hljs) {
       }
     ]
   };
-}
-)
+})

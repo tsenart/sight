@@ -5,8 +5,9 @@ Author: Igor Kalnitsky <igor@kalnitsky.org>
 Website: http://kalnitsky.org/
 */
 
-hljs.registerLanguage("cmake", function(hljs) {
+hljs.registerLanguage('cmake', function(hljs) {
   return {
+    aliases: ['cmake.in'],
     case_insensitive: true,
     keywords: {
       keyword:
@@ -41,5 +42,4 @@ hljs.registerLanguage("cmake", function(hljs) {
       hljs.NUMBER_MODE
     ]
   };
-}
-)
+})

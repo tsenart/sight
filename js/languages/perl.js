@@ -1,9 +1,10 @@
 /*
 Language: Perl
 Author: Peter Leonov <gojpeg@yandex.ru>
+Category: common
 */
 
-hljs.registerLanguage("perl", function(hljs) {
+hljs.registerLanguage('perl', function(hljs) {
   var PERL_KEYWORDS = 'getpwent getservent quotemeta msgrcv scalar kill dbmclose undef lc ' +
     'ma syswrite tr send umask sysopen shmwrite vec qx utime local oct semctl localtime ' +
     'readpipe do return format read sprintf dbmopen pop getpgrp not getpwnam rewinddir qq' +
@@ -36,24 +37,29 @@ hljs.registerLanguage("perl", function(hljs) {
     className: 'variable',
     variants: [
       {begin: /\$\d/},
-      {begin: /[\$\%\@\*](\^\w\b|#\w+(\:\:\w+)*|{\w+}|\w+(\:\:\w*)*)/},
-      {begin: /[\$\%\@\*][^\s\w{]/, relevance: 0}
+      {begin: /[\$%@](\^\w\b|#\w+(::\w+)*|{\w+}|\w+(::\w*)*)/},
+      {begin: /[\$%@][^\s\w{]/, relevance: 0}
     ]
   };
-  var COMMENT = {
-    className: 'comment',
-    begin: '^(__END__|__DATA__)', end: '\\n$',
-    relevance: 5
-  }
+  var COMMENT = hljs.COMMENT(
+    '^(__END__|__DATA__)',
+    '\\n$',
+    {
+      relevance: 5
+    }
+  );
   var STRING_CONTAINS = [hljs.BACKSLASH_ESCAPE, SUBST, VAR];
   var PERL_DEFAULT_CONTAINS = [
     VAR,
     hljs.HASH_COMMENT_MODE,
     COMMENT,
-    {
-      className: 'comment',
-      begin: '^\\=\\w', end: '\\=cut', endsWithParent: true
-    },
+    hljs.COMMENT(
+      '^\\=\\w',
+      '\\=cut',
+      {
+        endsWithParent: true
+      }
+    ),
     METHOD,
     {
       className: 'string',
@@ -146,6 +152,7 @@ hljs.registerLanguage("perl", function(hljs) {
   METHOD.contains = PERL_DEFAULT_CONTAINS;
 
   return {
+    aliases: ['pl'],
     keywords: PERL_KEYWORDS,
     contains: PERL_DEFAULT_CONTAINS
   };

@@ -1,10 +1,11 @@
 /*
 Language: Ruby
 Author: Anton Kovalyov <anton@kovalyov.net>
-Contributors: Peter Leonov <gojpeg@yandex.ru>, Vasily Polovnyov <vast@whiteants.net>, Loren Segal <lsegal@soen.ca>
+Contributors: Peter Leonov <gojpeg@yandex.ru>, Vasily Polovnyov <vast@whiteants.net>, Loren Segal <lsegal@soen.ca>, Pascal Hurni <phi@ruby-reactive.org>, Cedric Sohrauer <sohrauer@googlemail.com>
+Category: common
 */
 
-hljs.registerLanguage("ruby", function(hljs) {
+hljs.registerLanguage('ruby', function(hljs) {
   var RUBY_METHOD_RE = '[a-zA-Z_]\\w*[!?=]?|[-+~]\\@|<<|>>|=~|===?|<=>|[<>]=?|\\*\\*|[-/+%^&*~`|]|\\[\\]=?';
   var RUBY_KEYWORDS =
     'and false then defined module in return redo if BEGIN retry end for true self when ' +
@@ -14,23 +15,28 @@ hljs.registerLanguage("ruby", function(hljs) {
     className: 'yardoctag',
     begin: '@[A-Za-z]+'
   };
-  var COMMENT = {
-    className: 'comment',
-    variants: [
+  var IRB_OBJECT = {
+    className: 'value',
+    begin: '#<', end: '>'
+  };
+  var COMMENT_MODES = [
+    hljs.COMMENT(
+      '#',
+      '$',
       {
-        begin: '#', end: '$',
         contains: [YARDOCTAG]
-      },
+      }
+    ),
+    hljs.COMMENT(
+      '^\\=begin',
+      '^\\=end',
       {
-        begin: '^\\=begin', end: '^\\=end',
         contains: [YARDOCTAG],
         relevance: 10
-      },
-      {
-        begin: '^__END__', end: '\\n$'
       }
-    ]
-  };
+    ),
+    hljs.COMMENT('^__END__', '\\n$')
+  ];
   var SUBST = {
     className: 'subst',
     begin: '#\\{', end: '}',
@@ -42,29 +48,15 @@ hljs.registerLanguage("ruby", function(hljs) {
     variants: [
       {begin: /'/, end: /'/},
       {begin: /"/, end: /"/},
-      {begin: '%[qw]?\\(', end: '\\)'},
-      {begin: '%[qw]?\\[', end: '\\]'},
-      {begin: '%[qw]?{', end: '}'},
-      {
-        begin: '%[qw]?<', end: '>',
-        relevance: 10
-      },
-      {
-        begin: '%[qw]?/', end: '/',
-        relevance: 10
-      },
-      {
-        begin: '%[qw]?%', end: '%',
-        relevance: 10
-      },
-      {
-        begin: '%[qw]?-', end: '-',
-        relevance: 10
-      },
-      {
-        begin: '%[qw]?\\|', end: '\\|',
-        relevance: 10
-      },
+      {begin: /`/, end: /`/},
+      {begin: '%[qQwWx]?\\(', end: '\\)'},
+      {begin: '%[qQwWx]?\\[', end: '\\]'},
+      {begin: '%[qQwWx]?{', end: '}'},
+      {begin: '%[qQwWx]?<', end: '>'},
+      {begin: '%[qQwWx]?/', end: '/'},
+      {begin: '%[qQwWx]?%', end: '%'},
+      {begin: '%[qQwWx]?-', end: '-'},
+      {begin: '%[qQwWx]?\\|', end: '\\|'},
       {
         // \B in the beginning suppresses recognition of ?-sequences where ?
         // is the last character of a preceding identifier, as in: `func?4`
@@ -80,7 +72,7 @@ hljs.registerLanguage("ruby", function(hljs) {
 
   var RUBY_DEFAULT_CONTAINS = [
     STRING,
-    COMMENT,
+    IRB_OBJECT,
     {
       className: 'class',
       beginKeywords: 'class module', end: '$|;',
@@ -94,9 +86,8 @@ hljs.registerLanguage("ruby", function(hljs) {
             className: 'parent',
             begin: '(' + hljs.IDENT_RE + '::)?' + hljs.IDENT_RE
           }]
-        },
-        COMMENT
-      ]
+        }
+      ].concat(COMMENT_MODES)
     },
     {
       className: 'function',
@@ -104,9 +95,8 @@ hljs.registerLanguage("ruby", function(hljs) {
       relevance: 0,
       contains: [
         hljs.inherit(hljs.TITLE_MODE, {begin: RUBY_METHOD_RE}),
-        PARAMS,
-        COMMENT
-      ]
+        PARAMS
+      ].concat(COMMENT_MODES)
     },
     {
       className: 'constant',
@@ -115,13 +105,13 @@ hljs.registerLanguage("ruby", function(hljs) {
     },
     {
       className: 'symbol',
-      begin: ':',
-      contains: [STRING, {begin: RUBY_METHOD_RE}],
+      begin: hljs.UNDERSCORE_IDENT_RE + '(\\!|\\?)?:',
       relevance: 0
     },
     {
       className: 'symbol',
-      begin: hljs.UNDERSCORE_IDENT_RE + '(\\!|\\?)?:',
+      begin: ':',
+      contains: [STRING, {begin: RUBY_METHOD_RE}],
       relevance: 0
     },
     {
@@ -136,7 +126,7 @@ hljs.registerLanguage("ruby", function(hljs) {
     { // regexp container
       begin: '(' + hljs.RE_STARTERS_RE + ')\\s*',
       contains: [
-        COMMENT,
+        IRB_OBJECT,
         {
           className: 'regexp',
           contains: [hljs.BACKSLASH_ESCAPE, SUBST],
@@ -149,16 +139,38 @@ hljs.registerLanguage("ruby", function(hljs) {
             {begin: '%r\\[', end: '\\][a-z]*'}
           ]
         }
-      ],
+      ].concat(COMMENT_MODES),
       relevance: 0
     }
-  ];
+  ].concat(COMMENT_MODES);
+
   SUBST.contains = RUBY_DEFAULT_CONTAINS;
   PARAMS.contains = RUBY_DEFAULT_CONTAINS;
 
+  var SIMPLE_PROMPT = "[>?]>";
+  var DEFAULT_PROMPT = "[\\w#]+\\(\\w+\\):\\d+:\\d+>";
+  var RVM_PROMPT = "(\\w+-)?\\d+\\.\\d+\\.\\d(p\\d+)?[^>]+>";
+
+  var IRB_DEFAULT = [
+    {
+      begin: /^\s*=>/,
+      className: 'status',
+      starts: {
+        end: '$', contains: RUBY_DEFAULT_CONTAINS
+      }
+    },
+    {
+      className: 'prompt',
+      begin: '^('+SIMPLE_PROMPT+"|"+DEFAULT_PROMPT+'|'+RVM_PROMPT+')',
+      starts: {
+        end: '$', contains: RUBY_DEFAULT_CONTAINS
+      }
+    }
+  ];
+
   return {
+    aliases: ['rb', 'gemspec', 'podspec', 'thor', 'irb'],
     keywords: RUBY_KEYWORDS,
-    contains: RUBY_DEFAULT_CONTAINS
+    contains: COMMENT_MODES.concat(IRB_DEFAULT).concat(RUBY_DEFAULT_CONTAINS)
   };
-}
-)
+})

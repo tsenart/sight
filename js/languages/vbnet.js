@@ -3,8 +3,9 @@ Language: VB.NET
 Author: Poren Chiang <ren.chiang@gmail.com>
 */
 
-hljs.registerLanguage("vbnet", function(hljs) {
+hljs.registerLanguage('vbnet', function(hljs) {
   return {
+    aliases: ['vb'],
     case_insensitive: true,
     keywords: {
       keyword:
@@ -29,27 +30,31 @@ hljs.registerLanguage("vbnet", function(hljs) {
     illegal: '//|{|}|endif|gosub|variant|wend', /* reserved deprecated keywords */
     contains: [
       hljs.inherit(hljs.QUOTE_STRING_MODE, {contains: [{begin: '""'}]}),
-      {
-        className: 'comment',
-        begin: '\'', end: '$', returnBegin: true,
-        contains: [
-          {
-            className: 'xmlDocTag',
-            begin: '\'\'\'|<!--|-->'
-          },
-          {
-            className: 'xmlDocTag',
-            begin: '</?', end: '>'
-          },
+      hljs.COMMENT(
+        '\'',
+        '$',
+        {
+          returnBegin: true,
+          contains: [
+            {
+              className: 'xmlDocTag',
+              begin: '\'\'\'|<!--|-->',
+              contains: [hljs.PHRASAL_WORDS_MODE]
+            },
+            {
+              className: 'xmlDocTag',
+              begin: '</?', end: '>',
+              contains: [hljs.PHRASAL_WORDS_MODE]
+            }
           ]
-      },
+        }
+      ),
       hljs.C_NUMBER_MODE,
       {
         className: 'preprocessor',
         begin: '#', end: '$',
         keywords: 'if else elseif end region externalsource'
-      },
+      }
     ]
   };
-}
-)
+})

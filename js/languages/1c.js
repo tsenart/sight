@@ -2,9 +2,10 @@
 Language: 1C
 Author: Yuri Ivanov <ivanov@supersoft.ru>
 Contributors: Sergey Baranov <segyrn@yandex.ru>
+Category: enterprise
 */
 
-hljs.registerLanguage("1c", function(hljs){
+hljs.registerLanguage('1c', function(hljs){
   var IDENT_RE_RU = '[a-zA-Zа-яА-Я][a-zA-Z0-9_а-яА-Я]*';
   var OneS_KEYWORDS = 'возврат дата для если и или иначе иначеесли исключение конецесли ' +
     'конецпопытки конецпроцедуры конецфункции конеццикла константа не перейти перем ' +

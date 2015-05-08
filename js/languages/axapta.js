@@ -1,9 +1,10 @@
 /*
 Language: Axapta
 Author: Dmitri Roudakov <dmitri@roudakov.ru>
+Category: enterprise
 */
 
-hljs.registerLanguage("axapta", function(hljs) {
+hljs.registerLanguage('axapta', function(hljs) {
   return {
     keywords: 'false int abstract private char boolean static null if for true ' +
       'while long throw finally protected final return void enum else ' +
@@ -23,18 +24,13 @@ hljs.registerLanguage("axapta", function(hljs) {
       },
       {
         className: 'class',
-        beginKeywords: 'class interface', end: '{',
+        beginKeywords: 'class interface', end: '{', excludeEnd: true,
         illegal: ':',
         contains: [
-          {
-            className: 'inheritance',
-            beginKeywords: 'extends implements',
-            relevance: 10
-          },
+          {beginKeywords: 'extends implements'},
           hljs.UNDERSCORE_TITLE_MODE
         ]
       }
     ]
   };
-}
-)
+})

@@ -5,26 +5,29 @@ Author: Dan Allen <dan.j.allen@gmail.com>
 Website: http://google.com/profiles/dan.j.allen
 Description: A semantic, text-based document format that can be exported to HTML, DocBook and other backends.
 */
-hljs.registerLanguage("asciidoc", function(hljs) {
+hljs.registerLanguage('asciidoc', function(hljs) {
   return {
+    aliases: ['adoc'],
     contains: [
       // block comment
-      {
-        className: 'comment',
-        begin: '^/{4,}\\n',
-        end: '\\n/{4,}$',
+      hljs.COMMENT(
+        '^/{4,}\\n',
+        '\\n/{4,}$',
         // can also be done as...
-        //begin: '^/{4,}$',
-        //end: '^/{4,}$',
-        relevance: 10
-      },
+        //'^/{4,}$',
+        //'^/{4,}$',
+        {
+          relevance: 10
+        }
+      ),
       // line comment
-      {
-        className: 'comment',
-        begin: '^//',
-        end: '$',
-        relevance: 0
-      },
+      hljs.COMMENT(
+        '^//',
+        '$',
+        {
+          relevance: 0
+        }
+      ),
       // title
       {
         className: 'title',
@@ -136,17 +139,13 @@ hljs.registerLanguage("asciidoc", function(hljs) {
         end: '(\\n{2}|_)',
         relevance: 0
       },
-      // inline double smart quotes
+      // inline smart quotes
       {
         className: 'smartquote',
-        begin: "``.+?''",
-        relevance: 10
-      },
-      // inline single smart quotes
-      {
-        className: 'smartquote',
-        begin: "`.+?'",
-        relevance: 10
+        variants: [
+          {begin: "``.+?''"},
+          {begin: "`.+?'"}
+        ]
       },
       // inline code snippets (TODO should get same treatment as strong and emphasis)
       {

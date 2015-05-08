@@ -2,10 +2,10 @@
 Language: Matlab
 Author: Denis Bardadym <bardadymchik@gmail.com>
 Contributors: Eugene Nizhibitsky <nizhibitsky@ya.ru>
+Category: scientific
 */
 
-hljs.registerLanguage("matlab", function(hljs) {
-
+hljs.registerLanguage('matlab', function(hljs) {
   var COMMON_CONTAINS = [
     hljs.C_NUMBER_MODE,
     {
@@ -14,6 +14,14 @@ hljs.registerLanguage("matlab", function(hljs) {
       contains: [hljs.BACKSLASH_ESCAPE, {begin: '\'\''}]
     }
   ];
+  var TRANSPOSE = {
+    relevance: 0,
+    contains: [
+      {
+        className: 'operator', begin: /'['\.]*/
+      }
+    ]
+  };
 
   return {
     keywords: {
@@ -54,27 +62,36 @@ hljs.registerLanguage("matlab", function(hljs) {
         ]
       },
       {
-        className: 'transposed_variable',
-        begin: '[a-zA-Z_][a-zA-Z_0-9]*(\'+[\\.\']*|[\\.\']+)', end: '',
-        relevance: 0
+        begin: /[a-zA-Z_][a-zA-Z_0-9]*'['\.]*/,
+        returnBegin: true,
+        relevance: 0,
+        contains: [
+          {begin: /[a-zA-Z_][a-zA-Z_0-9]*/, relevance: 0},
+          TRANSPOSE.contains[0]
+        ]
       },
       {
         className: 'matrix',
-        begin: '\\[', end: '\\]\'*[\\.\']*',
+        begin: '\\[', end: '\\]',
         contains: COMMON_CONTAINS,
-        relevance: 0
+        relevance: 0,
+        starts: TRANSPOSE
       },
       {
         className: 'cell',
-        begin: '\\{', end: '\\}\'*[\\.\']*',
+        begin: '\\{', end: /}/,
         contains: COMMON_CONTAINS,
-        illegal: /:/
+        relevance: 0,
+        starts: TRANSPOSE
       },
       {
-        className: 'comment',
-        begin: '\\%', end: '$'
-      }
+        // transpose operators at the end of a function call
+        begin: /\)/,
+        relevance: 0,
+        starts: TRANSPOSE
+      },
+      hljs.COMMENT('^\\s*\\%\\{\\s*$', '^\\s*\\%\\}\\s*$'),
+      hljs.COMMENT('\\%', '$')
     ].concat(COMMON_CONTAINS)
   };
-}
-)
+})

@@ -3,7 +3,7 @@ Language: Smalltalk
 Author: Vladimir Gubarkov <xonixx@gmail.com>
 */
 
-hljs.registerLanguage("smalltalk", function(hljs) {
+hljs.registerLanguage('smalltalk', function(hljs) {
   var VAR_IDENT_RE = '[a-z][a-zA-Z0-9_]*';
   var CHAR = {
     className: 'char',
@@ -14,12 +14,10 @@ hljs.registerLanguage("smalltalk", function(hljs) {
     begin: '#' + hljs.UNDERSCORE_IDENT_RE
   };
   return {
+    aliases: ['st'],
     keywords: 'self super nil true false thisContext', // only 6
     contains: [
-      {
-        className: 'comment',
-        begin: '"', end: '"'
-      },
+      hljs.COMMENT('"', '"'),
       hljs.APOS_STRING_MODE,
       {
         className: 'class',
@@ -56,5 +54,4 @@ hljs.registerLanguage("smalltalk", function(hljs) {
       }
     ]
   };
-}
-)
+})

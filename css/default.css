@@ -4,20 +4,17 @@ Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiac
 
 */
 
-body {
-  background: #f0f0f0;
-}
-
 .hljs {
-  display: block; padding: 0.5em;
-  background: #F0F0F0;
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #f0f0f0;
+  -webkit-text-size-adjust: none;
 }
 
 .hljs,
 .hljs-subst,
 .hljs-tag .hljs-title,
-.lisp .hljs-title,
-.clojure .hljs-built_in,
 .nginx .hljs-title {
   color: black;
 }
@@ -27,14 +24,13 @@ body {
 .hljs-constant,
 .hljs-parent,
 .hljs-tag .hljs-value,
-.hljs-rules .hljs-value,
-.hljs-rules .hljs-value .hljs-number,
+.hljs-rule .hljs-value,
 .hljs-preprocessor,
 .hljs-pragma,
+.hljs-name,
 .haml .hljs-symbol,
 .ruby .hljs-symbol,
 .ruby .hljs-symbol .hljs-string,
-.hljs-aggregate,
 .hljs-template_tag,
 .django .hljs-variable,
 .smalltalk .hljs-class,
@@ -42,6 +38,7 @@ body {
 .hljs-flow,
 .hljs-stream,
 .bash .hljs-variable,
+.pf .hljs-variable,
 .apache .hljs-tag,
 .apache .hljs-cbracket,
 .tex .hljs-command,
@@ -56,7 +53,6 @@ body {
 .smartquote,
 .hljs-comment,
 .hljs-annotation,
-.hljs-template_comment,
 .diff .hljs-header,
 .hljs-chunk,
 .asciidoc .hljs-blockquote,
@@ -111,23 +107,25 @@ body {
 .lasso .hljs-attribute,
 .coffeescript .hljs-property,
 .hljs-phony {
-  color: #88F
+  color: #88f;
 }
 
 .hljs-keyword,
 .hljs-id,
 .hljs-title,
 .hljs-built_in,
-.hljs-aggregate,
 .css .hljs-tag,
 .hljs-javadoctag,
 .hljs-phpdoc,
+.hljs-dartdoc,
 .hljs-yardoctag,
 .smalltalk .hljs-class,
 .hljs-winutils,
 .bash .hljs-variable,
+.pf .hljs-variable,
 .apache .hljs-tag,
-.go .hljs-typename,
+.hljs-type,
+.hljs-typename,
 .tex .hljs-command,
 .asciidoc .hljs-strong,
 .markdown .hljs-strong,

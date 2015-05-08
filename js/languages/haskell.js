@@ -2,19 +2,20 @@
 Language: Haskell
 Author: Jeremy Hull <sourdrums@gmail.com>
 Contributors: Zena Treep <zena.treep@gmail.com>
+Category: functional
 */
 
-hljs.registerLanguage("haskell", function(hljs) {
-
-  var COMMENT = {
-    className: 'comment',
-    variants: [
-      { begin: '--', end: '$' },
-      { begin: '{-', end: '-}'
-      , contains: ['self']
+hljs.registerLanguage('haskell', function(hljs) {
+  var COMMENT_MODES = [
+    hljs.COMMENT('--', '$'),
+    hljs.COMMENT(
+      '{-',
+      '-}',
+      {
+        contains: ['self']
       }
-    ]
-  };
+    )
+  ];
 
   var PRAGMA = {
     className: 'pragma',
@@ -38,11 +39,10 @@ hljs.registerLanguage("haskell", function(hljs) {
     illegal: '"',
     contains: [
       PRAGMA,
-      COMMENT,
       PREPROCESSOR,
       {className: 'type', begin: '\\b[A-Z][\\w]*(\\((\\.\\.|,|\\w+)\\))?'},
       hljs.inherit(hljs.TITLE_MODE, {begin: '[_a-z][\\w\']*'})
-    ]
+    ].concat(COMMENT_MODES)
   };
 
   var RECORD = {
@@ -52,6 +52,7 @@ hljs.registerLanguage("haskell", function(hljs) {
   };
 
   return {
+    aliases: ['hs'],
     keywords:
       'let in if then else case of where do module import hiding ' +
       'qualified type data newtype deriving class instance as default ' +
@@ -65,14 +66,14 @@ hljs.registerLanguage("haskell", function(hljs) {
         className: 'module',
         begin: '\\bmodule\\b', end: 'where',
         keywords: 'module where',
-        contains: [LIST, COMMENT],
+        contains: [LIST].concat(COMMENT_MODES),
         illegal: '\\W\\.|;'
       },
       {
         className: 'import',
         begin: '\\bimport\\b', end: '$',
         keywords: 'import|0 qualified as hiding',
-        contains: [LIST, COMMENT],
+        contains: [LIST].concat(COMMENT_MODES),
         illegal: '\\W\\.|;'
       },
 
@@ -80,30 +81,30 @@ hljs.registerLanguage("haskell", function(hljs) {
         className: 'class',
         begin: '^(\\s*)?(class|instance)\\b', end: 'where',
         keywords: 'class family instance where',
-        contains: [CONSTRUCTOR, LIST, COMMENT]
+        contains: [CONSTRUCTOR, LIST].concat(COMMENT_MODES)
       },
       {
         className: 'typedef',
         begin: '\\b(data|(new)?type)\\b', end: '$',
         keywords: 'data family type newtype deriving',
-        contains: [PRAGMA, COMMENT, CONSTRUCTOR, LIST, RECORD]
+        contains: [PRAGMA, CONSTRUCTOR, LIST, RECORD].concat(COMMENT_MODES)
       },
       {
         className: 'default',
         beginKeywords: 'default', end: '$',
-        contains: [CONSTRUCTOR, LIST, COMMENT]
+        contains: [CONSTRUCTOR, LIST].concat(COMMENT_MODES)
       },
       {
         className: 'infix',
         beginKeywords: 'infix infixl infixr', end: '$',
-        contains: [hljs.C_NUMBER_MODE, COMMENT]
+        contains: [hljs.C_NUMBER_MODE].concat(COMMENT_MODES)
       },
       {
         className: 'foreign',
         begin: '\\bforeign\\b', end: '$',
         keywords: 'foreign import export ccall stdcall cplusplus jvm ' +
                   'dotnet safe unsafe',
-        contains: [CONSTRUCTOR, hljs.QUOTE_STRING_MODE, COMMENT]
+        contains: [CONSTRUCTOR, hljs.QUOTE_STRING_MODE].concat(COMMENT_MODES)
       },
       {
         className: 'shebang',
@@ -113,7 +114,6 @@ hljs.registerLanguage("haskell", function(hljs) {
       // "Whitespaces".
 
       PRAGMA,
-      COMMENT,
       PREPROCESSOR,
 
       // Literals and names.
@@ -125,7 +125,6 @@ hljs.registerLanguage("haskell", function(hljs) {
       hljs.inherit(hljs.TITLE_MODE, {begin: '^[_a-z][\\w\']*'}),
 
       {begin: '->|<-'} // No markup, relevance booster
-    ]
+    ].concat(COMMENT_MODES)
   };
-}
-)
+})

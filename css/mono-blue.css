@@ -1,13 +1,17 @@
 /*
   Five-color theme from a single blue hue.
 */
-body {
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
   background: #eaeef3;
+  -webkit-text-size-adjust: none;
 }
 
-.hljs {
-  display: block; padding: 0.5em;
-  background: #EAEEF3; color: #00193A;
+.hljs,
+.hljs-list .hljs-built_in {
+  color: #00193a;
 }
 
 .hljs-keyword,
@@ -20,8 +24,7 @@ body {
 }
 
 .hljs-comment,
-.hljs-chunk,
-.hljs-template_comment {
+.hljs-chunk {
   color: #738191;
 }
 
@@ -37,8 +40,9 @@ body {
 .hljs-argument,
 .hljs-link_label,
 .hljs-blockquote,
-.hljs-header {
-  color: #0048AB;
+.hljs-header,
+.hljs-name {
+  color: #0048ab;
 }
 
 .hljs-decorator,
@@ -62,5 +66,5 @@ body {
 .hljs-bullet,
 .hljs-sqbracket,
 .hljs-phony {
-  color: #4C81C9;
+  color: #4c81c9;
 }
