@@ -1,55 +1,71 @@
 (function(doc) {
   doc.addEventListener('DOMContentLoaded', function() {
-    var themeEl = doc.getElementById('theme');
-    var fontEl  = doc.getElementById('font');
-    var fontSizeEl = doc.getElementById('font-size');
-    var styleEl = doc.querySelector('link:last-of-type');
-    var codeEl = doc.getElementById('code');
-    var code = codeEl.textContent;
-
-    function getOptions(callback) {
+    function get(callback) {
       chrome.extension.sendRequest({ options: null }, callback);
     }
 
-    function setOptions(options, callback) {
+    function set(option, value, callback) {
+      var options = {};
+      options[option] = value;
       chrome.extension.sendRequest({ options: options }, callback);
     }
 
-    function applyTheme(theme) {
-      styleEl.href = '/css/' + theme + '.css';
-    }
+    function id(value) { return value }
 
-    function applyFont(font) {
-      codeEl.style.fontFamily = font;
-    }
+    var options = {
+      theme: {
+        selector: '#theme',
+        value: 'value',
+        decode: id,
+        render: function(value) {
+          var styleEl = doc.querySelector('link:last-of-type');
+          styleEl.href = '/css/' + value + '.css';
+        },
+      },
+      font: {
+        selector: '#font',
+        value: 'value',
+        decode: id,
+        render: function(value) {
+          doc.getElementById('code').style.fontFamily = value;
+        },
+      },
+      fontSize: {
+        selector: '#font-size',
+        value: 'value',
+        decode: identity,
+        render: function(value) {
+          doc.getElementById('code').style.fontSize = value;
+        },
+      },
+      lineNumbers: {
+        selector: '#line-numbers',
+        value: 'checked',
+        decode: function(value) { return value === "true" },
+        render: function(value) {
+          var codeEl = doc.getElementById('code');
+          hljs.configure({ lineNumbers: value });
+          codeEl.innerHTML = codeEl.textContent;
+          hljs.highlightBlock(codeEl);
+        }
+      }
+    };
 
-    function applyFontSize(fontSize) {
-      codeEl.style.fontSize = fontSize;
-    }
-
-    themeEl.addEventListener('change', function() {
-      var theme = themeEl.options[themeEl.selectedIndex].value;
-      setOptions({ theme: theme }, applyTheme.bind(null, theme));
+    Object.keys(options).forEach(function(name) {
+      var opt = options[name];
+      doc.querySelector(opt.selector).addEventListener('change', function(e) {
+        var value = e.target[opt.value];
+        set(name, value, opt.render.bind(null, value));
+      })
     });
 
-    fontEl.addEventListener('change', function() {
-      var font = fontEl.options[fontEl.selectedIndex].value;
-      setOptions({ font: font }, applyFont.bind(null, font));
-    });
-
-    fontSizeEl.addEventListener('change', function() {
-      var fontSize = fontSizeEl.options[fontSizeEl.selectedIndex].value;
-      setOptions({ fontSize: fontSize }, applyFontSize.bind(null, fontSize));
-    });
-
-    getOptions(function(options) {
-      themeEl.value = options.theme;
-      fontEl.value = options.font;
-      fontSizeEl.value = options.fontSize;
-      applyTheme(options.theme);
-      applyFont(options.font);
-      applyFontSize(options.fontSize);
-      hljs.highlightBlock(codeEl)
+    get(function(opts) {
+      Object.keys(opts).forEach(function(name) {
+        var opt = options[name];
+        var el = doc.querySelector(opt.selector);
+        el[opt.value] = opt.decode(opts[name]);
+        el.dispatchEvent(new Event('change'));
+      });
     });
   });
 }(window.document));

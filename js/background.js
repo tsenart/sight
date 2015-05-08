@@ -48,18 +48,20 @@
   const OPTIONS_DEFAULTS = {
     theme: 'sunburst',
     font: 'Inconsolata',
-    fontSize: 'medium'
+    fontSize: 'medium',
+    lineNumbers: true
   };
 
-  ['theme', 'font', 'fontSize'].forEach(function(option) {
-    if (localStorage.getItem(option) === null) {
-      localStorage.setItem(option, OPTIONS_DEFAULTS[option]);
-    }
+  const OPTIONS = Object.keys(OPTIONS_DEFAULTS);
+
+  OPTIONS.forEach(function(option) {
+    var value = localStorage.getItem(option) || OPTIONS_DEFAULTS[option];
+    localStorage.setItem(option, value);
   });
 
   // Reverse index
   const EXT_LANG_MAP = {};
-  for (lang in LANG_EXT_MAP) {
+  for (var lang in LANG_EXT_MAP) {
     LANG_EXT_MAP[lang].forEach(function(ext) {
       EXT_LANG_MAP[ext] = lang;
     });
@@ -105,14 +107,14 @@
                                                   EXT_LANG_MAP[filename];
   }
 
-  function getHighlightingCode(font, fontSize, language) {
-    var code = 'document.body.style.fontFamily = "' + font + '";';
-    code += 'document.body.style.fontSize = "' + fontSize + '";';
-    code += 'var container = document.querySelector("pre");';
-    code += 'container.classList.add("' + language + '");';
-    code += 'hljs.highlightBlock(container);';
-    code += 'document.body.style.backgroundColor = getComputedStyle(container).backgroundColor;';
-    return code;
+  function getHighlightingCode(font, fontSize, lineNumbers, language) {
+    return 'document.body.style.fontFamily = "' + font + '";' +
+      'document.body.style.fontSize = "' + fontSize + '";' +
+      'var container = document.querySelector("pre");' +
+      'container.classList.add("' + language + '");' +
+      'hljs.configure({ lineNumbers: ' + !!lineNumbers + ' });' +
+      'hljs.highlightBlock(container);' +
+      'document.body.style.backgroundColor = getComputedStyle(container).backgroundColor;';
   }
 
   const JS_BEUTIFY_CODE =
@@ -121,18 +123,13 @@
     'container.textContent = js_beautify(container.textContent, options);';
 
   chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-    if (request.options === null) {
-      sendResponse({
-        theme: localStorage.getItem('theme'),
-        font: localStorage.getItem('font'),
-        fontSize: localStorage.getItem('fontSize')
-      });
-      return;
-    }
-    for (var option in request.options) {
-      localStorage.setItem(option, request.options[option]);
-    }
-    sendResponse();
+    Object.keys(request.options || {}).forEach(function(opt) {
+      console.log(opt, request.options[opt]);
+      localStorage.setItem(opt, request.options[opt]);
+    });
+    sendResponse(OPTIONS.reduce(function(acc, opt) {
+      acc[opt] = localStorage.getItem(opt); return acc;
+    }, {}));
   });
 
   chrome.webRequest.onCompleted.addListener(function(details) {
@@ -164,11 +161,8 @@
     }
 
     scripts.push({
-      code: getHighlightingCode(
-        localStorage.getItem('font'),
-        localStorage.getItem('fontSize'),
-        language
-      )
+      code: getHighlightingCode.apply(this, ['font', 'fontSize', 'lineNumbers'].
+        map(localStorage.getItem.bind(localStorage)).concat(language))
     });
 
     for (var i = 0; i < styles.length; i++) {
