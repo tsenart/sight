@@ -110,6 +110,7 @@
     code += 'var container = document.querySelector("pre");';
     code += 'container.classList.add("' + language + '");';
     code += 'hljs.highlightBlock(container);';
+    code += 'document.body.style.backgroundColor = getComputedStyle(container).backgroundColor;';
     return code;
   }
 
