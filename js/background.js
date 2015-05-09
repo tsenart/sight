@@ -125,7 +125,6 @@
 
   chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     Object.keys(request.options || {}).forEach(function(opt) {
-      console.log(opt, request.options[opt]);
       localStorage.setItem(opt, request.options[opt]);
     });
     sendResponse(OPTIONS.reduce(function(acc, opt) {
