@@ -78,6 +78,7 @@ pre {
   word-wrap: normal !important;
   white-space: pre !important;
   font-family: inherit;
+  line-height: normal;
   outline: none;
   cursor: text;
   display: block;
