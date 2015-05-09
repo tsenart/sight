@@ -10,6 +10,7 @@
     cs:          ['cs'],
     css:         ['css'],
     d:           ['d', 'dd', 'di'],
+    dart:        ['dart'],
     delphi:      ['pas'],
     desktop:     ['desktop'],
     diff:        ['diff', 'patch'],
