@@ -33,7 +33,7 @@
       fontSize: {
         selector: '#font-size',
         value: 'value',
-        decode: identity,
+        decode: id,
         render: function(value) {
           doc.getElementById('code').style.fontSize = value;
         },
