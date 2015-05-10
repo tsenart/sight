@@ -1,71 +1,62 @@
 (function(doc) {
-  doc.addEventListener('DOMContentLoaded', function() {
-    function get(callback) {
-      chrome.extension.sendRequest({ options: null }, callback);
+  function id(a) { return a }
+  function eq(b) { return function(a) { return a === b } }
+  function val(obj, key) { return obj[key] }
+  function set(sel, path, fn) {
+    var parts = path.split('.');
+    var target = parts[parts.length-1];
+    var parents = parts.slice(0, -1);
+    return function(a) {
+      var el = doc.querySelector(sel);
+      parents.reduce(val, el)[target] = fn(a);
     }
+  }
 
-    function set(option, value, callback) {
-      var options = {};
-      options[option] = value;
-      chrome.extension.sendRequest({ options: options }, callback);
-    }
-
-    function id(value) { return value }
-
-    var options = {
-      theme: {
-        selector: '#theme',
-        value: 'value',
-        decode: id,
-        render: function(value) {
-          var styleEl = doc.querySelector('link:last-of-type');
-          styleEl.href = '/css/' + value + '.css';
-        },
-      },
-      font: {
-        selector: '#font',
-        value: 'value',
-        decode: id,
-        render: function(value) {
-          doc.getElementById('code').style.fontFamily = value;
-        },
-      },
-      fontSize: {
-        selector: '#font-size',
-        value: 'value',
-        decode: id,
-        render: function(value) {
-          doc.getElementById('code').style.fontSize = value;
-        },
-      },
-      lineNumbers: {
-        selector: '#line-numbers',
-        value: 'checked',
-        decode: function(value) { return value === "true" },
-        render: function(value) {
-          var codeEl = doc.getElementById('code');
-          hljs.configure({ lineNumbers: value });
-          codeEl.innerHTML = codeEl.textContent;
-          hljs.highlightBlock(codeEl);
-        }
+  var options = {
+    theme: {
+      selector: '#theme',
+      value: 'value',
+      decode: id,
+      render: set('link:last-of-type', 'href', function(value) {
+        return '/css/' + value + '.css';
+      })
+    },
+    font: {
+      selector: '#font',
+      value: 'value',
+      decode: id,
+      render: set('#code', 'style.fontFamily', id)
+    },
+    fontSize: {
+      selector: '#font-size',
+      value: 'value',
+      decode: id,
+      render: set('#code', 'style.fontSize', id)
+    },
+    lineNumbers: {
+      selector: '#line-numbers',
+      value: 'checked',
+      decode: eq('true'),
+      render: function(value) {
+        var codeEl = doc.getElementById('code');
+        hljs.configure({ lineNumbers: value });
+        codeEl.innerHTML = codeEl.textContent;
+        hljs.highlightBlock(codeEl);
       }
-    };
+    }
+  };
 
+  doc.addEventListener('DOMContentLoaded', function() {
     Object.keys(options).forEach(function(name) {
       var opt = options[name];
-      doc.querySelector(opt.selector).addEventListener('change', function(e) {
+      var el = doc.querySelector(opt.selector);
+      el.addEventListener('change', function(e) {
         var value = e.target[opt.value];
-        set(name, value, opt.render.bind(null, value));
-      })
-    });
-
-    get(function(opts) {
-      Object.keys(opts).forEach(function(name) {
-        var opt = options[name];
-        var el = doc.querySelector(opt.selector);
-        el[opt.value] = opt.decode(opts[name]);
-        el.dispatchEvent(new Event('change'));
+        localStorage.setItem(name, value);
+        opt.render(value);
       });
+      el[opt.value] = opt.decode(localStorage.getItem(name));
+      el.dispatchEvent(new Event('change'));
     });
   });
 }(window.document));

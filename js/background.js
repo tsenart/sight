@@ -113,7 +113,7 @@
       'document.body.style.fontSize = "' + fontSize + '";' +
       'var container = document.querySelector("pre");' +
       'container.classList.add("' + language + '");' +
-      'hljs.configure({ lineNumbers: ' + !!lineNumbers + ' });' +
+      'hljs.configure({ lineNumbers: ' + lineNumbers + ' });' +
       'hljs.highlightBlock(container);' +
       'document.body.style.backgroundColor = getComputedStyle(container).backgroundColor;';
   }
@@ -122,15 +122,6 @@
     'var container = document.querySelector("pre");' +
     'var options = { indent_size: 2 };' +
     'container.textContent = js_beautify(container.textContent, options);';
-
-  chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-    Object.keys(request.options || {}).forEach(function(opt) {
-      localStorage.setItem(opt, request.options[opt]);
-    });
-    sendResponse(OPTIONS.reduce(function(acc, opt) {
-      acc[opt] = localStorage.getItem(opt); return acc;
-    }, {}));
-  });
 
   chrome.webRequest.onCompleted.addListener(function(details) {
     var contentType = getContentTypeFromHeaders(details.responseHeaders);
