@@ -31,7 +31,7 @@
     fontSize: {
       selector: '#font-size',
       value: 'value',
-      decode: parseInt,
+      decode: id,
       render: set('#code', 'style.fontSize', px)
     },
     lineNumbers: {
@@ -48,6 +48,8 @@
   };
 
   doc.addEventListener('DOMContentLoaded', function() {
+    var fontOpt = localStorage.getItem('font');
+    var fontEl = doc.querySelector('#font');
     chrome.fontSettings.getFontList(function (fonts) {
       var frag = doc.createDocumentFragment();
       fonts.forEach(function (font) {
@@ -57,6 +59,8 @@
         frag.appendChild(opt);
       });
       doc.querySelector('#font-system').appendChild(frag);
+      fontEl.value = fontOpt;
+      fontEl.dispatchEvent(new Event('change'));
     });
 
     Object.keys(options).forEach(function(name) {
