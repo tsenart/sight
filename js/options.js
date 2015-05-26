@@ -1,6 +1,7 @@
 (function(doc) {
   function id(a) { return a }
   function eq(b) { return function(a) { return a === b } }
+  function px(a) { return isFinite(a) ? (a + 'px') : a; }
   function val(obj, key) { return obj[key] }
   function set(sel, path, fn) {
     var parts = path.split('.');
@@ -30,8 +31,8 @@
     fontSize: {
       selector: '#font-size',
       value: 'value',
-      decode: id,
-      render: set('#code', 'style.fontSize', id)
+      decode: parseInt,
+      render: set('#code', 'style.fontSize', px)
     },
     lineNumbers: {
       selector: '#line-numbers',
@@ -47,6 +48,17 @@
   };
 
   doc.addEventListener('DOMContentLoaded', function() {
+    chrome.fontSettings.getFontList(function (fonts) {
+      var frag = doc.createDocumentFragment();
+      fonts.forEach(function (font) {
+        var opt = doc.createElement('option');
+        opt.textContent = font.displayName;
+        opt.value = font.fontId;
+        frag.appendChild(opt);
+      });
+      doc.querySelector('#font-system').appendChild(frag);
+    });
+
     Object.keys(options).forEach(function(name) {
       var opt = options[name];
       var el = doc.querySelector(opt.selector);

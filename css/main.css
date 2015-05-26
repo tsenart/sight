@@ -1,68 +1,68 @@
 @font-face {
-  font-family: 'Inconsolata';
+  font-family: 'Sight Inconsolata';
   font-style: normal;
   font-weight: normal;
   src: url(chrome-extension://__MSG_@@extension_id__/fonts/Inconsolata.ttf);
 }
 
 @font-face {
-  font-family: 'Courier New';
+  font-family: 'Sight Courier New';
   font-style: normal;
   font-weight: normal;
   src: url(chrome-extension://__MSG_@@extension_id__/fonts/CourierNew.ttf);
 }
 
 @font-face {
-  font-family: 'Monaco';
+  font-family: 'Sight Monaco';
   font-style: normal;
   font-weight: normal;
   src: url(chrome-extension://__MSG_@@extension_id__/fonts/Monaco.ttf);
 }
 
 @font-face {
-  font-family: 'Anonymous Pro';
+  font-family: 'Sight Anonymous Pro';
   font-style: normal;
   font-weight: normal;
   src: url(chrome-extension://__MSG_@@extension_id__/fonts/AnonymousPro.ttf);
 }
 
 @font-face {
-  font-family: 'DejaVuSansMono';
+  font-family: 'Sight DejaVuSansMono';
   font-style: normal;
   font-weight: normal;
   src: url(chrome-extension://__MSG_@@extension_id__/fonts/DejaVuSansMono.ttf);
 }
 
 @font-face {
-  font-family: 'DroidSansMono';
+  font-family: 'Sight DroidSansMono';
   font-style: normal;
   font-weight: normal;
   src: url(chrome-extension://__MSG_@@extension_id__/fonts/DroidSansMono.ttf);
 }
 
 @font-face {
-  font-family: 'Monofur';
+  font-family: 'Sight Monofur';
   font-style: normal;
   font-weight: normal;
   src: url(chrome-extension://__MSG_@@extension_id__/fonts/Monofur.ttf);
 }
 
 @font-face {
-  font-family: 'ProFont';
+  font-family: 'Sight ProFont';
   font-style: normal;
   font-weight: normal;
   src: url(chrome-extension://__MSG_@@extension_id__/fonts/ProFont.ttf);
 }
 
 @font-face {
-  font-family: 'ProggyClean';
+  font-family: 'Sight ProggyClean';
   font-style: normal;
   font-weight: normal;
   src: url(chrome-extension://__MSG_@@extension_id__/fonts/ProggyClean.ttf);
 }
 
 @font-face {
-  font-family: 'Consolas';
+  font-family: 'Sight Consolas';
   font-style: normal;
   font-weight: normal;
   src: url(chrome-extension://__MSG_@@extension_id__/fonts/Consolas.ttf);

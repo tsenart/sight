@@ -1,18 +1,18 @@
 body {
-  font-family: Inconsolata;
+  font-family: 'Sight Inconsolata';
 }
 
-body > div {
+.opts {
   color: gray;
   margin-left: 1em;
   padding: 2em;
 }
 
-select {
+.opts-field {
   margin-bottom: 10px;
 }
 
-pre {
+.opts-preview {
   left: -10px;
   top: 10px;
   position: relative;

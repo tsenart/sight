@@ -49,7 +49,7 @@
   const OPTIONS_DEFAULTS = {
     theme: 'sunburst',
     font: 'Inconsolata',
-    fontSize: 'medium',
+    fontSize: 16,
     lineNumbers: true
   };
 
