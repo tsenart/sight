@@ -35,7 +35,7 @@
     python:      ['py', 'pyc'],
     r:           ['r'],
     ruby:        ['rakefile', 'gemfile', 'rb'],
-    scala:       ['scala', 'scl', 'sca', 'scb'],
+    scala:       ['scala', 'scl', 'sca', 'scb', 'pegjs'],
     smalltalk:   ['st', 'sm', 'sll'],
     sql:         ['sql'],
     tex:         ['tex'],
