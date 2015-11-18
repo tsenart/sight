@@ -22,7 +22,7 @@
     haskell:     ['hs'],
     http:        ['http'],
     java:        ['java', 'class', 'fx', 'groovy', 'gsh', 'gvy', 'gy'],
-    javascript:  ['js'],
+    javascript:  ['js', 'ts'],
     json:        ['json'],
     lisp:        ['lsp', 'lisp', 'cl', 'el', 'scm'],
     lua:         ['lua'],
