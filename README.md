@@ -1,8 +1,8 @@
 # Sight
-*Sight* is the Syntax Highlighter Chrome extension that makes reading code on the browser a joy.
+*Sight* is the Syntax Highlighter Chrome extension that makes reading code on the browser a joy. This specific repo has been forked from tsenart/sight
 
 ## Installing
-* Clone this repo
+* clone this repo
 * go to chrome://extensions/
 * click "Load Unpacked Extensions" 
 * select the repo folder
