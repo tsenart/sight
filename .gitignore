@@ -1,3 +1,6 @@
 .DS_Store
 sight.zip
 package.sh
+
+# Ignore WebStorm files
+.idea
