@@ -12,17 +12,25 @@
     }
   }
 
-  function toggleLangConfig(lang) {
-    var id = "lang-" + lang;
+  function toggleArea(id) {
     var el = doc.getElementById(id);
+    var isShow = true;
 
     if (typeof el != 'undefined') {
       if (el.style.display == 'none') {
         el.style.display = 'block';
       } else {
         el.style.display = 'none';
+        isShow = false;
       }
     }
+
+    return isShow;
+  }
+
+  function toggleLangConfig(lang) {
+    var id = "lang-" + lang;
+    toggleArea(id);
   }
 
   var options = {
@@ -175,5 +183,22 @@
       el[opt.value] = opt.decode(localStorage.getItem(name));
       el.dispatchEvent(new Event('change'));
     });
+
+    // Toggle render language
+    var toggleRenderLangArea = doc.getElementById("render-lang-area");
+    if (typeof toggleRenderLangArea != 'undefined') {
+      toggleRenderLangArea.addEventListener('click', function(e) {
+        if (e.target.id == "toggle-render-lang" ||
+            e.target.id == "toggle-render-lang-text") {
+          var toggleText = doc.getElementById("toggle-render-lang-text");
+          if (toggleArea("render-languages")) {
+            toggleText.innerText = '-';
+          } else {
+            toggleText.innerText = '+';
+          }
+        }
+      });
+    }
+
   });
 }(window.document));

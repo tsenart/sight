@@ -95,8 +95,10 @@
       <h3>Line numbers:<input id="line-numbers" type="checkbox"></h3>
       <link rel="stylesheet" href="/css/devicon.css" type="text/css" media="screen">
       <link rel="stylesheet" href="/css/devicon-colors.css" type="text/css" media="screen">
-      <h3>Render languages:</h3>
-      <div id="render-languages" style="margin-left: 2em;"></div>
+      <div id="render-lang-area">
+        <h3 id="toggle-render-lang">Render languages:<span id="toggle-render-lang-text">+</span></h3>
+        <div id="render-languages" style="margin-left: 2em;display: none;"></div>
+      </div>
       <pre id="code" class="go">
 package main
 
