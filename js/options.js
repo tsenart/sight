@@ -102,7 +102,7 @@
         for (var lang in sight.RENDER_CONFIG) {
           if (sight.RENDER_CONFIG.hasOwnProperty(lang)) {
             var langConfig =  sight.RENDER_CONFIG[lang];
-            innerHTML += '<h4 class="lang-menu" data-lang="' + lang + '">' + lang + '</h4>';
+            innerHTML += '<h4 class="lang-menu" data-lang="' + lang + '"><i class="' + sight.ICON_LANG_MAP[lang] + ' colored"></i>' + lang + '</h4>';
             innerHTML += '<div id="lang-' + lang +'" style="display: none;">';
             for (var ext in langConfig) {
               if (langConfig.hasOwnProperty(ext)) {

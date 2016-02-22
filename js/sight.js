@@ -47,6 +47,51 @@ var sight = (function() {
         yaml:        ['yaml']
     };
 
+    const ICON_LANG_MAP = {
+        applescript: "devicon-apple-plain",
+        avrasm:      "devicon-chrome-plain",
+        bash:        "devicon-linux-plain",
+        brainfuck:   "devicon-chrome-plain",
+        clojure:     "devicon-chrome-plain",
+        coffeescript:"devicon-coffeescript-plain",
+        cpp:         "devicon-cplusplus-plain",
+        cs:          "devicon-csharp-plain",
+        css:         "devicon-css3-plain",
+        d:           "devicon-chrome-plain",
+        dart:        "devicon-chrome-plain",
+        delphi:      "devicon-chrome-plain",
+        desktop:     "devicon-windows8-plain",
+        diff:        "devicon-chrome-plain",
+        erlang:      "devicon-erlang-plain",
+        fsharp:      "devicon-dot-net-plain",
+        gherkin:     "devicon-chrome-plain",
+        go:          "devicon-go-plain",
+        haml:        "devicon-chrome-plain",
+        haskell:     "devicon-chrome-plain",
+        http:        "devicon-html5-plain",
+        java:        "devicon-java-plain",
+        javascript:  "devicon-javascript-plain",
+        json:        "devicon-chrome-plain",
+        lisp:        "devicon-chrome-plain",
+        lua:         "devicon-chrome-plain",
+        makefile:    "devicon-redhat-plain",
+        markdown:    "devicon-chrome-plain",
+        objectivec:  "devicon-apple-plain",
+        ocaml:       "devicon-chrome-plain",
+        perl:        "devicon-atom-plain",
+        php:         "devicon-php-plain",
+        python:      "devicon-python-plain",
+        r:           "devicon-chrome-plain",
+        ruby:        "devicon-ruby-plain",
+        scala:       "devicon-chrome-plain",
+        smalltalk:   "devicon-chrome-plain",
+        sql:         "devicon-mysql-plain",
+        tex:         "devicon-chrome-plain",
+        vhdl:        "devicon-chrome-plain",
+        xml:         "devicon-chrome-plain",
+        yaml:        "devicon-chrome-plain"
+    };
+
     const RENDER_CONFIG = {};
 
     for (var category in LANG_EXT_MAP) {
@@ -67,8 +112,9 @@ var sight = (function() {
     }
 
     return {
-        LANG_EXT_MAP: LANG_EXT_MAP,
-        EXT_LANG_MAP: EXT_LANG_MAP,
+        LANG_EXT_MAP:  LANG_EXT_MAP,
+        EXT_LANG_MAP:  EXT_LANG_MAP,
+        ICON_LANG_MAP: ICON_LANG_MAP,
         RENDER_CONFIG: RENDER_CONFIG
     }
 })();
