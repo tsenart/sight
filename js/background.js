@@ -21,12 +21,7 @@
   });
 
   // Reverse index
-  const EXT_LANG_MAP = {};
-  for (var lang in LANG_EXT_MAP) {
-    LANG_EXT_MAP[lang].forEach(function(ext) {
-      EXT_LANG_MAP[ext] = lang;
-    });
-  }
+  const EXT_LANG_MAP = sight.EXT_LANG_MAP;
 
   function getHeaderByName(headers, name) {
     var index, length = headers.length;
