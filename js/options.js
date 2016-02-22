@@ -132,7 +132,6 @@
             data4Save[lang] = {};
             for (var ext in langInfo) {
               var extDOM = doc.getElementById("ext-" + ext);
-              console.log(extDOM.checked);
               if (extDOM.checked) {
                 data4Save[lang][ext] = true;
               } else {

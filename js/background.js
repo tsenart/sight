@@ -79,8 +79,6 @@
       return false;
     }
 
-    console.log(value[EXT_LANG_MAP[extension]][extension]);
-
     if (value.hasOwnProperty(EXT_LANG_MAP[extension]) &&
         value[EXT_LANG_MAP[extension]].hasOwnProperty(extension) &&
         value[EXT_LANG_MAP[extension]][extension]) {
