@@ -70,6 +70,7 @@
 
 body {
   margin: 0;
+  overflow: auto;
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
@@ -82,6 +83,7 @@ pre {
   outline: none;
   cursor: text;
   display: block;
+  overflow: visible;
 }
 
 pre .line {

@@ -4,7 +4,6 @@ Monokai style - ported by Luigi Maselli - http://grigio.org
 
 .hljs {
   display: block;
-  overflow-x: auto;
   padding: 0.5em;
   background: #272822;
   -webkit-text-size-adjust: none;
