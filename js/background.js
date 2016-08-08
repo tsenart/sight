@@ -37,6 +37,7 @@
     ruby:        ['rakefile', 'gemfile', 'rb'],
     scala:       ['scala', 'scl', 'sca', 'scb'],
     smalltalk:   ['st', 'sm', 'sll'],
+    sml:         ['sml'],
     sql:         ['sql'],
     tex:         ['tex'],
     vhdl:        ['vhd', 'vhdl'],
