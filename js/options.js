@@ -44,8 +44,8 @@
         hljs.highlightBlock(codeEl);
       }
     },
-    extBlacklist: {
-      selector: '#ext-blacklist',
+    languageBlacklist: {
+      selector: '#language-blacklist',
       value: 'value',
       decode: id,
       render: function(value) {}

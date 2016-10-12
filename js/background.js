@@ -78,7 +78,7 @@
     font: 'Inconsolata',
     fontSize: 'medium',
     lineNumbers: true,
-    extBlacklist: ''
+    languageBlacklist: ''
   };
 
   const OPTIONS = Object.keys(OPTIONS_DEFAULTS);
@@ -122,11 +122,11 @@
     return filename.split('.').pop();
   }
 
-  function isExtensionBlacklisted(extension) {
-    var blacklist = localStorage.getItem('extBlacklist').split(/[\s,]+/);
+  function isLanguageBlacklisted(language) {
+    var blacklist = localStorage.getItem('languageBlacklist').split(/[\s,]+/);
     var index, length = blacklist.length;
     for (index = 0; index < length; index++) {
-      if (blacklist[index].toLowerCase() === extension) {
+      if (blacklist[index].toLowerCase() === language) {
         return true;
       }
     }
@@ -140,9 +140,6 @@
 
   function detectLanguage(contentType, fragment, filename, extension) {
     if (BROWSER_CONTENT.indexOf(contentType) != -1) {
-      return null;
-    }
-    if (isExtensionBlacklisted(extension)) {
       return null;
     }
     return !!LANG_EXT_MAP[fragment] ?  fragment : EXT_LANG_MAP[contentType] ||
@@ -171,7 +168,7 @@
     var filename = getFilenameFromUrl(details.url);
     var extension = getExtensionFromFilename(filename);
     var language = detectLanguage(contentType, fragment, filename, extension);
-    if (!language) {
+    if (!language || isLanguageBlacklisted(language)) {
       return;
     }
 
