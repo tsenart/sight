@@ -2,6 +2,7 @@
   function id(a) { return a }
   function eq(b) { return function(a) { return a === b } }
   function val(obj, key) { return obj[key] }
+  function noop() {}
   function set(sel, path, fn) {
     var parts = path.split('.');
     var target = parts[parts.length-1];
@@ -48,7 +49,7 @@
       selector: '#language-blacklist',
       value: 'value',
       decode: id,
-      render: function(value) {}
+      render: noop
     }
   };
 
