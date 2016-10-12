@@ -77,7 +77,8 @@
     theme: 'sunburst',
     font: 'Inconsolata',
     fontSize: 'medium',
-    lineNumbers: true
+    lineNumbers: true,
+    extBlacklist: ''
   };
 
   const OPTIONS = Object.keys(OPTIONS_DEFAULTS);
@@ -121,6 +122,17 @@
     return filename.split('.').pop();
   }
 
+  function isExtensionBlacklisted(extension) {
+    var blacklist = localStorage.getItem('extBlacklist').split(/[\s,]+/);
+    var index, length = blacklist.length;
+    for (index = 0; index < length; index++) {
+      if (blacklist[index].toLowerCase() === extension) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   function getFragmentFromUrl(url) {
     var fragment = /#ft=(\w+)/.exec(url);
     return fragment && fragment[1];
@@ -128,6 +140,9 @@
 
   function detectLanguage(contentType, fragment, filename, extension) {
     if (BROWSER_CONTENT.indexOf(contentType) != -1) {
+      return null;
+    }
+    if (isExtensionBlacklisted(extension)) {
       return null;
     }
     return !!LANG_EXT_MAP[fragment] ?  fragment : EXT_LANG_MAP[contentType] ||

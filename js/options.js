@@ -43,6 +43,12 @@
         codeEl.innerHTML = codeEl.textContent;
         hljs.highlightBlock(codeEl);
       }
+    },
+    extBlacklist: {
+      selector: '#ext-blacklist',
+      value: 'value',
+      decode: id,
+      render: function(value) {}
     }
   };
 

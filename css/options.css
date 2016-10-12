@@ -12,6 +12,10 @@ select {
   margin-bottom: 10px;
 }
 
+textarea {
+  margin-bottom: 10px;
+}
+
 pre {
   left: -10px;
   top: 10px;
