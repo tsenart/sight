@@ -77,7 +77,8 @@
     theme: 'sunburst',
     font: 'Inconsolata',
     fontSize: 'medium',
-    lineNumbers: true
+    lineNumbers: true,
+    ignoreLanguages: ''
   };
 
   const OPTIONS = Object.keys(OPTIONS_DEFAULTS);
@@ -121,6 +122,17 @@
     return filename.split('.').pop();
   }
 
+  function isLanguageIgnored(language) {
+    var ignored = localStorage.getItem('ignoreLanguages').split(/[\s,]+/);
+    var index, length = ignored.length;
+    for (index = 0; index < length; index++) {
+      if (ignored[index].toLowerCase() === language) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   function getFragmentFromUrl(url) {
     var fragment = /#ft=(\w+)/.exec(url);
     return fragment && fragment[1];
@@ -156,7 +168,7 @@
     var filename = getFilenameFromUrl(details.url);
     var extension = getExtensionFromFilename(filename);
     var language = detectLanguage(contentType, fragment, filename, extension);
-    if (!language) {
+    if (!language || isLanguageIgnored(language)) {
       return;
     }
 
