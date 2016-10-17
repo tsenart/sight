@@ -78,7 +78,7 @@
     font: 'Inconsolata',
     fontSize: 'medium',
     lineNumbers: true,
-    languageBlacklist: ''
+    ignoreLanguages: ''
   };
 
   const OPTIONS = Object.keys(OPTIONS_DEFAULTS);
@@ -122,11 +122,11 @@
     return filename.split('.').pop();
   }
 
-  function isLanguageBlacklisted(language) {
-    var blacklist = localStorage.getItem('languageBlacklist').split(/[\s,]+/);
-    var index, length = blacklist.length;
+  function isLanguageIgnored(language) {
+    var ignored = localStorage.getItem('ignoreLanguages').split(/[\s,]+/);
+    var index, length = ignored.length;
     for (index = 0; index < length; index++) {
-      if (blacklist[index].toLowerCase() === language) {
+      if (ignored[index].toLowerCase() === language) {
         return true;
       }
     }
@@ -168,7 +168,7 @@
     var filename = getFilenameFromUrl(details.url);
     var extension = getExtensionFromFilename(filename);
     var language = detectLanguage(contentType, fragment, filename, extension);
-    if (!language || isLanguageBlacklisted(language)) {
+    if (!language || isLanguageIgnored(language)) {
       return;
     }
 

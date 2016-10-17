@@ -45,8 +45,8 @@
         hljs.highlightBlock(codeEl);
       }
     },
-    languageBlacklist: {
-      selector: '#language-blacklist',
+    ignoreLanguages: {
+      selector: '#ignore-languages',
       value: 'value',
       decode: id,
       render: noop
