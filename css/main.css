@@ -74,10 +74,8 @@ body {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
-pre {
+.hljs {
   counter-reset: lines;
-  word-wrap: normal !important;
-  white-space: pre !important;
   font-family: inherit;
   line-height: normal;
   outline: none;
@@ -85,19 +83,31 @@ pre {
   display: block;
   overflow: visible;
 }
-
-pre .line {
-  counter-increment: lines;
-  -webkit-user-select: none;
+.hljs:not(.word-wrap) {
+  word-wrap: normal !important;
+  white-space: pre !important;
 }
 
-pre .line::before {
-  content: counter(lines);
-  text-align: right;
-  display: inline-block;
-  width: 2em;
-  padding-right: 0.5em;
-  margin-right: 0.5em;
-  color: #BBB;
+.hljs .line-number {
+  counter-increment: lines;
+  -webkit-user-select: none;
   border-right: solid 1px;
+  color: #BBB;
+  padding-right: 0.5em;
+  min-width: 2em;
+  text-align: right;
+}
+
+.hljs .line-number::before {
+  content: counter(lines);
+  display: inline-block;
+}
+
+.hljs .line-content {
+  padding-left: 0.5em;
+  word-wrap: normal;
+  white-space: pre;
+}
+.hljs.word-wrap .line-content {
+  white-space: pre-wrap;
 }

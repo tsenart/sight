@@ -39,9 +39,25 @@
       decode: eq('true'),
       render: function(value) {
         var codeEl = doc.getElementById('code');
-        hljs.configure({ lineNumbers: value });
         codeEl.innerHTML = codeEl.textContent;
         hljs.highlightBlock(codeEl);
+        if (value) {
+          codeEl.innerHTML = '<table style="color:inherit">' +
+          codeEl.innerHTML.replace(/^(.*)$/gm, function(_, line) {
+            return '<tr><td class="line-number"></td><td class="line-content">' + line + '</td></tr>';
+          }) + "</table>";
+        }
+      }
+    },
+    wordWrap: {
+      selector: '#word-wrap',
+      value: 'checked',
+      decode: eq('true'),
+      render: function(value) {
+        var codeEl = doc.getElementById('code');
+        if (value) {
+          codeEl.classList.add("word-wrap");
+        } else codeEl.classList.remove("word-wrap");
       }
     }
   };

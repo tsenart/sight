@@ -77,7 +77,8 @@
     theme: 'sunburst',
     font: 'Inconsolata',
     fontSize: 'medium',
-    lineNumbers: true
+    lineNumbers: true,
+    wordWrap: false
   };
 
   const OPTIONS = Object.keys(OPTIONS_DEFAULTS);
@@ -135,14 +136,19 @@
                                                   EXT_LANG_MAP[filename];
   }
 
-  function getHighlightingCode(font, fontSize, lineNumbers, language) {
-    return 'document.body.style.fontFamily = "' + font + '";' +
-      'document.body.style.fontSize = "' + fontSize + '";' +
-      'var container = document.querySelector("pre");' +
-      'container.classList.add("' + language + '");' +
-      'hljs.configure({ lineNumbers: ' + lineNumbers + ' });' +
-      'hljs.highlightBlock(container);' +
-      'document.body.style.backgroundColor = getComputedStyle(container).backgroundColor;';
+  function getHighlightingCode(font, fontSize, lineNumbers, wordWrap, language) {
+    return 'document.body.style.fontFamily = "' + font + '";\n' +
+      'document.body.style.fontSize = "' + fontSize + '";\n' +
+      'var container = document.querySelector("pre");\n' +
+      'container.classList.add("' + language + '");\n' +
+      'if (' + wordWrap + ') container.classList.add("word-wrap");\n'+
+      'hljs.highlightBlock(container);\n' +
+      'var containerStyle = getComputedStyle(container);\n' +
+      'if (' + lineNumbers + ') container.innerHTML = "<table style=\'color:inherit\'>" + container.innerHTML' +
+      '.replace(/^(.*)$/gm, function(_, line) {\n' +
+      '  return \'<tr><td class="line-number"></td><td class="line-content">\' + line + \'</td></tr>\';\n' +
+      '}) + "</table>";\n' +
+      'document.body.style.backgroundColor = containerStyle.backgroundColor;';
   }
 
   const JS_BEUTIFY_CODE =
@@ -179,7 +185,7 @@
     }
 
     scripts.push({
-      code: getHighlightingCode.apply(this, ['font', 'fontSize', 'lineNumbers'].
+      code: getHighlightingCode.apply(this, ['font', 'fontSize', 'lineNumbers', 'wordWrap'].
         map(localStorage.getItem.bind(localStorage)).concat(language))
     });
 
