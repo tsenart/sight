@@ -1,6 +1,7 @@
 (function(doc) {
   function id(a) { return a }
   function eq(b) { return function(a) { return a === b } }
+  function px(a) { return isFinite(a) ? (a + 'px') : a; }
   function val(obj, key) { return obj[key] }
   function set(sel, path, fn) {
     var parts = path.split('.');
@@ -31,7 +32,7 @@
       selector: '#font-size',
       value: 'value',
       decode: id,
-      render: set('#code', 'style.fontSize', id)
+      render: set('#code', 'style.fontSize', px)
     },
     lineNumbers: {
       selector: '#line-numbers',
@@ -47,6 +48,21 @@
   };
 
   doc.addEventListener('DOMContentLoaded', function() {
+    var fontOpt = localStorage.getItem('font');
+    var fontEl = doc.querySelector('#font');
+    chrome.fontSettings.getFontList(function (fonts) {
+      var frag = doc.createDocumentFragment();
+      fonts.forEach(function (font) {
+        var opt = doc.createElement('option');
+        opt.textContent = font.displayName;
+        opt.value = font.fontId;
+        frag.appendChild(opt);
+      });
+      doc.querySelector('#font-system').appendChild(frag);
+      fontEl.value = fontOpt;
+      fontEl.dispatchEvent(new Event('change'));
+    });
+
     Object.keys(options).forEach(function(name) {
       var opt = options[name];
       var el = doc.querySelector(opt.selector);

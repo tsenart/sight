@@ -10,6 +10,7 @@
   "web_accessible_resources": ["css/*", "fonts/*", "js/lib/*", "js/languages/*"],
   "options_page": "options.html",
   "permissions": [
+    "fontSettings",
     "tabs",
     "webRequest",
     "<all_urls>"
