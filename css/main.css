@@ -76,8 +76,6 @@ body {
 
 pre {
   counter-reset: lines;
-  word-wrap: normal !important;
-  white-space: pre !important;
   font-family: inherit;
   line-height: normal;
   outline: none;
@@ -100,4 +98,16 @@ pre .line::before {
   margin-right: 0.5em;
   color: #BBB;
   border-right: solid 1px;
+}
+
+.wrap-true {
+  word-wrap: break-word !important;
+  white-space: pre-wrap !important;
+  overflow-wrap: break-word;
+}
+
+.wrap-false {
+  white-space: pre !important;
+  word-wrap: normal !important;
+  overflow-wrap: normal;
 }
