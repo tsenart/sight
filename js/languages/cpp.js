@@ -35,7 +35,7 @@ hljs.registerLanguage('cpp', function(hljs) {
       'vfprintf vprintf vsprintf'
   };
   return {
-    aliases: ['c', 'cc', 'h', 'c++', 'h++', 'hpp'],
+    aliases: ['c', 'cc', 'h', 'hh', 'c++', 'h++', 'hpp'],
     keywords: CPP_KEYWORDS,
     illegal: '</',
     contains: [
