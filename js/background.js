@@ -6,7 +6,7 @@
     applescript: ['applescript'],
     aspectj:     ['aspectj', 'aj'],
     avrasm:      ['asm', 's'],
-    bash:        ['sh', 'bash', 'zsh', 'shell'],
+    bash:        ['sh', 'bash', 'zsh', 'shell', 'log'],
     brainfuck:   ['bf'],
     clojure:     ['clj'],
     coffeescript:['coffee'],
