@@ -8,7 +8,6 @@ Author: Pedro Oliveira <kanytu@gmail . com>
     color: #A9B7C6;
     background: #282b2e;
     display: block;
-    overflow-x: auto;
     padding: 0.5em;
     webkit-text-size-adjust: none;
 }
