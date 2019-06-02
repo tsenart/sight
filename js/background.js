@@ -50,6 +50,7 @@
     ocaml:       ['ml'],
     perl:        ['pl', 'pm', 'perl'],
     php:         ['php', 'phtml', 'phps'],
+    pig:         ['pig'],
     powershell:  ['ps1', 'psm1'],
     python:      ['py', 'pyc'],
     r:           ['r'],
