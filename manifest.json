@@ -1,6 +1,6 @@
 {
   "name": "Sight",
-  "version": "1.20.0",
+  "version": "1.20.1",
   "description": "The Syntax Highlighter for Chrome",
   "homepage_url": "https://github.com/tsenart/sight",
   "manifest_version": 2,
