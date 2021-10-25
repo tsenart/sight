@@ -115,7 +115,7 @@
   }
 
   function getFilenameFromUrl(url) {
-    return url.split('/').pop().split('?').shift().toLowerCase();
+    return url.split('?').shift().split('/').pop().toLowerCase();
   }
 
   function getExtensionFromFilename(filename) {
