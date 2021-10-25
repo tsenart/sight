@@ -33,6 +33,16 @@
       decode: id,
       render: set('#code', 'style.fontSize', id)
     },
+    wordWrap: {
+      selector: '#word-wrap',
+      value: 'checked',
+      decode: eq('true'),
+      render: function(value) {
+        var el = document.getElementById('code');
+        el.classList.remove('wrap-true', 'wrap-false');
+        el.classList.add('wrap-' + value);
+      }
+    },
     lineNumbers: {
       selector: '#line-numbers',
       value: 'checked',

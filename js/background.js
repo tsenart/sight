@@ -78,6 +78,7 @@
     theme: 'sunburst',
     font: 'Inconsolata',
     fontSize: 'medium',
+    wordWrap: false,
     lineNumbers: true
   };
 
@@ -136,11 +137,11 @@
                                                   EXT_LANG_MAP[filename];
   }
 
-  function getHighlightingCode(font, fontSize, lineNumbers, language) {
+  function getHighlightingCode(font, fontSize, lineNumbers, wordWrap, language) {
     return 'document.body.style.fontFamily = "' + font + '";' +
       'document.body.style.fontSize = "' + fontSize + '";' +
       'var container = document.querySelector("pre");' +
-      'container.classList.add("' + language + '");' +
+      'container.classList.add("' + language + '", "wrap-' + wordWrap + '");' +
       'hljs.configure({ lineNumbers: ' + lineNumbers + ' });' +
       'hljs.highlightBlock(container);' +
       'document.body.style.backgroundColor = getComputedStyle(container).backgroundColor;';
@@ -180,8 +181,9 @@
     }
 
     scripts.push({
-      code: getHighlightingCode.apply(this, ['font', 'fontSize', 'lineNumbers'].
-        map(localStorage.getItem.bind(localStorage)).concat(language))
+      code: getHighlightingCode.apply(this,
+        ['font', 'fontSize', 'lineNumbers', 'wordWrap'].
+          map(localStorage.getItem.bind(localStorage)).concat(language))
     });
 
     for (var i = 0; i < styles.length; i++) {
