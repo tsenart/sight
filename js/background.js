@@ -69,7 +69,7 @@
     vbscript:    ['vbs'],
     vhdl:        ['vhd', 'vhdl'],
     xml:         ['atom', 'rss', 'vsproj', 'csproj', 'build', 'wsdl', 'config', 'xsd', 'plist', 'xib'],
-    yaml:        ['yaml']
+    yaml:        ['yaml', 'yml']
   };
 
   const BROWSER_CONTENT = ['htm', 'html', 'xml', 'xhtml', 'shtml'];
