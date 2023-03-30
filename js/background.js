@@ -56,6 +56,7 @@
     r:           ['r'],
     ruby:        ['rakefile', 'gemfile', 'rb'],
     scala:       ['scala', 'scl', 'sca', 'scb'],
+    solidity:    ['sol'],
     scss:        ['scss', 'sass'],
     smalltalk:   ['st', 'sm', 'sll'],
     sml:         ['sml'],
